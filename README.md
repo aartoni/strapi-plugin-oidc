@@ -17,7 +17,7 @@ Please read the [documents](#user-content-documentationenglish) for some precaut
 
 **If possible, consider using the Gold Plan features.**
 
-# Version
+## Version
 
 | NodeJS          | Strapi | strapi-plugin-sso |
 |-----------------|--------|-------------------|
@@ -26,7 +26,7 @@ Please read the [documents](#user-content-documentationenglish) for some precaut
 
 Please use version 1.0.7 or later when working with Strapi 5.24.1 or above.
 
-# Easy to install
+## Easy to install
 
 ```shell
 yarn add strapi-plugin-sso
@@ -38,12 +38,12 @@ or
 npm i strapi-plugin-sso
 ```
 
-# Requirements
+## Requirements
 
 - **strapi-plugin-sso**
 - Google Account or AWS Cognito UserPool or a OIDC provider
 
-# Example Configuration
+## Example Configuration
 
 ```javascript
 // config/plugins.js
@@ -99,7 +99,7 @@ module.exports = ({env}) => ({
 
 Of the above, the environment variable for the provider you wish to use is all that is needed.
 
-# Documentation(English)
+## Documentation(English)
 
 [Google Single Sign On Setup](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/en/google/setup.md)
 
@@ -113,7 +113,7 @@ Of the above, the environment variable for the provider you wish to use is all t
 
 [whitelist](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/whitelist.md)
 
-# Documentation(Japanese)
+## Documentation(Japanese)
 
 [Description](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/README.md)
 
@@ -129,6 +129,6 @@ TODO AzureAD Single Sign On Setup
 
 TODO OIDC Single Sign On Setup
 
-# Demo
+## Demo
 
 ![CognitoDemo](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/demo.gif?raw=true "DemoMovie")
