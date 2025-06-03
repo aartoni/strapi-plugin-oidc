@@ -1,3 +1,4 @@
+require('dotenv').config({ path: 'playground/.env' });
 const request = require('supertest');
 const { setupStrapi, stopStrapi } = require('../../playground/tests/helpers');
 
@@ -19,8 +20,11 @@ describe('GET /oidc', () => {
     expect(res.headers['location']).toMatch(/^https:\/\/auth.example.com\/authorize/);
     const url = new URL(res.headers['location']);
     expect(url.searchParams.get('response_type')).toBe('code');
-    expect(url.searchParams.get('client_id')).toBeDefined();
+    expect(url.searchParams.get('client_id')).toBe(process.env.OIDC_CLIENT_ID);
     expect(url.searchParams.get('code_challenge')).toBeDefined();
+    expect(url.searchParams.get('code_challenge_method')).toBeDefined();
     expect(url.searchParams.get('state')).toBeDefined();
+    expect(url.searchParams.get('redirect_uri')).toBe(process.env.OIDC_REDIRECT_URI);
+    expect(url.searchParams.get('scope')).toBe(process.env.OIDC_SCOPES);
   });
 });
