@@ -130,3 +130,23 @@ TODO OIDC Single Sign On Setup
 ## Demo
 
 ![CognitoDemo](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/demo.gif?raw=true "DemoMovie")
+
+## Testing the plugin
+
+Install node modules in the plugin and the playground.
+
+```sh
+yarn install && yarn playground:install
+```
+
+Build the plugin and the playground.
+
+```sh
+yarn build && yarn playground:build
+```
+
+Run the tests.
+
+```sh
+yarn test:jest
+```
