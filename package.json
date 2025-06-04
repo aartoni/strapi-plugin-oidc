@@ -16,7 +16,7 @@
     "lint": "eslint",
     "test:ts:front": "tsc -p admin/tsconfig.json",
     "test:ts:back": "tsc -p server/tsconfig.json",
-    "test:jest": "ENV_PATH=./playground/.env  jest --verbose --runInBand --forceExit",
+    "test:jest": "ENV_PATH=./playground/.env  jest --verbose --runInBand --forceExit --detectOpenHandles",
     "test:cypress": "cypress run",
     "test:cypress:open": "cypress open",
     "playground:install": "yarn playground:yalc-add-link && cd playground && yarn install",
