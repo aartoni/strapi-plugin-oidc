@@ -1,0 +1,4 @@
+[
+  { "oauth_type": "google", "role": ["1"] },
+  { "oauth_type": "github", "role": [] }
+]

@@ -78,6 +78,9 @@
   "license": "MIT",
   "devDependencies": {
     "@strapi/sdk-plugin": "^5.2.0",
+    "@testing-library/cypress": "^10.0.3",
+    "cypress": "^14.4.1",
+    "cypress-terminal-report": "^7.2.0",
     "eslint": "^9.0.0",
     "globals": "^15.9.0",
     "jest": "^29.3.1",
