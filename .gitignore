@@ -1,3 +1,7 @@
+# Cypress
+cypress/screenshots
+cypress/videos
+
 # Yarn
 .yalc
 yalc.lock
