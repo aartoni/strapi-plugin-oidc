@@ -52,14 +52,26 @@ describe('OIDC sign in', () => {
       });
 
     // Hit the callback
-    const callback = await agent
+    const res = await agent
       .get(
         `/api/strapi-plugin-sso/oidc/callback?code=FAKE_CODE&state=${state}`
       )
-      .expect(200);
-
+      
     // Sanity checks
-    expect(callback.type).toBe('text/html');
-    expect(callback.text).toMatch(/<script nonce=/);
+    expect(res.status).toBe(200);
+    expect(res.type).toBe('text/html');
+    expect(res.text).toMatch(/<script nonce=/);
+
+    // Content matches
+    const scriptMatch = res.text.match(/<script nonce="([^"]+)">([\s\S]*?)<\/script>/);
+    expect(scriptMatch).not.toBeNull();
+    const [ , nonceAttr, scriptText ] = scriptMatch;
+    const nonceHeader = res.headers['content-security-policy'].match(/nonce-([^']+)/)[1];
+    expect(nonceAttr).toBe(nonceHeader);
+    const jwtMatch = res.text.match(/localStorage\.setItem\('jwtToken', '"([^"]+)"'\)/);
+    expect(jwtMatch).not.toBeNull();
+    const token = jwtMatch[1];
+    expect(token.split('.')).toHaveLength(3);
+    expect(scriptText).toContain("isLoggedIn");
   });
 });
