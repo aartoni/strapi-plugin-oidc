@@ -11,3 +11,4 @@ node_modules
 # Strapi
 .strapi-updater.json
 .strapi
+.tmp
