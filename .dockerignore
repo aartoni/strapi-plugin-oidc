@@ -1,0 +1,24 @@
+# Plugin
+.dockerignore
+.github
+.gitignore
+.npmignore
+.nvmrc
+compose.yml
+cypress
+cypress.config.js
+dist
+Dockerfile
+docs
+eslint.config.mjs
+LICENSE
+node_modules
+
+# Playground
+playground/.strapi
+playground/.strapi-updater.json
+playground/.tmp
+playground/.yalc
+playground/dist
+playground/node_modules
+playground/yalc.lock
