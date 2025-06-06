@@ -23,7 +23,6 @@ services:
       - jwt_secret
       - oidc_strapi_id
       - oidc_strapi_digest
-    user: 1000:1000
     volumes:
       - ./config/authelia/configuration.yml:/config/configuration.yml:ro
       - ./config/authelia/users.yml:/config/users.yml:ro
