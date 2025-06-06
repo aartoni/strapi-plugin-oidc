@@ -2,13 +2,13 @@
 cypress/screenshots
 cypress/videos
 
+# Strapi
+.strapi-updater.json
+.strapi
+.tmp
+
 # Yarn
 .yalc
 yalc.lock
 dist
 node_modules
-
-# Strapi
-.strapi-updater.json
-.strapi
-.tmp
