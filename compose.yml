@@ -1,7 +1,7 @@
 services:
   idp:
     image: "authelia/authelia:4.39"
-    container_name: sso
+    container_name: idp
     hostname: ${AUTH_DOMAIN}
     environment:
       - AUTH_DOMAIN
