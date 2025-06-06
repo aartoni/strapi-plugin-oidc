@@ -1,4 +1,23 @@
 services:
+  proxy:
+    image: nginx:1.27-alpine
+    container_name: proxy
+    hostname: ${DOMAIN}
+    depends_on:
+      - idp
+    environment:
+      - AUTH_DOMAIN
+      - DOMAIN
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: "unless-stopped"
+    volumes:
+      - './config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
+      - './config/nginx/snippets:/etc/nginx/snippets:ro'
+      - './config/nginx/templates:/etc/nginx/templates:ro'
+      - './data/common/certs/fullchain.pem:/config/keys/cert.crt:ro'
+      - './data/common/certs/serverkey.pem:/config/keys/cert.key:ro'
   idp:
     image: "authelia/authelia:4.39"
     container_name: idp
