@@ -1,0 +1,40 @@
+access_control:
+  default_policy: 'one_factor'
+
+authentication_backend:
+  file:
+    path: '/config/users.yml'
+  
+identity_providers:
+  oidc:
+    clients:
+      - authorization_policy: 'one_factor'
+        client_id: '{{ secret "/run/secrets/oidc_strapi_id" }}'
+        client_name: 'Strapi'
+        client_secret: '{{ secret "/run/secrets/oidc_strapi_digest" }}'
+        redirect_uris:
+          - https://{{ mustEnv "DOMAIN" }}
+        scopes:
+          - 'email'
+          - 'groups'
+          - 'openid'
+          - 'profile'
+        token_endpoint_auth_method: 'client_secret_basic'
+    jwks:
+      - algorithm: 'RS256'
+        use: 'sig'
+        key: {{ secret "/run/secrets/jwks_key" | mindent 10 "|" | msquote }}
+
+notifier:
+  filesystem:
+    filename: '/config/notification.txt'
+
+session:
+  cookies:
+    - name: 'authelia_session'
+      domain: '{{ mustEnv "DOMAIN" }}'
+      authelia_url: 'https://{{ mustEnv "AUTH_DOMAIN" }}'
+
+storage:
+  local:
+    path: '/config/db.sqlite3'
