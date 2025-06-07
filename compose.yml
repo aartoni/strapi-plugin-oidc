@@ -1,12 +1,20 @@
 services:
+  cms:
+    build: .
+    container_name: proxy
+    hostname: ${CMS_DOMAIN}
+    expose:
+      - 1337
   proxy:
     image: nginx:1.27-alpine
     container_name: proxy
     hostname: ${DOMAIN}
     depends_on:
       - idp
+      - cms
     environment:
       - AUTH_DOMAIN
+      - CMS_DOMAIN
       - DOMAIN
     ports:
       - "80:80"
