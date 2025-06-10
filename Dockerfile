@@ -15,4 +15,4 @@ RUN ["yalc", "publish", "--private"]
 # TODO Make it so that no playground file is moved until here, so that an update to the playground doesn't require a full build
 RUN ["yarn", "playground:install"]
 EXPOSE 1337
-CMD ["yarn", "playground:develop"]
+CMD ["yarn", "playground:start"]
