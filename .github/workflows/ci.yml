@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Plugin builds + lints across its full supported Node range (engines: 20–24).
+  lint-build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn build
+
+  # Jest unit + integration. The integration suite boots the playground, which
+  # only supports Node <= 22, so the matrix stops there.
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            playground/yarn.lock
+      - run: npm install -g yalc
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: yalc publish --private
+      - run: yarn playground:install
+      - run: yarn playground:build
+      - run: yarn test:jest
+
+  # Cypress e2e against the running playground.
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            playground/yarn.lock
+      - run: npm install -g yalc
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: yalc publish --private
+      - run: yarn playground:install
+      - run: yarn playground:build
+      - uses: cypress-io/github-action@v6
+        with:
+          install: false
+          start: yarn playground:start
+          wait-on: http://localhost:1337
+          wait-on-timeout: 120
