@@ -13,6 +13,8 @@ const compat = new FlatCompat({
 });
 
 export default [...compat.extends("eslint:recommended"), {
+    ignores: ["**/data/", "**/dist/", "**/.yalc/", "**/.strapi/"],
+}, {
     languageOptions: {
         globals: {
             ...globals.browser,
