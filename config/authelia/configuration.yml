@@ -4,7 +4,7 @@ access_control:
 authentication_backend:
   file:
     path: '/config/users.yml'
-  
+
 identity_providers:
   oidc:
     clients:
