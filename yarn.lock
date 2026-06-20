@@ -2928,11 +2928,6 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.3, cross-spawn@^7.0.6:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crypto-js@^4.1.1:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
-  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
-
 css-color-keywords@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/css-color-keywords/-/css-color-keywords-1.0.0.tgz#fea2616dc676b2962686b3af8dbdbe180b244e05"
@@ -5183,12 +5178,10 @@ pirates@^4.0.4:
   resolved "https://registry.yarnpkg.com/pirates/-/pirates-4.0.7.tgz#643b4a18c4257c8a65104b73f3049ce9a0a15e22"
   integrity sha512-TfySrs/5nm8fQJDcBDuUng3VOUKsd7S+zqvbOTiGXHfxX4wK31ard+hoNuvkicM/2YFzlpDgABOevKSsB4G/FA==
 
-pkce-challenge@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/pkce-challenge/-/pkce-challenge-3.1.0.tgz#c974ee934e62c501f09da817964e75db201ee8bf"
-  integrity sha512-bQ/0XPZZ7eX+cdAkd61uYWpfMhakH3NeteUF1R8GNa+LMqX8QFAkbCLqq+AYAns1/ueACBu/BMWhrlKGrdvGZg==
-  dependencies:
-    crypto-js "^4.1.1"
+pkce-challenge@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/pkce-challenge/-/pkce-challenge-6.0.0.tgz#2e9a85a37f78b6e241cd9ff25a11994f5810421d"
+  integrity sha512-KrEAOa2aGlEyV+gN2jMXwSQhZ5gUR4WwivtPjSktYzh7srb70pYvVGV0uLfmoCx75fUQtqTairuoxayHLtvo9w==
 
 pkg-dir@^4.2.0:
   version "4.2.0"
