@@ -19,6 +19,7 @@ export default [...compat.extends("eslint:recommended"), {
         globals: {
             ...globals.browser,
             ...globals.commonjs,
+            strapi: "readonly",
         },
 
         ecmaVersion: "latest",
