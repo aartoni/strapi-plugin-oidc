@@ -1,9 +1,11 @@
-const { describe, it, expect, beforeAll, afterAll } = require('@jest/globals');
-require('dotenv').config({ path: 'playground/.env' });
-const process = require('node:process')
-const request = require('supertest');
-const nock = require('nock');
-const { setupStrapi, stopStrapi } = require('../../playground/tests/helpers');
+import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
+import dotenv from 'dotenv';
+import process from 'node:process';
+import request from 'supertest';
+import nock from 'nock';
+import { setupStrapi, stopStrapi } from '../../playground/tests/helpers';
+
+dotenv.config({ path: 'playground/.env' });
 
 let strapi;
 

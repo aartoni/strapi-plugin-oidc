@@ -1,6 +1,5 @@
-'use strict';
-const { describe, test, expect, jest } = require("@jest/globals");
-const oauth = require("../oauth");
+import { describe, test, expect, jest } from "@jest/globals";
+import oauth from "../oauth";
 
 describe('oauth service', () => {
   const strapi = jest.fn()
