@@ -14,8 +14,6 @@
     "watch:link": "strapi-plugin watch:link",
     "verify": "strapi-plugin verify",
     "lint": "eslint",
-    "test:ts:front": "tsc -p admin/tsconfig.json",
-    "test:ts:back": "tsc -p server/tsconfig.json",
     "test:jest": "ENV_PATH=./playground/.env  jest --verbose --runInBand --forceExit --detectOpenHandles",
     "test:cypress": "cypress run",
     "test:cypress:open": "cypress open",
