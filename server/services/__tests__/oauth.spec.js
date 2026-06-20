@@ -1,4 +1,5 @@
 'use strict';
+const { describe, test, expect, jest } = require("@jest/globals");
 const oauth = require("../oauth");
 
 describe('oauth service', () => {

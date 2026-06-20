@@ -1,4 +1,6 @@
+const { describe, it, expect, beforeAll, afterAll } = require('@jest/globals');
 require('dotenv').config({ path: 'playground/.env' });
+const process = require('node:process')
 const request = require('supertest');
 const nock = require('nock');
 const { setupStrapi, stopStrapi } = require('../../playground/tests/helpers');
