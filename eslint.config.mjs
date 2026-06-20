@@ -1,4 +1,5 @@
 import globals from "globals";
+import pluginCypress from "eslint-plugin-cypress";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
@@ -30,5 +31,9 @@ export default [
     },
 
     rules: {},
+  },
+  {
+    files: ["cypress/**/*.js"],
+    ...pluginCypress.configs.globals,
   },
 ];
