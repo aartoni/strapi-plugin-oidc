@@ -6,12 +6,8 @@
 
 This plugin can provide single sign-on.
 
-You will be able to log in to the administration screen using one of the following providers:
-
-- Google
-- Cognito
-- Azure
-- OIDC
+You will be able to log in to the administration screen using an OpenID Connect
+(OIDC) provider.
 
 Please read the [documents](#user-content-documentationenglish) for some precautions.
 
@@ -41,7 +37,7 @@ npm i strapi-plugin-sso
 ## Requirements
 
 - **strapi-plugin-sso**
-- Google Account or AWS Cognito UserPool or a OIDC provider
+- An OpenID Connect (OIDC) provider
 
 ## Example Configuration
 
@@ -53,27 +49,6 @@ module.exports = ({env}) => ({
     config: {
       // Either sets token to session storage if false or local storage if true
       REMEMBER_ME: false,
-      // Google
-      GOOGLE_OAUTH_CLIENT_ID: '[Client ID created in GCP]',
-      GOOGLE_OAUTH_CLIENT_SECRET: '[Client Secret created in GCP]',
-      GOOGLE_OAUTH_REDIRECT_URI: 'http://localhost:1337/strapi-plugin-sso/google/callback', // URI after successful login
-      GOOGLE_ALIAS: '', // Gmail Aliases
-      GOOGLE_GSUITE_HD: '', // G Suite Primary Domain
-
-      // Cognito
-      COGNITO_OAUTH_CLIENT_ID: '[Client ID created in AWS Cognito]',
-      COGNITO_OAUTH_CLIENT_SECRET: '[Client Secret created in AWS Cognito]',
-      COGNITO_OAUTH_DOMAIN: '[OAuth Domain created in AWS Cognito]',
-      COGNITO_OAUTH_REDIRECT_URI: 'http://localhost:1337/strapi-plugin-sso/cognito/callback', // URI after successful login
-      COGNITO_OAUTH_REGION: 'ap-northeast-1', // AWS Cognito Region 
-      COGNITO_USER_GROUP: '[User Group Name in AWS Cognito]', // allow authentication only for users belonging to the its user group if specified.
-
-      // AzureAD
-      AZUREAD_OAUTH_REDIRECT_URI: 'http://localhost:1337/strapi-plugin-sso/azuread/callback',
-      AZUREAD_TENANT_ID: '[Tenant ID created in AzureAD]',
-      AZUREAD_OAUTH_CLIENT_ID: '[Client ID created in AzureAD]', // [Application (client) ID]
-      AZUREAD_OAUTH_CLIENT_SECRET: '[Client Secret created in AzureAD]',
-      AZUREAD_SCOPE: 'user.read', // https://learn.microsoft.com/en-us/graph/permissions-reference
 
       // OpenID Connect
       OIDC_REDIRECT_URI: 'http://localhost:1337/strapi-plugin-sso/oidc/callback', // URI after successful login
@@ -97,17 +72,9 @@ module.exports = ({env}) => ({
 })
 ```
 
-Of the above, the environment variable for the provider you wish to use is all that is needed.
+All OIDC endpoints and credentials above are required; `REMEMBER_ME` and `USE_WHITELIST` are optional.
 
 ## Documentation(English)
-
-[Google Single Sign On Setup](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/en/google/setup.md)
-
-[Google Single Sign On Specifications](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/en/google/admin.md)
-
-[Cognito Single Sign On Setup](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/en/cognito/setup.md)
-
-[AzureAD Single Sign On Setup](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/en/azuread/setup.md)
 
 [OIDC Single Sign On Setup](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/en/oidc/setup.md)
 
@@ -117,21 +84,9 @@ Of the above, the environment variable for the provider you wish to use is all t
 
 [Description](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/README.md)
 
-[Google Single Sign On Setup](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/ja/google/setup.md)
-
-[Google Single Sign-On Specifications](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/ja/google/admin.md)
-
-[Cognito Single Sign On Setup](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/ja/cognito/setup.md)
-
-[Cognito Single Sign-On Specifications](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/ja/cognito/admin.md)
-
-TODO AzureAD Single Sign On Setup
-
-TODO OIDC Single Sign On Setup
-
 ## Demo
 
-![CognitoDemo](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/demo.gif?raw=true "DemoMovie")
+![Demo](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/demo.gif?raw=true "DemoMovie")
 
 ## Testing the plugin
 
