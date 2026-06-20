@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 import '@testing-library/cypress/add-commands'
 
-Cypress.Commands.add('login', (path) => {
+Cypress.Commands.add('login', () => {
   cy.visit('/');
 
   cy.intercept({
@@ -40,6 +40,6 @@ Cypress.Commands.add('login', (path) => {
   });
 });
 
-Cypress.Commands.add('navigateToAdminPage', (path) => {
+Cypress.Commands.add('navigateToAdminPage', () => {
   cy.get('a[href="/admin/plugins/sso"]').click();
 });
