@@ -29,8 +29,8 @@
     "plugin",
     "oauth",
     "SSO",
-    "Google",
-    "Cognito"
+    "OIDC",
+    "OpenID Connect"
   ],
   "peerDependencies": {
     "@strapi/strapi": "^5.48.0"
