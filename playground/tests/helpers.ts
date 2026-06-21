@@ -1,10 +1,11 @@
-const { createStrapi, compileStrapi } = require("@strapi/strapi");
-const fs = require("fs");
+import { createStrapi } from "@strapi/strapi";
+import { Strapi } from "@strapi/types/dist/core";
+import fs, { PathLike } from "fs";
 
-let instance;
+let instance: Strapi;
 
 /**
- * Setups strapi for futher testing
+ * Sets strapi up for further testing
  */
 async function setupStrapi() {
   if (!instance) {
@@ -15,7 +16,7 @@ async function setupStrapi() {
 
     instance = app; // strapi is global now
 
-    await instance.server.mount();
+    instance.server.mount();
   }
   return instance;
 }
@@ -25,22 +26,18 @@ async function setupStrapi() {
  */
 async function stopStrapi() {
   if (instance) {
-    await instance.server.httpServer.close();
+    instance.server.httpServer.close();
     await instance.db.connection.destroy();
     instance.destroy();
-    const tmpDbFile = strapi.config.get(
-      "database.connection.connection.filename"
+    const tmpDbFile: PathLike = strapi.config.get(
+      "database.connection.connection.filename",
     );
 
     if (fs.existsSync(tmpDbFile)) {
       fs.unlinkSync(tmpDbFile);
     }
-
   }
   return instance;
 }
 
-module.exports = {
-  setupStrapi,
-  stopStrapi,
-};
+export { setupStrapi, stopStrapi };
