@@ -42,6 +42,7 @@ services:
     hostname: ${AUTH_DOMAIN}
     environment:
       - AUTH_DOMAIN
+      - CMS_DOMAIN
       - AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE=/run/secrets/hmac_secret
       - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/run/secrets/jwt_secret
       - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/auth_session_secret

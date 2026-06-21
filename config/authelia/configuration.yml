@@ -13,13 +13,13 @@ identity_providers:
         client_name: 'Strapi'
         client_secret: '{{ secret "/run/secrets/oidc_strapi_digest" }}'
         redirect_uris:
-          - https://{{ mustEnv "DOMAIN" }}
+          - https://{{ mustEnv "CMS_DOMAIN" }}/api/strapi-plugin-sso/oidc/callback
         scopes:
           - 'email'
           - 'groups'
           - 'openid'
           - 'profile'
-        token_endpoint_auth_method: 'client_secret_basic'
+        token_endpoint_auth_method: 'client_secret_post'
     jwks:
       - algorithm: 'RS256'
         use: 'sig'
