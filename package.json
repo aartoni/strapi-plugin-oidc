@@ -15,7 +15,7 @@
     "verify": "strapi-plugin verify",
     "lint": "eslint",
     "test:jest": "ENV_PATH=./playground/.env  jest --verbose --runInBand --forceExit --detectOpenHandles",
-    "test:cypress": "cypress run",
+    "test:cypress": "sh scripts/isscert.dev.sh && docker compose up --build --wait && NODE_EXTRA_CA_CERTS=data/common/certs/cacert.pem cypress run",
     "test:cypress:open": "cypress open",
     "playground:install": "yarn playground:yalc-add-link && cd playground && yarn install",
     "playground:yalc-add": "cd playground && yalc add strapi-plugin-sso",
