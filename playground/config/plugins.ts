@@ -9,6 +9,7 @@ export default ({ env }) => ({
       OIDC_AUTHORIZATION_ENDPOINT: env('OIDC_AUTHORIZATION_ENDPOINT'),
       OIDC_TOKEN_ENDPOINT: env('OIDC_TOKEN_ENDPOINT'),
       OIDC_USER_INFO_ENDPOINT: env('OIDC_USER_INFO_ENDPOINT'),
+      OIDC_SCOPES: env('OIDC_SCOPES', 'openid profile email'),
     },
   },
 });
