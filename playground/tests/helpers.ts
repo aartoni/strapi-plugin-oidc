@@ -1,8 +1,7 @@
-import { createStrapi } from "@strapi/strapi";
-import { Strapi } from "@strapi/types/dist/core";
+import { Core, createStrapi } from "@strapi/strapi";
 import fs, { PathLike } from "fs";
 
-let instance: Strapi;
+let instance: Core.Strapi;
 
 /**
  * Sets strapi up for further testing
