@@ -26,7 +26,8 @@ Cypress.Commands.add('login', () => {
       cy.get('input[name="email"]').type('johndoe@example.com');
       cy.get('input[name="password"]').type('Abc12345678');
       cy.get('button[type="submit"]').click();
-      cy.wait('@sessionCheck').its('response.statusCode').should('equal', 200);
+      // Wait for the redirect away from the auth pages
+      cy.url().should('not.include', '/auth/');
     }
     // Register
     if ($body.text().includes('Credentials are only used to authenticate in Strapi')) {
