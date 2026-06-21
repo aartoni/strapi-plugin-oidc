@@ -17,6 +17,12 @@ services:
       - NODE_EXTRA_CA_CERTS=/run/certs/cacert.pem
     volumes:
       - './data/common/certs/cacert.pem:/run/certs/cacert.pem:ro'
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:1337/admin/init"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     expose:
       - 1337
   proxy:
