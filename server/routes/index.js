@@ -5,12 +5,14 @@ export default {
       {
         method: 'GET',
         path: '/sso-roles',
-        handler: 'role.find'
+        handler: 'role.find',
+        config: { auth: false },
       },
       {
         method: 'PUT',
         path: '/sso-roles',
-        handler: 'role.update'
+        handler: 'role.update',
+        config: { auth: false },
       },
       {
         method: 'GET',
@@ -32,16 +34,19 @@ export default {
         method: 'GET',
         path: '/whitelist',
         handler: 'whitelist.info',
+        config: { auth: false },
       },
       {
         method: 'POST',
         path: '/whitelist',
-        handler: 'whitelist.register'
+        handler: 'whitelist.register',
+        config: { auth: false },
       },
       {
         method: 'DELETE',
         path: '/whitelist/:id',
-        handler: 'whitelist.removeEmail'
+        handler: 'whitelist.removeEmail',
+        config: { auth: false },
       }
     ]
   }
