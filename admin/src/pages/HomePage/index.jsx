@@ -29,13 +29,13 @@ const HomePage = () => {
   const {get, put, post, del} = useFetchClient();
 
   useEffect(() => {
-    get(`/strapi-plugin-sso/sso-roles`).then((response) => {
+    get(`/api/strapi-plugin-sso/sso-roles`).then((response) => {
       setSSORoles(response.data)
     })
     get(`/admin/roles`).then((response) => {
       setRoles(response.data.data)
     })
-    get('/strapi-plugin-sso/whitelist').then(response => {
+    get('/api/strapi-plugin-sso/whitelist').then(response => {
       setUsers(response.data.whitelistUsers)
       setUseWhitelist(response.data.useWhitelist)
     })
@@ -59,7 +59,7 @@ const HomePage = () => {
   }
   const onSaveRole = async () => {
     try {
-      await put('/strapi-plugin-sso/sso-roles', {
+      await put('/api/strapi-plugin-sso/sso-roles', {
         roles: ssoRoles.map(role => ({
           'oauth_type': role['oauth_type'], role: role['role']
         }))
@@ -79,10 +79,10 @@ const HomePage = () => {
 
   const onRegisterWhitelist = async (email) => {
     setLoading(true)
-    post('/strapi-plugin-sso/whitelist', {
+    post('/api/strapi-plugin-sso/whitelist', {
       email,
     }).then(response => {
-      get('/strapi-plugin-sso/whitelist').then(response => {
+      get('/api/strapi-plugin-sso/whitelist').then(response => {
         setUsers(response.data.whitelistUsers)
         setUseWhitelist(response.data.useWhitelist)
       })
@@ -96,8 +96,8 @@ const HomePage = () => {
 
   const onDeleteWhitelist = async (id) => {
     setLoading(true)
-    del(`/strapi-plugin-sso/whitelist/${id}`).then(response => {
-      get('/strapi-plugin-sso/whitelist').then(response => {
+    del(`/api/strapi-plugin-sso/whitelist/${id}`).then(response => {
+      get('/api/strapi-plugin-sso/whitelist').then(response => {
         setUsers(response.data.whitelistUsers)
         setUseWhitelist(response.data.useWhitelist)
       })
