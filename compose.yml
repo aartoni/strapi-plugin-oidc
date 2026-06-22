@@ -2,7 +2,6 @@ services:
   cms:
     build: .
     container_name: cms
-    hostname: ${CMS_DOMAIN}
     environment:
       - OIDC_AUTHORIZATION_ENDPOINT=https://${AUTH_DOMAIN}/api/oidc/authorization
       - OIDC_TOKEN_ENDPOINT=https://${AUTH_DOMAIN}/api/oidc/token
@@ -29,6 +28,11 @@ services:
     image: nginx:1.27-alpine
     container_name: proxy
     hostname: ${DOMAIN}
+    networks:
+      default:
+        aliases:
+          - ${CMS_DOMAIN}
+          - ${AUTH_DOMAIN}
     depends_on:
       - idp
       - cms
@@ -49,7 +53,6 @@ services:
   idp:
     image: "authelia/authelia:4.39"
     container_name: idp
-    hostname: ${AUTH_DOMAIN}
     environment:
       - AUTH_DOMAIN
       - CMS_DOMAIN
