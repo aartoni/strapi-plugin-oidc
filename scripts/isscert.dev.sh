@@ -17,8 +17,7 @@ openssl req -new -key "$cert_dir"/serverkey.pem -out "$cert_dir"/server.csr -con
 
 # Sign the server certificate with the CA and SANs
 openssl x509 -req -in "$cert_dir"/server.csr -CA "$cert_dir"/cacert.pem -CAkey "$cert_dir"/cakey.pem -CAcreateserial -out "$cert_dir"/servercert.pem -days 365 -sha256 -extfile "$scripts_dir"/server_cert.conf -extensions req_ext
-cp "$cert_dir"/servercert.pem "$cert_dir"/fullchain.pem
-
+cat "$cert_dir"/servercert.pem "$cert_dir"/cacert.pem > "$cert_dir"/fullchain.pem
 # Cleanup
 rm "$cert_dir"/cacert.srl "$cert_dir"/server.csr
 
