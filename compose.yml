@@ -11,7 +11,7 @@ services:
       - OIDC_CLIENT_ID=onbU2exrz2I0RCJRrXsCQj49dgLFHLppCekGGdKmBaQ_7MWpAKcnylw6kO-7lUhsUtzmGJM8
       - OIDC_CLIENT_SECRET=yebsr4POK_hXenANvvo4DAHBGPIP_3a0
       # TODO Should we load them from env in Authelia as well? If so, maybe we should move them to .env
-      - OIDC_SCOPES=openid profile email
+      - OIDC_SCOPES=openid profile email groups
       # Trust the dev CA so Node's fetch can reach Authelia over self-signed TLS.
       - NODE_EXTRA_CA_CERTS=/run/certs/cacert.pem
     volumes:
