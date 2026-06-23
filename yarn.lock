@@ -1865,6 +1865,11 @@
     "@types/yargs" "^17.0.8"
     chalk "^4.0.0"
 
+"@jmespath-community/jmespath@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@jmespath-community/jmespath/-/jmespath-1.3.0.tgz#0b1ed0bcafeb54003246fa23276d8228da0dd1fb"
+  integrity sha512-nzOrEdWKNpognj6CT+1Atr7gw0bqUC1KTBRyasBXS9NjFpz+og7LeFZrIQqV81GRcCzKa5H+DNipvv7NQK3GzA==
+
 "@jridgewell/gen-mapping@^0.3.12":
   version "0.3.13"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.3.13.tgz#6342a19f44347518c93e43b1ac69deb3c4656a1f"
