@@ -37,18 +37,15 @@ describe('SSO plugin', () => {
       cy.login();
 
       cy.intercept('GET', '/api/strapi-plugin-sso/sso-roles', { fixture: 'sso-roles.json' }).as('getSSORoles');
-      cy.intercept('GET', '/admin/roles', { fixture: 'admin-roles.json' }).as('getRoles');
 
       cy.visit(`${CMS}/admin/plugins/strapi-plugin-sso`);
-      cy.wait(['@getSSORoles', '@getRoles']);
+      cy.wait('@getSSORoles');
     });
 
-    it('renders header & default Roles tab', () => {
+    it('renders the role attribute path field', () => {
       cy.findByRole('heading', { name: /single sign on/i }).should('exist');
-      cy.contains(/default role setting at first login/i).should('be.visible');
-
-      cy.findByRole('tab', { name: /roles/i }).should('have.attr', 'aria-selected', 'true');
-
+      cy.contains(/assign strapi roles to users based on their oidc claims/i).should('be.visible');
+      cy.findByRole('textbox').should('exist');
       cy.findByRole('button', { name: /save/i }).should('be.visible');
     });
   });

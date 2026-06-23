@@ -18,13 +18,8 @@
     }
   },
   "attributes": {
-    "oauth_type": {
+    "expression": {
       "type": "string",
-      "configurable": false,
-      "required": true
-    },
-    "roles": {
-      "type": "json",
       "configurable": false
     }
   }

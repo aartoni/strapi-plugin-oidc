@@ -41,16 +41,16 @@ export default {
       strapi.log.info('[playground] seeded native super-admin (fake@example.com)');
     }
 
-    // Map every user coming from OIDC to the super-admin role
+    // Seed the role attribute path expression
     const existingMapping = await strapi.db
       .query('plugin::strapi-plugin-sso.roles')
-      .findOne({ where: { oauth_type: '4' } });
+      .findOne({});
 
     if (!existingMapping) {
       await strapi.db.query('plugin::strapi-plugin-sso.roles').create({
-        data: { oauth_type: '4', roles: [superAdminRole.id] },
+        data: { expression: `contains(groups[*], 'admins') && '${superAdminRole.name}'` },
       });
-      strapi.log.info('[playground] seeded OIDC → super-admin role mapping');
+      strapi.log.info('[playground] seeded role attribute path expression');
     }
   },
 };

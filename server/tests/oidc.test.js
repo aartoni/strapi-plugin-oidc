@@ -53,6 +53,7 @@ describe('OIDC sign in', () => {
         email: 'jane.doe@example.com',
         [process.env.OIDC_FAMILY_NAME_FIELD]: 'Doe',
         [process.env.OIDC_GIVEN_NAME_FIELD]: 'Jane',
+        groups: ['admins'],
       });
 
     // Hit the callback

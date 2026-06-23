@@ -1,47 +1,36 @@
+import { search, compile } from '@jmespath-community/jmespath'
+
 export default ({strapi}) => ({
-  SSO_TYPE_OIDC: '4',
-  ssoRoles() {
-    return [
-      {
-        'oauth_type': this.SSO_TYPE_OIDC,
-        name: 'OIDC'
-      },
-    ];
-  },
-  async oidcRoles() {
+  async getConfig() {
     return await strapi
       .query('plugin::strapi-plugin-sso.roles')
-      .findOne({
-        where: {
-          'oauth_type': this.SSO_TYPE_OIDC
-        }
-      })
+      .findOne({})
   },
-  async find() {
+  async setConfig({ expression }) {
+    // Throws on invalid JMESPath syntax — caught by the controller.
+    compile(expression)
+
+    const existing = await this.getConfig()
+    if (existing) {
+      return await strapi
+        .query('plugin::strapi-plugin-sso.roles')
+        .update({ where: { id: existing.id }, data: { expression } })
+    }
     return await strapi
       .query('plugin::strapi-plugin-sso.roles')
-      .findMany()
+      .create({ data: { expression } })
   },
-  async update(roles) {
-    const query = strapi.query('plugin::strapi-plugin-sso.roles')
-    await Promise.all(
-      roles.map((role) => {
-        return query.findOne({where: {'oauth_type': role['oauth_type']}}).then(ssoRole => {
-          if (ssoRole) {
-            query.update({
-              where: {'oauth_type': role['oauth_type']},
-              data: {roles: role.role},
-            });
-          } else {
-            query.create({
-              data: {
-                'oauth_type': role['oauth_type'],
-                roles: role.role,
-              }
-            })
-          }
-        })
-      })
-    );
+  async resolveRole(userInfo) {
+    const config = await this.getConfig()
+    if (!config?.expression) return null
+
+    const result = search(userInfo, config.expression)
+    if (typeof result !== 'string') return null
+
+    const role = await strapi.db
+      .query('admin::role')
+      .findOne({ where: { name: result } })
+
+    return role ? [{ id: role.id }] : null
   }
 })

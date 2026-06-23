@@ -1,9 +1,10 @@
 {
-  "page.title": "Default role setting at first login",
-  "page.notes": "This will not be reflected for already registered users.",
+  "page.title": "Assign Strapi roles to users based on their OIDC claims",
   "page.save": "Save",
   "page.save.success": "Updated settings",
   "page.save.error": "Update failed.",
   "page.cancel": "Cancel",
-  "page.ok": "OK"
+  "page.ok": "OK",
+  "role.expression.label": "Role attribute path",
+  "role.expression.hint": "A JMESPath expression evaluated against the OIDC userinfo response. Must return a Strapi role name."
 }

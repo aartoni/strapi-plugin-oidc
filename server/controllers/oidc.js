@@ -97,10 +97,12 @@ const oidcSignInCallback = async (ctx) => {
       jwtToken = await oauthService.generateToken(dbUser, ctx)
     } else {
       // Register a new account
-      const oidcRoles = await roleService.oidcRoles()
-      const roles = oidcRoles && oidcRoles['roles'] ? oidcRoles['roles'].map(role => ({
-        id: role
-      })) : []
+      const roles = await roleService.resolveRole(userResponse)
+      if (!roles) {
+        return ctx.send(oauthService.renderSignUpError(
+          'Your account has not been granted access. Please contact your administrator.'
+        ))
+      }
 
       const defaultLocale = oauthService.localeFindByHeader(ctx.request.headers)
       activateUser = await oauthService.createUser(
