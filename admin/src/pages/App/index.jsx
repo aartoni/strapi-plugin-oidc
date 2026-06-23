@@ -5,17 +5,17 @@
  *
  */
 
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { Page } from '@strapi/strapi/admin';
-import HomePage from '../HomePage';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import { Page } from "@strapi/strapi/admin";
+import HomePage from "../HomePage";
 
 const App = () => {
   return (
     <div>
       <Routes>
-          <Route index element={<HomePage />} />
-          <Route path="*" element={<Page.Error />} />
+        <Route index element={<HomePage />} />
+        <Route path="*" element={<Page.Error />} />
       </Routes>
     </div>
   );

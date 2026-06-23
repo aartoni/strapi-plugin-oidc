@@ -1,52 +1,56 @@
 /// <reference types="cypress" />
 
-const CMS = 'https://cms.strapi.local';
+const CMS = "https://cms.strapi.local";
 
-describe('SSO plugin', () => {
-  describe('OIDC sign-in', () => {
+describe("SSO plugin", () => {
+  describe("OIDC sign-in", () => {
     beforeEach(() => {
       cy.login();
       cy.visit(`${CMS}/admin`);
     });
 
-    it('provisions john.doe@example.org and lands in the admin', () => {
-      cy.url().should('include', '/admin');
+    it("provisions john.doe@example.org and lands in the admin", () => {
+      cy.url().should("include", "/admin");
       cy.window()
-        .its('localStorage')
-        .invoke('getItem', 'isLoggedIn')
-        .should('eq', 'true');
+        .its("localStorage")
+        .invoke("getItem", "isLoggedIn")
+        .should("eq", "true");
 
       // Confirm the session belongs to the OIDC-provisioned user
-      cy.getCookie('jwtToken')
-        .should('exist')
+      cy.getCookie("jwtToken")
+        .should("exist")
         .then((cookie) => {
           cy.request({
-            url: '/admin/users/me',
+            url: "/admin/users/me",
             headers: {
               Authorization: `Bearer ${decodeURIComponent(cookie.value)}`,
             },
           })
-            .its('body.data.email')
-            .should('eq', 'john.doe@example.org');
+            .its("body.data.email")
+            .should("eq", "john.doe@example.org");
         });
     });
   });
 
-  describe('settings page', () => {
+  describe("settings page", () => {
     beforeEach(() => {
       cy.login();
 
-      cy.intercept('GET', '/api/strapi-plugin-sso/sso-roles', { fixture: 'sso-roles.json' }).as('getSSORoles');
+      cy.intercept("GET", "/api/strapi-plugin-sso/sso-roles", {
+        fixture: "sso-roles.json",
+      }).as("getSSORoles");
 
       cy.visit(`${CMS}/admin/plugins/strapi-plugin-sso`);
-      cy.wait('@getSSORoles');
+      cy.wait("@getSSORoles");
     });
 
-    it('renders the role attribute path field', () => {
-      cy.findByRole('heading', { name: /single sign on/i }).should('exist');
-      cy.contains(/assign strapi roles to users based on their oidc claims/i).should('be.visible');
-      cy.findByRole('textbox').should('exist');
-      cy.findByRole('button', { name: /save/i }).should('be.visible');
+    it("renders the role attribute path field", () => {
+      cy.findByRole("heading", { name: /single sign on/i }).should("exist");
+      cy.contains(
+        /assign strapi roles to users based on their oidc claims/i,
+      ).should("be.visible");
+      cy.findByRole("textbox").should("exist");
+      cy.findByRole("button", { name: /save/i }).should("be.visible");
     });
   });
 });

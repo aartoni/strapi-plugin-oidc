@@ -1,5 +1,5 @@
-import roles from './sso-role'
+import roles from "./sso-role";
 
 export default {
   roles,
-}
+};

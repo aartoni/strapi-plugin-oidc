@@ -1,24 +1,26 @@
-import { getTranslation } from './utils/getTranslation';
-import pluginPkg from '../../package.json';
-import pluginId from './pluginId';
-import Initializer from './components/Initializer';
-import PluginIcon from './components/PluginIcon';
+import { getTranslation } from "./utils/getTranslation";
+import pluginPkg from "../../package.json";
+import pluginId from "./pluginId";
+import Initializer from "./components/Initializer";
+import PluginIcon from "./components/PluginIcon";
 
 const name = pluginPkg.strapi.displayName;
 
 export default {
+  bootstrap() {},
   register(app) {
     app.addMenuLink({
       to: `/plugins/${pluginId}`,
       icon: PluginIcon,
       intlLabel: {
         id: `${pluginId}.plugin.name`,
-        defaultMessage: name,
       },
       Component: async () => {
-        return await import('./pages/App');
+        return await import("./pages/App");
       },
-      permissions: [{ action: 'plugin::strapi-plugin-sso.read', subject: null }]
+      permissions: [
+        { action: "plugin::strapi-plugin-sso.read", subject: null },
+      ],
     });
     app.registerPlugin({
       id: pluginId,
@@ -26,15 +28,16 @@ export default {
       name,
     });
   },
-
-  bootstrap() {},
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
-      locales.map(locale => {
+      locales.map((locale) => {
         return import(`./translations/${locale}.json`)
-          .then(({default: data}) => {
+          .then(({ default: data }) => {
             const newData = Object.fromEntries(
-              Object.entries(data).map(([key, value]) => [getTranslation(key), value])
+              Object.entries(data).map(([key, value]) => [
+                getTranslation(key),
+                value,
+              ]),
             );
             return {
               data: newData,
@@ -47,7 +50,7 @@ export default {
               locale,
             };
           });
-      })
+      }),
     );
     return Promise.resolve(importedTrads);
   },

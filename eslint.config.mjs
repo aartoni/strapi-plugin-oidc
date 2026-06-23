@@ -1,39 +1,37 @@
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 import pluginCypress from "eslint-plugin-cypress";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
-
-export default [
-  ...compat.extends("eslint:recommended"),
+export default defineConfig([
+  js.configs.recommended,
   {
     ignores: ["**/data/", "**/dist/", "**/.yalc/", "**/.strapi/"],
   },
   {
     languageOptions: {
       globals: {
-        ...globals.browser,
-        ...globals.commonjs,
+        ...globals.node,
         strapi: "readonly",
       },
-
       ecmaVersion: "latest",
       sourceType: "module",
     },
-
-    rules: {},
+    rules: {
+      eqeqeq: "error",
+      "no-var": "error",
+      "prefer-const": "error",
+      "no-console": ["error", { allow: ["warn", "error"] }],
+      "no-param-reassign": "error",
+      "no-throw-literal": "error",
+      "require-await": "error",
+      curly: "error",
+    },
   },
   {
     files: ["cypress/**/*.js"],
-    ...pluginCypress.configs.globals,
+    extends: [pluginCypress.configs.recommended],
   },
-];
+  eslintPluginPrettierRecommended,
+]);

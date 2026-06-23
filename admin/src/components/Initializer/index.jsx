@@ -1,11 +1,5 @@
-/**
- *
- * Initializer
- *
- */
-
-import { useEffect, useRef } from 'react';
-import pluginId from '../../pluginId';
+import { useEffect, useRef } from "react";
+import pluginId from "../../pluginId";
 
 const Initializer = ({ setPlugin }) => {
   const ref = useRef();
