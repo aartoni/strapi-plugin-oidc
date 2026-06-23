@@ -13,9 +13,9 @@ services:
       # TODO Should we load them from env in Authelia as well? If so, maybe we should move them to .env
       - OIDC_SCOPES=openid profile email groups
       # Trust the dev CA so Node's fetch can reach Authelia over self-signed TLS.
-      - NODE_EXTRA_CA_CERTS=/run/certs/cacert.pem
+      - NODE_EXTRA_CA_CERTS=/run/certs/fullchain.pem
     volumes:
-      - './data/common/certs/cacert.pem:/run/certs/cacert.pem:ro'
+      - './data/common/certs/fullchain.pem:/run/certs/fullchain.pem:ro'
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:1337/admin/init"]
       interval: 10s
