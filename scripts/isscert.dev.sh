@@ -22,4 +22,4 @@ cat "$cert_dir"/servercert.pem "$cert_dir"/cacert.pem > "$cert_dir"/fullchain.pe
 rm "$cert_dir"/cacert.srl "$cert_dir"/server.csr
 
 # Finalize
-chmod 777 "$cert_dir"/*
+chmod 644 "$cert_dir"/*
