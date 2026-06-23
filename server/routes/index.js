@@ -30,24 +30,6 @@ export default {
           auth: false,
         },
       },
-      {
-        method: 'GET',
-        path: '/whitelist',
-        handler: 'whitelist.info',
-        config: { auth: false },
-      },
-      {
-        method: 'POST',
-        path: '/whitelist',
-        handler: 'whitelist.register',
-        config: { auth: false },
-      },
-      {
-        method: 'DELETE',
-        path: '/whitelist/:id',
-        handler: 'whitelist.removeEmail',
-        config: { auth: false },
-      }
     ]
   }
 };

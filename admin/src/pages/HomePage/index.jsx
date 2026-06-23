@@ -1,43 +1,26 @@
 import React, {memo, useEffect, useState} from 'react';
-import {
-  Box,
-  Tabs,
-} from '@strapi/design-system';
+import {Box} from '@strapi/design-system';
 import {Page, Layouts} from '@strapi/strapi/admin';
 import {useIntl} from 'react-intl';
 import {useFetchClient} from '@strapi/strapi/admin';
 import getTrad from "../../utils/getTrad";
 import Role from "../../components/Role";
-import Whitelist from "../../components/Whitelist";
 import {ErrorAlertMessage, SuccessAlertMessage} from "../../components/AlertMessage";
 
 const HomePage = () => {
   const {formatMessage} = useIntl();
-  const [loading, setLoading] = useState(false);
-
-  // Roles
   const [ssoRoles, setSSORoles] = useState([])
   const [roles, setRoles] = useState([])
-
-  // Whitelist
-  const [useWhitelist, setUseWhitelist] = useState(false)
-  const [users, setUsers] = useState([])
-
   const [showSuccess, setSuccess] = useState(false)
   const [showError, setError] = useState(false)
-
-  const {get, put, post, del} = useFetchClient();
+  const {get, put} = useFetchClient();
 
   useEffect(() => {
-    get(`/api/strapi-plugin-sso/sso-roles`).then((response) => {
+    get('/api/strapi-plugin-sso/sso-roles').then((response) => {
       setSSORoles(response.data)
     })
-    get(`/admin/roles`).then((response) => {
+    get('/admin/roles').then((response) => {
       setRoles(response.data.data)
-    })
-    get('/api/strapi-plugin-sso/whitelist').then(response => {
-      setUsers(response.data.whitelistUsers)
-      setUseWhitelist(response.data.useWhitelist)
     })
   }, [setSSORoles, setRoles])
 
@@ -57,6 +40,7 @@ const HomePage = () => {
     }
     setSSORoles(ssoRoles.slice())
   }
+
   const onSaveRole = async () => {
     try {
       await put('/api/strapi-plugin-sso/sso-roles', {
@@ -65,48 +49,12 @@ const HomePage = () => {
         }))
       })
       setSuccess(true)
-      setTimeout(() => {
-        setSuccess(false)
-      }, 3000)
+      setTimeout(() => setSuccess(false), 3000)
     } catch (e) {
       console.error(e)
       setError(true)
-      setTimeout(() => {
-        setError(false)
-      }, 3000)
+      setTimeout(() => setError(false), 3000)
     }
-  }
-
-  const onRegisterWhitelist = async (email) => {
-    setLoading(true)
-    post('/api/strapi-plugin-sso/whitelist', {
-      email,
-    }).then(response => {
-      get('/api/strapi-plugin-sso/whitelist').then(response => {
-        setUsers(response.data.whitelistUsers)
-        setUseWhitelist(response.data.useWhitelist)
-      })
-      setLoading(false)
-      setSuccess(true)
-      setTimeout(() => {
-        setSuccess(false)
-      }, 3000)
-    })
-  }
-
-  const onDeleteWhitelist = async (id) => {
-    setLoading(true)
-    del(`/api/strapi-plugin-sso/whitelist/${id}`).then(response => {
-      get('/api/strapi-plugin-sso/whitelist').then(response => {
-        setUsers(response.data.whitelistUsers)
-        setUseWhitelist(response.data.useWhitelist)
-      })
-      setLoading(false)
-      setSuccess(true)
-      setTimeout(() => {
-        setSuccess(false)
-      }, 3000)
-    })
   }
 
   return (
@@ -118,50 +66,15 @@ const HomePage = () => {
           defaultMessage: 'Default role setting at first login'
         })}
       />
-      {
-        showSuccess && (
-          <SuccessAlertMessage onClose={() => setSuccess(false)}/>
-        )
-      }
-      {
-        showError && (
-          <ErrorAlertMessage onClose={() => setError(false)}/>
-        )
-      }
+      {showSuccess && <SuccessAlertMessage onClose={() => setSuccess(false)}/>}
+      {showError && <ErrorAlertMessage onClose={() => setError(false)}/>}
       <Box padding={10}>
-        <Tabs.Root defaultValue="role">
-          <Tabs.List aria-label="Manage your attribute" style={{maxWidth: 300}}>
-            <Tabs.Trigger value="role">{formatMessage({
-              id: getTrad('tab.roles'),
-              defaultMessage: 'Roles'
-            })}</Tabs.Trigger>
-            <Tabs.Trigger value="whitelist">{formatMessage({
-              id: getTrad('tab.whitelist'),
-              defaultMessage: 'Whitelist'
-            })}</Tabs.Trigger>
-          </Tabs.List>
-
-          {/* Roles Tab */}
-          <Tabs.Content value="role" style={{background: 'initial'}}>
-            <Role
-              roles={roles}
-              ssoRoles={ssoRoles}
-              onSaveRole={onSaveRole}
-              onChangeRoleCheck={onChangeRoleCheck}
-            />
-          </Tabs.Content>
-
-          {/* Whitelist Tab */}
-          <Tabs.Content value="whitelist">
-            <Whitelist
-              loading={loading}
-              users={users}
-              useWhitelist={useWhitelist}
-              onSave={onRegisterWhitelist}
-              onDelete={onDeleteWhitelist}
-            />
-          </Tabs.Content>
-        </Tabs.Root>
+        <Role
+          roles={roles}
+          ssoRoles={ssoRoles}
+          onSaveRole={onSaveRole}
+          onChangeRoleCheck={onChangeRoleCheck}
+        />
       </Box>
     </Page.Protect>
   );

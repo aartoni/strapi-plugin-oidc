@@ -38,10 +38,9 @@ describe('SSO plugin', () => {
 
       cy.intercept('GET', '/api/strapi-plugin-sso/sso-roles', { fixture: 'sso-roles.json' }).as('getSSORoles');
       cy.intercept('GET', '/admin/roles', { fixture: 'admin-roles.json' }).as('getRoles');
-      cy.intercept('GET', '/api/strapi-plugin-sso/whitelist', { fixture: 'whitelist.json' }).as('getWhitelist');
 
       cy.visit(`${CMS}/admin/plugins/strapi-plugin-sso`);
-      cy.wait(['@getSSORoles', '@getRoles', '@getWhitelist']);
+      cy.wait(['@getSSORoles', '@getRoles']);
     });
 
     it('renders header & default Roles tab', () => {
@@ -49,14 +48,8 @@ describe('SSO plugin', () => {
       cy.contains(/default role setting at first login/i).should('be.visible');
 
       cy.findByRole('tab', { name: /roles/i }).should('have.attr', 'aria-selected', 'true');
-      cy.findByRole('tab', { name: /whitelist/i }).should('have.attr', 'aria-selected', 'false');
 
       cy.findByRole('button', { name: /save/i }).should('be.visible');
-    });
-
-    it('shows Whitelist disabled banner', () => {
-      cy.findByRole('tab', { name: /whitelist/i }).click();
-      cy.contains(/whitelist is currently disabled/i).should('be.visible');
     });
   });
 });

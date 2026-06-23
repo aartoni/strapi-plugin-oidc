@@ -65,8 +65,6 @@ module.exports = ({env}) => ({
       // customizable username arguments
       OIDC_FAMILY_NAME_FIELD: 'family_name',
       OIDC_GIVEN_NAME_FIELD: 'given_name',
-
-      USE_WHITELIST: true // allow authentication only at the specified email address.
     }
   }
 })
@@ -77,8 +75,6 @@ All OIDC endpoints and credentials above are required; `REMEMBER_ME` and `USE_WH
 ## Documentation(English)
 
 [OIDC Single Sign On Setup](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/en/oidc/setup.md)
-
-[whitelist](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/whitelist.md)
 
 ## Documentation(Japanese)
 
