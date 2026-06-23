@@ -1,35 +1,35 @@
 export default {
-  'content-api': {
-    type: 'content-api',
+  "content-api": {
+    type: "content-api",
     routes: [
       {
-        method: 'GET',
-        path: '/sso-roles',
-        handler: 'role.find',
+        method: "GET",
+        path: "/sso-roles",
+        handler: "role.find",
         config: { auth: false },
       },
       {
-        method: 'PUT',
-        path: '/sso-roles',
-        handler: 'role.update',
+        method: "PUT",
+        path: "/sso-roles",
+        handler: "role.update",
         config: { auth: false },
       },
       {
-        method: 'GET',
-        path: '/oidc',
-        handler: 'oidc.oidcSignIn',
+        method: "GET",
+        path: "/oidc",
+        handler: "oidc.oidcSignIn",
         config: {
           auth: false,
         },
       },
       {
-        method: 'GET',
-        path: '/oidc/callback',
-        handler: 'oidc.oidcSignInCallback',
+        method: "GET",
+        path: "/oidc/callback",
+        handler: "oidc.oidcSignInCallback",
         config: {
           auth: false,
         },
       },
-    ]
-  }
+    ],
+  },
 };
