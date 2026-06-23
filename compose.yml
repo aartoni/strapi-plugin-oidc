@@ -14,16 +14,16 @@ services:
       - OIDC_SCOPES=openid profile email groups
       # Trust the dev CA so Node's fetch can reach Authelia over self-signed TLS.
       - NODE_EXTRA_CA_CERTS=/run/certs/fullchain.pem
-    volumes:
-      - './data/common/certs/fullchain.pem:/run/certs/fullchain.pem:ro'
+    expose:
+      - 1337
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:1337/admin/init"]
       interval: 10s
       timeout: 5s
       retries: 3
       start_period: 30s
-    expose:
-      - 1337
+    volumes:
+      - './data/common/certs/fullchain.pem:/run/certs/fullchain.pem:ro'
   proxy:
     image: nginx:1.27-alpine
     container_name: proxy
