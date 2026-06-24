@@ -3,12 +3,12 @@ import { Box } from "@strapi/design-system";
 import { Page, Layouts } from "@strapi/strapi/admin";
 import { useIntl } from "react-intl";
 import { useFetchClient } from "@strapi/strapi/admin";
-import getTrad from "../../utils/getTrad";
 import Role from "../../components/Role";
 import {
   ErrorAlertMessage,
   SuccessAlertMessage,
 } from "../../components/AlertMessage";
+import { getTranslation } from "../../utils/translations";
 
 const HomePage = () => {
   const { formatMessage } = useIntl();
@@ -43,9 +43,7 @@ const HomePage = () => {
     >
       <Layouts.Header
         title="Single Sign On"
-        subtitle={formatMessage({
-          id: getTrad("page.title"),
-        })}
+        subtitle={formatMessage({ id: getTranslation("page.title") })}
       />
       {showSuccess && <SuccessAlertMessage onClose={() => setSuccess(false)} />}
       {showError && <ErrorAlertMessage onClose={() => setError(false)} />}

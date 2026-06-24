@@ -1,7 +1,7 @@
 import { Box, Button, Field, Textarea } from "@strapi/design-system";
 import React from "react";
 import { useIntl } from "react-intl";
-import getTrad from "../../utils/getTrad";
+import { getTranslation } from "../../utils/translations";
 
 export default function Role({ expression, onChange, onSave }) {
   const { formatMessage } = useIntl();
@@ -10,9 +10,7 @@ export default function Role({ expression, onChange, onSave }) {
     <Box>
       <Field.Root>
         <Field.Label>
-          {formatMessage({
-            id: getTrad("role.expression.label"),
-          })}
+          {formatMessage({ id: getTranslation("role.expression.label") })}
         </Field.Label>
         <Textarea
           value={expression}
@@ -20,14 +18,12 @@ export default function Role({ expression, onChange, onSave }) {
           placeholder="contains(groups[*], 'admins') && 'Super Admin' || 'Editor'"
         />
         <Field.Hint>
-          {formatMessage({
-            id: getTrad("role.expression.hint"),
-          })}
+          {formatMessage({ id: getTranslation("role.expression.hint") })}
         </Field.Hint>
       </Field.Root>
       <Box paddingTop={4}>
         <Button onClick={onSave}>
-          {formatMessage({ id: getTrad("page.save") })}
+          {formatMessage({ id: getTranslation("page.save") })}
         </Button>
       </Box>
     </Box>

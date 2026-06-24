@@ -1,8 +1,8 @@
-import { getTranslation } from "./utils/getTranslation";
 import pluginPkg from "../../package.json";
 import PLUGIN_ID from "./pluginId";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
+import { prefixPluginTranslations } from "./utils/translations";
 
 const name = pluginPkg.strapi.displayName;
 
@@ -30,29 +30,17 @@ export default {
     });
   },
   async registerTrads({ locales }) {
-    const importedTrads = await Promise.all(
-      locales.map((locale) => {
-        return import(`./translations/${locale}.json`)
-          .then(({ default: data }) => {
-            const newData = Object.fromEntries(
-              Object.entries(data).map(([key, value]) => [
-                getTranslation(key),
-                value,
-              ]),
-            );
-            return {
-              data: newData,
-              locale,
-            };
-          })
-          .catch(() => {
-            return {
-              data: {},
-              locale,
-            };
-          });
+    return Promise.all(
+      locales.map(async (locale) => {
+        try {
+          const { default: data } = await import(
+            `./translations/${locale}.json`
+          );
+          return { data: prefixPluginTranslations(data, PLUGIN_ID), locale };
+        } catch {
+          return { data: {}, locale };
+        }
       }),
     );
-    return Promise.resolve(importedTrads);
   },
 };
