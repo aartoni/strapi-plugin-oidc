@@ -3,7 +3,7 @@ import { Box } from "@strapi/design-system";
 import { Page, Layouts } from "@strapi/strapi/admin";
 import { useIntl } from "react-intl";
 import { useFetchClient } from "@strapi/strapi/admin";
-import Role from "../../components/Role";
+import { Role } from "../../components/Role";
 import {
   ErrorAlertMessage,
   SuccessAlertMessage,
