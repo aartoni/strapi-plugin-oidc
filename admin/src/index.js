@@ -14,6 +14,7 @@ export default {
       icon: PluginIcon,
       intlLabel: {
         id: `${PLUGIN_ID}.plugin.name`,
+        defaultMessage: "Single Sign-On",
       },
       Component: async () => {
         return await import("./pages/App");
