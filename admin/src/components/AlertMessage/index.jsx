@@ -1,8 +1,8 @@
 import { Alert } from "@strapi/design-system";
-import getTrad from "../../utils/getTrad";
 import React from "react";
 import { useIntl } from "react-intl";
 import styled from "styled-components";
+import { getTranslation } from "../../utils/translations";
 
 const AlertMessage = styled.div`
   margin-left: -250px;
@@ -23,9 +23,7 @@ export function SuccessAlertMessage({ onClose }) {
         closeLabel={""}
         onClose={onClose}
       >
-        {formatMessage({
-          id: getTrad("page.save.success"),
-        })}
+        {formatMessage({ id: getTranslation("page.save.success") })}
       </Alert>
     </AlertMessage>
   );
@@ -36,9 +34,7 @@ export function ErrorAlertMessage() {
   return (
     <AlertMessage>
       <Alert title="Error" variant={"danger"} closeLabel={""} onClose={onClose}>
-        {formatMessage({
-          id: getTrad("page.save.error"),
-        })}
+        {formatMessage({ id: getTranslation("page.save.error") })}
       </Alert>
     </AlertMessage>
   );
