@@ -1,9 +1,9 @@
 import { Box, Button, Field, Textarea } from "@strapi/design-system";
 import React from "react";
 import { useIntl } from "react-intl";
-import { getTranslation } from "../../utils/translations";
+import { getTranslation } from "../utils/translations";
 
-export default function Role({ expression, onChange, onSave }) {
+export function Role({ expression, onChange, onSave }) {
   const { formatMessage } = useIntl();
 
   return (
