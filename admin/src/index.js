@@ -16,18 +16,12 @@ export default {
         id: `${PLUGIN_ID}.plugin.name`,
         defaultMessage: "Single Sign-On",
       },
-      Component: async () => {
-        return await import("./pages/App");
-      },
+      Component: async () => import("./pages/App"),
       permissions: [
         { action: "plugin::strapi-plugin-sso.read", subject: null },
       ],
     });
-    app.registerPlugin({
-      id: PLUGIN_ID,
-      initializer: Initializer,
-      name,
-    });
+    app.registerPlugin({ id: PLUGIN_ID, initializer: Initializer, name });
   },
   async registerTrads({ locales }) {
     return Promise.all(
