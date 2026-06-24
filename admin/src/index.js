@@ -1,6 +1,6 @@
 import { getTranslation } from "./utils/getTranslation";
 import pluginPkg from "../../package.json";
-import pluginId from "./pluginId";
+import PLUGIN_ID from "./pluginId";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
 
@@ -10,10 +10,10 @@ export default {
   bootstrap() {},
   register(app) {
     app.addMenuLink({
-      to: `/plugins/${pluginId}`,
+      to: `/plugins/${PLUGIN_ID}`,
       icon: PluginIcon,
       intlLabel: {
-        id: `${pluginId}.plugin.name`,
+        id: `${PLUGIN_ID}.plugin.name`,
       },
       Component: async () => {
         return await import("./pages/App");
@@ -23,7 +23,7 @@ export default {
       ],
     });
     app.registerPlugin({
-      id: pluginId,
+      id: PLUGIN_ID,
       initializer: Initializer,
       name,
     });
