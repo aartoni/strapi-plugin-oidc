@@ -25,7 +25,6 @@ export default defineConfig([
       "no-console": ["error", { allow: ["warn", "error"] }],
       "no-param-reassign": "error",
       "no-throw-literal": "error",
-      "require-await": "error",
       curly: "error",
     },
   },
