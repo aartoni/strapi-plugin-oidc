@@ -24,7 +24,7 @@ export default defineConfig([
       "prefer-const": "error",
       "no-console": ["error", { allow: ["warn", "error"] }],
       "no-param-reassign": "error",
-      "no-throw-literal": "error",
+      "no-throw-literal": ["error", { ignoreRestSiblings: true }],
       curly: "error",
     },
   },
