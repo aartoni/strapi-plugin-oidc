@@ -1,6 +1,5 @@
-import { Buffer } from "buffer";
 import { getJson, postForm } from "../utils/http.js";
-import { randomUUID, getRandomValues } from "node:crypto";
+import { randomUUID, randomBytes } from "node:crypto";
 import pkceChallenge from "pkce-challenge";
 
 const configValidation = () => {
@@ -41,7 +40,7 @@ const oidcSignIn = async (ctx) => {
   ctx.session.codeVerifier = codeVerifier;
 
   if (!state) {
-    state = getRandomValues(Buffer.alloc(32)).toString("base64url");
+    state = randomBytes(32).toString("base64url");
   }
   ctx.session.oidcState = state;
 
