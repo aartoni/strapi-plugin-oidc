@@ -24,7 +24,7 @@ export default ({ strapi }) => ({
       registrationToken: createdUser.registrationToken,
       userInfo: {
         firstname: firstname ? firstname : "unset",
-        lastname: lastname ? lastname : "user",
+        lastname: lastname ? lastname : "",
         password: generator.generate({
           length: 43, // 256 bits (https://en.wikipedia.org/wiki/Password_strength#Random_passwords)
           numbers: true,
