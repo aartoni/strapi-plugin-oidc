@@ -64,10 +64,10 @@ const oidcSignInCallback = async (ctx) => {
   const roleService = strapi.plugin("strapi-plugin-sso").service("role");
 
   if (!ctx.query.code) {
-    return ctx.send(oauthService.renderSignUpError(`code Not Found`));
+    return ctx.send(oauthService.renderSignUpError("code Not Found"));
   }
   if (!ctx.query.state || ctx.query.state !== ctx.session.oidcState) {
-    return ctx.send(oauthService.renderSignUpError(`Invalid state`));
+    return ctx.send(oauthService.renderSignUpError("Invalid state"));
   }
 
   const params = new URLSearchParams();
@@ -134,6 +134,7 @@ const oidcSignInCallback = async (ctx) => {
       // Trigger webhook
       await oauthService.triggerWebHook(activateUser);
     }
+
     // Login Event Call
     oauthService.triggerSignInSuccess(activateUser);
 
