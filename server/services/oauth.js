@@ -69,10 +69,10 @@ export default ({ strapi }) => ({
     });
   },
   triggerSignInSuccess(user) {
-    delete user["password"];
+    const { password, ...safeUser } = user;
     const eventHub = strapi.serviceMap.get("eventHub");
     eventHub.emit("admin.auth.success", {
-      user,
+      user: safeUser,
       provider: "strapi-plugin-sso",
     });
   },
