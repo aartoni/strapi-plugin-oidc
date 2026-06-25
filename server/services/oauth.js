@@ -12,8 +12,9 @@ export default ({ strapi }) => ({
       return existing;
     }
 
+    const resolvedFirstName = firstname || email.split("@")[0];
     const createdUser = await userService.create({
-      firstname: firstname ? firstname : "unset",
+      firstname: resolvedFirstName,
       lastname: lastname ? lastname : "",
       email: email.toLocaleLowerCase(),
       roles,
@@ -23,7 +24,7 @@ export default ({ strapi }) => ({
     return await userService.register({
       registrationToken: createdUser.registrationToken,
       userInfo: {
-        firstname: firstname ? firstname : "unset",
+        firstname: resolvedFirstName,
         lastname: lastname ? lastname : "",
         password: generator.generate({
           length: 43, // 256 bits (https://en.wikipedia.org/wiki/Password_strength#Random_passwords)
