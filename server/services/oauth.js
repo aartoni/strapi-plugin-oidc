@@ -127,9 +127,15 @@ export default ({ strapi }) => ({
       type: rememberMe ? "refresh" : "session",
     });
 
-    // TODO: reference the Configuration   values
-    // https://github.com/strapi/strapi/pull/24346/files#diff-c27336b21ee5785523f7fc802899a5d405da67d12c837c498c4766cb04a50b9aR64
-    const cookieOptions = {};
+    const sessions = strapi.config.get("admin.auth.sessions", {});
+    const maxRefresh = sessions.maxRefreshTokenLifespan;
+    const cookieOptions = {
+      sameSite: "lax",
+      ...strapi.config.get("admin.auth.cookie", {}),
+      ...(rememberMe && Number.isFinite(maxRefresh)
+        ? { maxAge: maxRefresh * 1000 }
+        : {}),
+    };
     ctx.cookies.set("strapi_admin_refresh", refreshToken, cookieOptions);
 
     const accessResult =
