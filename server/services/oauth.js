@@ -36,15 +36,8 @@ export default ({ strapi }) => ({
       },
     });
   },
-  localeFindByHeader(headers) {
-    if (
-      headers["accept-language"] &&
-      headers["accept-language"].includes("ja")
-    ) {
-      return "ja";
-    } else {
-      return "en";
-    }
+  localeFindByHeader(ctx) {
+    return ctx.acceptsLanguages("en", "fr") || "en";
   },
   async triggerWebHook(user) {
     let ENTRY_CREATE;

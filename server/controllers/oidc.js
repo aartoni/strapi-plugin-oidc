@@ -122,9 +122,7 @@ const oidcSignInCallback = async (ctx) => {
         );
       }
 
-      const defaultLocale = oauthService.localeFindByHeader(
-        ctx.request.headers,
-      );
+      const defaultLocale = oauthService.localeFindByHeader(ctx);
       activateUser = await oauthService.createUser(
         email,
         userResponse[config["OIDC_FAMILY_NAME_FIELD"]],
