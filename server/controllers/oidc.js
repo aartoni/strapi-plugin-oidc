@@ -148,8 +148,12 @@ const oidcSignInCallback = async (ctx) => {
     ctx.set("Content-Security-Policy", `script-src 'nonce-${nonce}'`);
     ctx.send(html);
   } catch (e) {
-    console.error(e);
-    ctx.send(oauthService.renderSignUpError(e.message));
+    strapi.log.error(e);
+    ctx.send(
+      oauthService.renderSignUpError(
+        "Authentication failed. Please try again or contact your administrator.",
+      ),
+    );
   }
 };
 
