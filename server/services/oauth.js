@@ -41,30 +41,23 @@ export default ({ strapi }) => ({
     return ctx.acceptsLanguages("en", "fr") || "en";
   },
   async triggerWebHook(user) {
-    let ENTRY_CREATE;
-    const webhookStore = strapi.serviceMap.get("webhookStore");
-    const eventHub = strapi.serviceMap.get("eventHub");
+    const eventHub = strapi.eventHub;
+    if (!eventHub) return;
 
-    if (webhookStore) {
-      ENTRY_CREATE = webhookStore.allowedEvents.get("ENTRY_CREATE");
-    }
     const modelDef = strapi.getModel("admin::user");
-    const sanitizedEntity =
-      await strapiUtils.sanitize.sanitizers.defaultSanitizeOutput(
-        {
-          schema: modelDef,
-          getModel: (uid2) => strapi.getModel(uid2),
-        },
-        user,
-      );
-    eventHub.emit(ENTRY_CREATE, {
+    const sanitizedEntity = await strapiUtils.sanitize.contentAPI.output(
+      user,
+      modelDef,
+    );
+
+    eventHub.emit("entry.create", {
       model: modelDef.modelName,
       entry: sanitizedEntity,
     });
   },
   triggerSignInSuccess(user) {
     const { password, ...safeUser } = user;
-    const eventHub = strapi.serviceMap.get("eventHub");
+    const eventHub = strapi.eventHub;
     eventHub.emit("admin.auth.success", {
       user: safeUser,
       provider: "strapi-plugin-sso",
