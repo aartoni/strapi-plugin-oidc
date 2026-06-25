@@ -53,9 +53,8 @@ const oidcSignIn = async (ctx) => {
   params.append("code_challenge", codeChallenge);
   params.append("code_challenge_method", "S256");
   params.append("state", state);
-  const authorizationUrl = `${OIDC_AUTHORIZATION_ENDPOINT}?${params.toString()}`;
-  ctx.set("Location", authorizationUrl);
-  return ctx.send({}, 302);
+
+  ctx.redirect(`${OIDC_AUTHORIZATION_ENDPOINT}?${params.toString()}`);
 };
 
 const oidcSignInCallback = async (ctx) => {
