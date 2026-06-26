@@ -3,7 +3,9 @@ const FORM_URL_ENCODED = "application/x-www-form-urlencoded";
 async function fetchJson(url, options = {}) {
   const response = await fetch(url, options);
   if (!response.ok) {
-    throw new Error(`Request failed with status code ${response.status}`);
+    const body = (await response.text().catch(() => "")).slice(0, 1024);
+    const message = [response.status, body].filter(Boolean).join(", ");
+    throw new Error(`Request to ${url} failed with status ${message}`);
   }
   return response.json();
 }
