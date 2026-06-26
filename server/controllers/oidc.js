@@ -83,22 +83,9 @@ const oidcSignInCallback = async (ctx) => {
   try {
     const response = await postForm(config["OIDC_TOKEN_ENDPOINT"], params);
 
-    let userInfoEndpointHeaders = {};
-    let userInfoEndpointParameters = `?access_token=${response.access_token}`;
-
-    if (config["OIDC_USER_INFO_ENDPOINT_WITH_AUTH_HEADER"]) {
-      userInfoEndpointHeaders = {
-        Authorization: `Bearer ${response.access_token}`,
-      };
-      userInfoEndpointParameters = "";
-    }
-
-    const userInfoEndpoint = `${config["OIDC_USER_INFO_ENDPOINT"]}${userInfoEndpointParameters}`;
-
-    const userResponse = await getJson(
-      userInfoEndpoint,
-      userInfoEndpointHeaders,
-    );
+    const userResponse = await getJson(config["OIDC_USER_INFO_ENDPOINT"], {
+      Authorization: `Bearer ${response.access_token}`,
+    });
 
     const email = userResponse.email;
 
