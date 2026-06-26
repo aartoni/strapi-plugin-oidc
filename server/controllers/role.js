@@ -9,7 +9,7 @@ async function update(ctx) {
     await roleService.setConfig(ctx.request.body);
     ctx.send({}, 204);
   } catch (e) {
-    console.error(e);
+    strapi.log.error(e);
     ctx.send({ error: e.message }, 400);
   }
 }
