@@ -64,10 +64,10 @@ const oidcSignInCallback = async (ctx) => {
   const roleService = strapi.plugin("strapi-plugin-sso").service("role");
 
   if (!ctx.query.code) {
-    return ctx.send(oauthService.renderSignUpError("code Not Found"));
+    return ctx.send(oauthService.renderSignUpError("sso_no_code"));
   }
   if (!ctx.query.state || ctx.query.state !== ctx.session.oidcState) {
-    return ctx.send(oauthService.renderSignUpError("Invalid state"));
+    return ctx.send(oauthService.renderSignUpError("sso_invalid_state"));
   }
 
   const params = new URLSearchParams();
@@ -101,11 +101,7 @@ const oidcSignInCallback = async (ctx) => {
       // Register a new account
       const roles = await roleService.resolveRole(userResponse);
       if (!roles) {
-        return ctx.send(
-          oauthService.renderSignUpError(
-            "Your account has not been granted access. Please contact your administrator.",
-          ),
-        );
+        return ctx.send(oauthService.renderSignUpError("sso_access_denied"));
       }
 
       const defaultLocale = oauthService.localeFindByHeader(ctx);
@@ -136,11 +132,7 @@ const oidcSignInCallback = async (ctx) => {
     ctx.send(html);
   } catch (e) {
     strapi.log.error(e);
-    ctx.send(
-      oauthService.renderSignUpError(
-        "Authentication failed. Please try again or contact your administrator.",
-      ),
-    );
+    ctx.send(oauthService.renderSignUpError("sso_failed."));
   }
 };
 

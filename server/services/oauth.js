@@ -2,6 +2,16 @@ import strapiUtils from "@strapi/utils";
 import generator from "generate-password";
 import { randomUUID } from "node:crypto";
 
+export const SSO_ERROR_MESSAGES = Object.freeze({
+  sso_no_code: "No authorization code was returned by the provider.",
+  sso_invalid_state:
+    "The login request could not be verified. Please try again.",
+  sso_access_denied:
+    "Your account has not been granted access. Please contact your administrator.",
+  sso_failed:
+    "Authentication failed. Please try again or contact your administrator.",
+});
+
 export default ({ strapi }) => ({
   async createUser(email, lastname, firstname, locale, roles = []) {
     // If the email address contains uppercase letters, convert it to lowercase and retrieve it from the DB. If not, register a new email address with a lower-case email address.
@@ -94,15 +104,33 @@ export default ({ strapi }) => ({
 </body>
 </html>`;
   },
-  // Sign In Error
-  renderSignUpError(message) {
+  renderSignUpError(code) {
+    const message = SSO_ERROR_MESSAGES[code] ?? SSO_ERROR_MESSAGES.sso_failed;
+    const loginUrl = `${strapi.config.admin.url}/auth/login`;
     return `
 <!doctype html>
 <html>
-<head></head>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="5;url=${loginUrl}">
+<title>Authentication failed</title>
+<style>
+  body { font-family: system-ui, sans-serif; display: grid; place-items: center;
+         min-height: 100vh; margin: 0; background: #f6f6f9; color: #32324d; }
+  .card { background: #fff; padding: 2rem 2.5rem; border-radius: 4px;
+          box-shadow: 0 1px 4px rgba(33,33,52,.1); max-width: 24rem; text-align: center; }
+  h3 { margin: 0 0 .5rem; }
+  p { color: #666687; margin: 0 0 1.25rem; }
+  a { color: #4945ff; text-decoration: none; font-weight: 600; }
+</style>
+</head>
 <body>
-<h3>Authentication failed</h3>
-<p>${message}</p>
+<div class="card">
+  <h3>Authentication failed</h3>
+  <p>${message}</p>
+  <a href="${loginUrl}">Return to login</a>
+  <p style="font-size:.8rem;margin-top:1rem">Redirecting in 5 seconds…</p>
+</div>
 </body>
 </html>`;
   },

@@ -32,6 +32,16 @@ describe("SSO plugin", () => {
     });
   });
 
+  describe("error rendering", () => {
+    it("shows the error page when callback is missing the auth code", () => {
+      cy.visit(`${CMS}/api/strapi-plugin-sso/oidc/callback`, {
+        failOnStatusCode: false,
+      });
+      cy.contains("Authentication failed").should("be.visible");
+      cy.get('meta[http-equiv="refresh"]').should("exist");
+    });
+  });
+
   describe("settings page", () => {
     beforeEach(() => {
       cy.login();
