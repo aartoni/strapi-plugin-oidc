@@ -14,7 +14,6 @@ export const SSO_ERROR_MESSAGES = Object.freeze({
 
 export default ({ strapi }) => ({
   async createUser(email, lastname, firstname, locale, roles = []) {
-    // If the email address contains uppercase letters, convert it to lowercase and retrieve it from the DB. If not, register a new email address with a lower-case email address.
     const userService = strapi.service("admin::user");
     const normalizedEmail = email.toLowerCase();
     const existing = await userService.findOneByEmail(normalizedEmail);
