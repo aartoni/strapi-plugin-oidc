@@ -1,4 +1,4 @@
-import { describe, test, expect } from "@jest/globals";
+import { describe, test, expect, jest } from "@jest/globals";
 import accepts from "accepts";
 import oauth, { SSO_ERROR_MESSAGES } from "../oauth";
 
@@ -6,6 +6,11 @@ const ctxFor = (acceptLanguage) => {
   const headers = { "accept-language": acceptLanguage };
   const negotiator = accepts({ headers });
   return { acceptsLanguages: (...langs) => negotiator.languages(...langs) };
+};
+
+const mockSession = {
+  generateRefreshToken: jest.fn().mockResolvedValue({ token: "mock-refresh" }),
+  generateAccessToken: jest.fn().mockResolvedValue({ token: "mock-access" }),
 };
 
 const mockStrapi = {
@@ -16,6 +21,7 @@ const mockStrapi = {
       return {};
     },
   },
+  sessionManager: jest.fn().mockReturnValue(mockSession),
 };
 
 describe("oauth service", () => {
@@ -33,6 +39,46 @@ describe("oauth service", () => {
       const html = service.renderSignUpError("sso_no_code");
       expect(html).toContain("/admin/auth/login");
       expect(html).toContain('http-equiv="refresh"');
+    });
+  });
+
+  describe("generateToken", () => {
+    const user = { id: 1 };
+    const mockCtx = (existingDeviceId = null) => ({
+      cookies: {
+        get: jest.fn().mockReturnValue(existingDeviceId),
+        set: jest.fn(),
+      },
+    });
+
+    test("sets a new device cookie when none exists", async () => {
+      const ctx = mockCtx();
+      await service.generateToken(user, ctx);
+
+      const [, deviceId] = ctx.cookies.set.mock.calls[0];
+      expect(deviceId).toHaveLength(36);
+      expect(ctx.cookies.set).toHaveBeenCalledWith(
+        "strapi_admin_device",
+        expect.any(String),
+        expect.objectContaining({ sameSite: "lax", path: "/admin" }),
+      );
+    });
+
+    test("reuses the existing device cookie when present", async () => {
+      const deviceId = "a1b2c3d4-0000-4000-8000-000000000000";
+      const ctx = mockCtx(deviceId);
+      await service.generateToken(user, ctx);
+
+      expect(ctx.cookies.set).not.toHaveBeenCalledWith(
+        "strapi_admin_device",
+        expect.anything(),
+        expect.anything(),
+      );
+      expect(mockSession.generateRefreshToken).toHaveBeenCalledWith(
+        String(user.id),
+        deviceId,
+        expect.any(Object),
+      );
     });
   });
 

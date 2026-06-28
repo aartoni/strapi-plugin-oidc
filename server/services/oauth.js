@@ -141,8 +141,17 @@ export default ({ strapi }) => ({
       );
     }
     const userId = String(user.id);
-    // TODO: A deviceId is generated each time you log in.
-    const deviceId = randomUUID();
+
+    let deviceId = ctx.cookies.get("strapi_admin_device");
+    if (!deviceId) {
+      deviceId = randomUUID();
+      ctx.cookies.set("strapi_admin_device", deviceId, {
+        sameSite: "lax",
+        path: "/admin",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 1000 * 60 * 60 * 24 * 365,
+      });
+    }
 
     const config = strapi.config.get("plugin::strapi-plugin-sso");
     const REMEMBER_ME = config["REMEMBER_ME"];
