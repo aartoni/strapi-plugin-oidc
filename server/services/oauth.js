@@ -25,7 +25,7 @@ export default ({ strapi }) => ({
     const createdUser = await userService.create({
       firstname: resolvedFirstName,
       lastname: lastname ?? "",
-      email: email.toLowerCase(),
+      email: normalizedEmail,
       roles,
       preferedLanguage: locale,
     });
