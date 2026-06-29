@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import process from "node:process";
 import request from "supertest";
 import nock from "nock";
-import { setupStrapi, stopStrapi } from "../../playground/tests/helpers";
+import { setupStrapi, stopStrapi } from "../../../playground/tests/helpers";
 
 dotenv.config({ path: "playground/.env" });
 

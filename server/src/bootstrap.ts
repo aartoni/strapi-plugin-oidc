@@ -1,4 +1,6 @@
-export default async ({ strapi }) => {
+import { Core } from "@strapi/strapi";
+
+export default async ({ strapi }: { strapi: Core.Strapi }) => {
   const actions = [
     {
       section: "plugins",

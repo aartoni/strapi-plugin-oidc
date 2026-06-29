@@ -1,10 +1,16 @@
 import { search, compile } from "@jmespath-community/jmespath";
+import { Core } from "@strapi/strapi";
 
-export default ({ strapi }) => ({
-  async getConfig() {
+export type RoleConfig = {
+  expression: string;
+  id: number;
+};
+
+const roleService = ({ strapi }: { strapi: Core.Strapi }) => ({
+  async getConfig(): Promise<RoleConfig | null> {
     return await strapi.query("plugin::strapi-plugin-sso.roles").findOne({});
   },
-  async setConfig({ expression }) {
+  async setConfig({ expression }: RoleConfig) {
     // Throws on invalid JMESPath syntax — caught by the controller.
     compile(expression);
 
@@ -36,3 +42,6 @@ export default ({ strapi }) => ({
     return role ? [{ id: role.id }] : null;
   },
 });
+
+export default roleService;
+export type RoleService = ReturnType<typeof roleService>

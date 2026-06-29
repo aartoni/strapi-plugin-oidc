@@ -1,4 +1,5 @@
-import { getJson, postForm } from "../utils/http.js";
+import { Context } from "koa";
+import { getJson, postForm } from "../utils/http";
 import { randomUUID, randomBytes } from "node:crypto";
 import pkceChallenge from "pkce-challenge";
 
@@ -16,7 +17,7 @@ const REQUIRED_OIDC_FIELDS = [
 ];
 
 const configValidation = () => {
-  const config = strapi.config.get("plugin::strapi-plugin-sso");
+  const config = strapi.config.get<object>("plugin::strapi-plugin-sso");
   const missing = REQUIRED_OIDC_FIELDS.filter((key) => !config?.[key]);
   if (missing.length > 0) {
     throw new Error(`These are required: ${missing.join(", ")}.`);
@@ -24,14 +25,14 @@ const configValidation = () => {
   return config;
 };
 
-const oidcSignIn = async (ctx) => {
-  let { state } = ctx.query;
+const oidcSignIn = async (ctx: Context) => {
+  let { state } = ctx.query as any;
   const {
     OIDC_CLIENT_ID,
     OIDC_REDIRECT_URI,
     OIDC_SCOPES,
     OIDC_AUTHORIZATION_ENDPOINT,
-  } = configValidation();
+  } = configValidation() as any;
 
   // Generate code verifier and code challenge
   const { code_verifier: codeVerifier, code_challenge: codeChallenge } =
@@ -57,21 +58,23 @@ const oidcSignIn = async (ctx) => {
   ctx.redirect(`${OIDC_AUTHORIZATION_ENDPOINT}?${params.toString()}`);
 };
 
-const oidcSignInCallback = async (ctx) => {
+const oidcSignInCallback = async (ctx: Context) => {
   const config = configValidation();
   const userService = strapi.service("admin::user");
   const oauthService = strapi.plugin("strapi-plugin-sso").service("oauth");
   const roleService = strapi.plugin("strapi-plugin-sso").service("role");
 
   if (!ctx.query.code) {
-    return ctx.send(oauthService.renderSignUpError("sso_no_code"));
+    ctx.body = oauthService.renderSignUpError("sso_no_code");
+    return;
   }
   if (!ctx.query.state || ctx.query.state !== ctx.session.oidcState) {
-    return ctx.send(oauthService.renderSignUpError("sso_invalid_state"));
+    ctx.body = oauthService.renderSignUpError("sso_invalid_state");
+    return;
   }
 
   const params = new URLSearchParams();
-  params.append("code", ctx.query.code);
+  params.append("code", ctx.query.code as any);
   params.append("client_id", config["OIDC_CLIENT_ID"]);
   params.append("client_secret", config["OIDC_CLIENT_SECRET"]);
   params.append("redirect_uri", config["OIDC_REDIRECT_URI"]);
@@ -81,9 +84,9 @@ const oidcSignInCallback = async (ctx) => {
   params.append("code_verifier", ctx.session.codeVerifier);
 
   try {
-    const response = await postForm(config["OIDC_TOKEN_ENDPOINT"], params);
+    const response: any = await postForm(config["OIDC_TOKEN_ENDPOINT"], params);
 
-    const userResponse = await getJson(config["OIDC_USER_INFO_ENDPOINT"], {
+    const userResponse: any = await getJson(config["OIDC_USER_INFO_ENDPOINT"], {
       Authorization: `Bearer ${response.access_token}`,
     });
 
@@ -101,7 +104,8 @@ const oidcSignInCallback = async (ctx) => {
       // Register a new account
       const roles = await roleService.resolveRole(userResponse);
       if (!roles) {
-        return ctx.send(oauthService.renderSignUpError("sso_access_denied"));
+        ctx.body = oauthService.renderSignUpError("sso_access_denied");
+        return;
       }
 
       const defaultLocale = oauthService.localeFindByHeader(ctx);
@@ -129,10 +133,11 @@ const oidcSignInCallback = async (ctx) => {
       nonce,
     );
     ctx.set("Content-Security-Policy", `script-src 'nonce-${nonce}'`);
-    ctx.send(html);
+    ctx.body = html;
   } catch (e) {
     strapi.log.error(e);
-    ctx.send(oauthService.renderSignUpError("sso_failed."));
+    ctx.body = oauthService.renderSignUpError("sso_failed.");
+    return;
   }
 };
 

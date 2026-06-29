@@ -1,6 +1,10 @@
+import { Core } from "@strapi/strapi";
 import strapiUtils from "@strapi/utils";
+import { SetOption } from "cookies";
 import generator from "generate-password";
+import { Context } from "koa";
 import { randomUUID } from "node:crypto";
+import { AdminSessionsConfig } from "src/types/strapi";
 
 export const SSO_ERROR_MESSAGES = Object.freeze({
   sso_no_code: "No authorization code was returned by the provider.",
@@ -12,8 +16,14 @@ export const SSO_ERROR_MESSAGES = Object.freeze({
     "Authentication failed. Please try again or contact your administrator.",
 });
 
-export default ({ strapi }) => ({
-  async createUser(email, lastname, firstname, locale, roles = []) {
+export default ({ strapi }: { strapi: Core.Strapi }) => ({
+  async createUser(
+    email: string,
+    lastname: string,
+    firstname: string,
+    locale,
+    roles = [],
+  ) {
     const userService = strapi.service("admin::user");
     const normalizedEmail = email.toLowerCase();
     const existing = await userService.findOneByEmail(normalizedEmail);
@@ -46,7 +56,7 @@ export default ({ strapi }) => ({
       },
     });
   },
-  localeFindByHeader(ctx) {
+  localeFindByHeader(ctx: Context) {
     return ctx.acceptsLanguages("en", "fr") || "en";
   },
   async triggerWebHook(user) {
@@ -55,8 +65,8 @@ export default ({ strapi }) => ({
 
     const modelDef = strapi.getModel("admin::user");
     const sanitizedEntity =
-      await await strapiUtils.sanitize.sanitizers.defaultSanitizeOutput(
-        { schema: modelDef, getModel: (uid) => strapi.getModel(uid) },
+      await strapiUtils.sanitize.sanitizers.defaultSanitizeOutput(
+        { schema: modelDef, getModel: strapi.getModel.bind(strapi) },
         user,
       );
 
@@ -133,7 +143,7 @@ export default ({ strapi }) => ({
 </body>
 </html>`;
   },
-  async generateToken(user, ctx) {
+  async generateToken(user, ctx: Context) {
     const sessionManager = strapi.sessionManager;
     if (!sessionManager) {
       throw new Error(
@@ -163,9 +173,12 @@ export default ({ strapi }) => ({
       type: rememberMe ? "refresh" : "session",
     });
 
-    const sessions = strapi.config.get("admin.auth.sessions", {});
+    const sessions = strapi.config.get<AdminSessionsConfig>(
+      "admin.auth.sessions",
+      {},
+    );
     const maxRefresh = sessions.maxRefreshTokenLifespan;
-    const cookieOptions = {
+    const cookieOptions: SetOption = {
       sameSite: "lax",
       ...strapi.config.get("admin.auth.cookie", {}),
       ...(rememberMe && Number.isFinite(maxRefresh)
