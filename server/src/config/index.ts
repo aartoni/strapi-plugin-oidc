@@ -1,3 +1,5 @@
+import { Config } from "src/utils/config";
+
 export default {
   default: {
     REMEMBER_ME: false,
@@ -12,6 +14,6 @@ export default {
     OIDC_GRANT_TYPE: "authorization_code",
     OIDC_FAMILY_NAME_FIELD: "family_name",
     OIDC_GIVEN_NAME_FIELD: "given_name",
-  },
+  } as Config,
   validator() {},
 };

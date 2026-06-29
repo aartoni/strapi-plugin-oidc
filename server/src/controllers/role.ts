@@ -17,6 +17,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       await roleService.setConfig(ctx.request.body as RoleConfig);
       ctx.send({}, 204);
     } catch (e) {
+      if (!(e instanceof Error)) throw e;
       strapi.log.error(e);
       ctx.send({ error: e.message }, 400);
     }

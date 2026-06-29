@@ -2,8 +2,9 @@ import { Context } from "koa";
 import { getJson, postForm } from "../utils/http";
 import { randomUUID, randomBytes } from "node:crypto";
 import pkceChallenge from "pkce-challenge";
+import { Config } from "src/utils/config";
 
-const REQUIRED_OIDC_FIELDS = [
+export const REQUIRED_OIDC_FIELDS: (keyof Config)[] = [
   "OIDC_AUTHORIZATION_ENDPOINT",
   "OIDC_TOKEN_ENDPOINT",
   "OIDC_USER_INFO_ENDPOINT",
@@ -17,7 +18,7 @@ const REQUIRED_OIDC_FIELDS = [
 ];
 
 const configValidation = () => {
-  const config = strapi.config.get<object>("plugin::strapi-plugin-sso");
+  const config = strapi.config.get<Config>("plugin::strapi-plugin-sso");
   const missing = REQUIRED_OIDC_FIELDS.filter((key) => !config?.[key]);
   if (missing.length > 0) {
     throw new Error(`These are required: ${missing.join(", ")}.`);
@@ -127,11 +128,7 @@ const oidcSignInCallback = async (ctx: Context) => {
 
     // Client-side authentication persistence and redirection
     const nonce = randomUUID();
-    const html = oauthService.renderSignUpSuccess(
-      jwtToken,
-      activateUser,
-      nonce,
-    );
+    const html = oauthService.renderSignUpSuccess(jwtToken, nonce);
     ctx.set("Content-Security-Policy", `script-src 'nonce-${nonce}'`);
     ctx.body = html;
   } catch (e) {

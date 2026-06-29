@@ -1,27 +1,26 @@
-import { Core } from "@strapi/strapi";
+import { Core, UID } from "@strapi/strapi";
 import strapiUtils from "@strapi/utils";
 import { SetOption } from "cookies";
 import generator from "generate-password";
 import { Context } from "koa";
 import { randomUUID } from "node:crypto";
+import { Config } from "src/utils/config";
+import { SsoErrorCode } from "src/utils/errors";
 import { AdminSessionsConfig } from "src/types/strapi";
 
-export const SSO_ERROR_MESSAGES = Object.freeze({
-  sso_no_code: "No authorization code was returned by the provider.",
-  sso_invalid_state:
-    "The login request could not be verified. Please try again.",
-  sso_access_denied:
-    "Your account has not been granted access. Please contact your administrator.",
-  sso_failed:
-    "Authentication failed. Please try again or contact your administrator.",
-});
+export enum SsoError {
+  sso_no_code = "No authorization code was returned by the provider.",
+  sso_invalid_state = "The login request could not be verified. Please try again.",
+  sso_access_denied = "Your account has not been granted access. Please contact your administrator.",
+  sso_failed = "Authentication failed. Please try again or contact your administrator.",
+}
 
 export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async createUser(
     email: string,
     lastname: string,
     firstname: string,
-    locale,
+    locale: string,
     roles = [],
   ) {
     const userService = strapi.service("admin::user");
@@ -59,23 +58,23 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   localeFindByHeader(ctx: Context) {
     return ctx.acceptsLanguages("en", "fr") || "en";
   },
-  async triggerWebHook(user) {
+  async triggerWebHook(user: any) {
     const eventHub = strapi.eventHub;
     if (!eventHub) return;
 
-    const modelDef = strapi.getModel("admin::user");
+    const schema = strapi.getModel("admin::user");
     const sanitizedEntity =
       await strapiUtils.sanitize.sanitizers.defaultSanitizeOutput(
-        { schema: modelDef, getModel: strapi.getModel.bind(strapi) },
+        { schema, getModel: (uid) => strapi.getModel(uid as UID.Schema) },
         user,
       );
 
     eventHub.emit("entry.create", {
-      model: modelDef.modelName,
+      model: schema.modelName,
       entry: sanitizedEntity,
     });
   },
-  triggerSignInSuccess(user) {
+  triggerSignInSuccess(user: any) {
     const { password, ...safeUser } = user;
     const eventHub = strapi.eventHub;
     eventHub.emit("admin.auth.success", {
@@ -84,9 +83,9 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     });
   },
   // Sign In Success
-  renderSignUpSuccess(jwtToken, user, nonce) {
+  renderSignUpSuccess(jwtToken: string, nonce: string) {
     // get REMEMBER_ME from config
-    const config = strapi.config.get("plugin::strapi-plugin-sso");
+    const config: Config = strapi.config.get("plugin::strapi-plugin-sso");
     const REMEMBER_ME = config["REMEMBER_ME"];
     const isRememberMe = !!REMEMBER_ME;
 
@@ -113,8 +112,8 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
 </body>
 </html>`;
   },
-  renderSignUpError(code) {
-    const message = SSO_ERROR_MESSAGES[code] ?? SSO_ERROR_MESSAGES.sso_failed;
+  renderSignUpError(code: SsoErrorCode) {
+    const message = SsoError[code] ?? SsoError.sso_failed;
     const loginUrl = `${strapi.config.admin.url}/auth/login`;
     return `
 <!doctype html>
@@ -143,7 +142,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
 </body>
 </html>`;
   },
-  async generateToken(user, ctx: Context) {
+  async generateToken(user: any, ctx: Context) {
     const sessionManager = strapi.sessionManager;
     if (!sessionManager) {
       throw new Error(
@@ -163,7 +162,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       });
     }
 
-    const config = strapi.config.get("plugin::strapi-plugin-sso");
+    const config: Config = strapi.config.get("plugin::strapi-plugin-sso");
     const REMEMBER_ME = config["REMEMBER_ME"];
     const rememberMe = !!REMEMBER_ME;
 
@@ -177,7 +176,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       "admin.auth.sessions",
       {},
     );
-    const maxRefresh = sessions.maxRefreshTokenLifespan;
+    const maxRefresh = sessions.maxRefreshTokenLifespan ?? 0;
     const cookieOptions: SetOption = {
       sameSite: "lax",
       ...strapi.config.get("admin.auth.cookie", {}),

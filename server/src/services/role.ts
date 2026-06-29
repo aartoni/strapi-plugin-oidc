@@ -24,7 +24,7 @@ const roleService = ({ strapi }: { strapi: Core.Strapi }) => ({
       .query("plugin::strapi-plugin-sso.roles")
       .create({ data: { expression } });
   },
-  async resolveRole(userInfo) {
+  async resolveRole(userInfo: any) {
     const config = await this.getConfig();
     if (!config?.expression) {
       return null;

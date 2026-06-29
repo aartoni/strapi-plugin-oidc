@@ -1,6 +1,6 @@
 import { describe, test, expect, jest } from "@jest/globals";
 import accepts from "accepts";
-import oauth, { SSO_ERROR_MESSAGES } from "../oauth";
+import oauth, { SsoError } from "../oauth";
 
 const ctxFor = (acceptLanguage) => {
   const headers = { "accept-language": acceptLanguage };
@@ -28,7 +28,7 @@ describe("oauth service", () => {
   const service = oauth({ strapi: mockStrapi });
 
   describe("renderSignUpError", () => {
-    test.each(Object.entries(SSO_ERROR_MESSAGES))(
+    test.each(Object.entries(SsoError))(
       'code "%s" renders the correct message',
       (code, message) => {
         expect(service.renderSignUpError(code)).toContain(message);
