@@ -2,24 +2,24 @@ import { BodyInit, HeadersInit } from "undici-types";
 
 const FORM_URL_ENCODED = "application/x-www-form-urlencoded";
 
-async function fetchJson(url: string, options: RequestInit = {}) {
+async function fetchJson<T>(url: string, options?: RequestInit) {
   const response = await fetch(url, options);
   if (!response.ok) {
     const body = (await response.text().catch(() => "")).slice(0, 1024);
     const message = [response.status, body].filter(Boolean).join(", ");
     throw new Error(`Request to ${url} failed with status ${message}`);
   }
-  return response.json();
+  return response.json() as Promise<T>;
 }
 
-export function postForm(url: string, params: BodyInit) {
-  return fetchJson(url, {
+export function postForm<T>(url: string, params: BodyInit) {
+  return fetchJson<T>(url, {
     method: "POST",
     headers: { "Content-Type": FORM_URL_ENCODED },
     body: params,
   });
 }
 
-export function getJson(url: string, headers: HeadersInit = {}) {
-  return fetchJson(url, { method: "GET", headers });
+export function getJson<T>(url: string, headers: HeadersInit = {}) {
+  return fetchJson<T>(url, { method: "GET", headers });
 }

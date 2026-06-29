@@ -1,4 +1,4 @@
-import { search, compile } from "@jmespath-community/jmespath";
+import { search, compile, JSONValue } from "@jmespath-community/jmespath";
 import { Core } from "@strapi/strapi";
 
 export type RoleConfig = {
@@ -24,7 +24,7 @@ const roleService = ({ strapi }: { strapi: Core.Strapi }) => ({
       .query("plugin::strapi-plugin-sso.roles")
       .create({ data: { expression } });
   },
-  async resolveRole(userInfo: any) {
+  async resolveRole(userInfo: JSONValue) {
     const config = await this.getConfig();
     if (!config?.expression) {
       return null;
@@ -44,4 +44,4 @@ const roleService = ({ strapi }: { strapi: Core.Strapi }) => ({
 });
 
 export default roleService;
-export type RoleService = ReturnType<typeof roleService>
+export type RoleService = ReturnType<typeof roleService>;

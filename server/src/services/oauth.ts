@@ -6,7 +6,7 @@ import { Context } from "koa";
 import { randomUUID } from "node:crypto";
 import { Config } from "src/utils/config";
 import { SsoErrorCode } from "src/utils/errors";
-import { AdminSessionsConfig } from "src/types/strapi";
+import { AdminSessionsConfig, AdminUser } from "src/types/strapi";
 
 export enum SsoError {
   sso_no_code = "No authorization code was returned by the provider.",
@@ -58,7 +58,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   localeFindByHeader(ctx: Context) {
     return ctx.acceptsLanguages("en", "fr") || "en";
   },
-  async triggerWebHook(user: any) {
+  async triggerWebHook(user: AdminUser) {
     const eventHub = strapi.eventHub;
     if (!eventHub) return;
 
@@ -74,7 +74,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       entry: sanitizedEntity,
     });
   },
-  triggerSignInSuccess(user: any) {
+  triggerSignInSuccess(user: AdminUser) {
     const { password, ...safeUser } = user;
     const eventHub = strapi.eventHub;
     eventHub.emit("admin.auth.success", {
@@ -142,7 +142,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
 </body>
 </html>`;
   },
-  async generateToken(user: any, ctx: Context) {
+  async generateToken(user: AdminUser, ctx: Context) {
     const sessionManager = strapi.sessionManager;
     if (!sessionManager) {
       throw new Error(

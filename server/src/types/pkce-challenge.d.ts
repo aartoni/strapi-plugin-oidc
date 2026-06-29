@@ -1,7 +1,7 @@
 // TODO Remove once this is done:
 // https://github.com/strapi/strapi/issues/25861
-declare module 'pkce-challenge' {
-  export type PKCEChallengeMethod = 'S256' | 'plain';
+declare module "pkce-challenge" {
+  export type PKCEChallengeMethod = "S256" | "plain";
 
   export interface PKCEChallenge {
     code_verifier: string;

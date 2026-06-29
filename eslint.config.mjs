@@ -1,4 +1,5 @@
 import { defineConfig } from "eslint/config";
+import tseslint from "typescript-eslint";
 import globals from "globals";
 import pluginCypress from "eslint-plugin-cypress";
 import js from "@eslint/js";
@@ -7,7 +8,23 @@ import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
 export default defineConfig([
   js.configs.recommended,
   {
-    ignores: ["**/data/", "**/dist/", "**/.yalc/", "**/.strapi/"],
+    ignores: [
+      "**/data/",
+      "**/dist/",
+      "**/.yalc/",
+      "**/.strapi/",
+      "**/generated/",
+    ],
+  },
+  {
+    extends: [tseslint.configs.recommended],
+    rules: {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { ignoreRestSiblings: true },
+      ],
+    },
   },
   {
     languageOptions: {
@@ -24,7 +41,6 @@ export default defineConfig([
       "prefer-const": "error",
       "no-console": ["error", { allow: ["warn", "error"] }],
       "no-param-reassign": "error",
-      "no-throw-literal": ["error", { ignoreRestSiblings: true }],
       curly: "error",
     },
   },

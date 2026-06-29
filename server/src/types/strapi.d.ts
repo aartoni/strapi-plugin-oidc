@@ -4,4 +4,10 @@ export type AdminSessionsConfig = {
   idleRefreshTokenLifespan?: number;
   maxSessionLifespan?: number;
   idleSessionLifespan?: number;
-}
+};
+
+export type AdminUser = {
+  id: string | number;
+  password?: string;
+  [key: string]: string | boolean | null | { id: number }[];
+};

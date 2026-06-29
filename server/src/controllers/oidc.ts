@@ -27,13 +27,13 @@ const configValidation = () => {
 };
 
 const oidcSignIn = async (ctx: Context) => {
-  let { state } = ctx.query as any;
+  let state = ctx.query.state as string;
   const {
     OIDC_CLIENT_ID,
     OIDC_REDIRECT_URI,
     OIDC_SCOPES,
     OIDC_AUTHORIZATION_ENDPOINT,
-  } = configValidation() as any;
+  } = configValidation();
 
   // Generate code verifier and code challenge
   const { code_verifier: codeVerifier, code_challenge: codeChallenge } =
@@ -75,7 +75,7 @@ const oidcSignInCallback = async (ctx: Context) => {
   }
 
   const params = new URLSearchParams();
-  params.append("code", ctx.query.code as any);
+  params.append("code", ctx.query.code as string);
   params.append("client_id", config["OIDC_CLIENT_ID"]);
   params.append("client_secret", config["OIDC_CLIENT_SECRET"]);
   params.append("redirect_uri", config["OIDC_REDIRECT_URI"]);
@@ -85,11 +85,15 @@ const oidcSignInCallback = async (ctx: Context) => {
   params.append("code_verifier", ctx.session.codeVerifier);
 
   try {
-    const response: any = await postForm(config["OIDC_TOKEN_ENDPOINT"], params);
+    const response = await postForm<OidcTokenResponse>(
+      config["OIDC_TOKEN_ENDPOINT"],
+      params,
+    );
 
-    const userResponse: any = await getJson(config["OIDC_USER_INFO_ENDPOINT"], {
-      Authorization: `Bearer ${response.access_token}`,
-    });
+    const userResponse = await getJson<OidcUserInfo>(
+      config["OIDC_USER_INFO_ENDPOINT"],
+      { Authorization: `Bearer ${response.access_token}` },
+    );
 
     const email = userResponse.email;
 
