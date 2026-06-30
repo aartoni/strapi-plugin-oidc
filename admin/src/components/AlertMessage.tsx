@@ -1,5 +1,5 @@
 import { Alert } from "@strapi/design-system";
-import React from "react";
+import React, { ComponentProps } from "react";
 import { useIntl } from "react-intl";
 import styled from "styled-components";
 import { getTranslation } from "../utils/translations";
@@ -13,7 +13,9 @@ const AlertMessage = styled.div`
   width: 31.25rem;
 `;
 
-export function SuccessAlertMessage({ onClose }) {
+type Props = Pick<ComponentProps<typeof Alert>, "onClose">;
+
+export function SuccessAlertMessage({ onClose }: Props) {
   const { formatMessage } = useIntl();
   return (
     <AlertMessage>
@@ -29,7 +31,7 @@ export function SuccessAlertMessage({ onClose }) {
   );
 }
 
-export function ErrorAlertMessage() {
+export function ErrorAlertMessage({ onClose }: Props) {
   const { formatMessage } = useIntl();
   return (
     <AlertMessage>

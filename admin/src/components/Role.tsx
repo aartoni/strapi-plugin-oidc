@@ -3,12 +3,20 @@ import React from "react";
 import { useIntl } from "react-intl";
 import { getTranslation } from "../utils/translations";
 
-export function Role({ expression, onChange, onSave }) {
+type Props = {
+  expression: string;
+  onChange: (value: string) => void;
+  onSave: () => void;
+};
+
+export function Role({ expression, onChange, onSave }: Props) {
   const { formatMessage } = useIntl();
 
   return (
     <Box>
-      <Field.Root>
+      <Field.Root
+        hint={formatMessage({ id: getTranslation("role.expression.hint") })}
+      >
         <Field.Label>
           {formatMessage({ id: getTranslation("role.expression.label") })}
         </Field.Label>
@@ -17,9 +25,7 @@ export function Role({ expression, onChange, onSave }) {
           onChange={(e) => onChange(e.target.value)}
           placeholder="contains(groups[*], 'admins') && 'Super Admin' || 'Editor'"
         />
-        <Field.Hint>
-          {formatMessage({ id: getTranslation("role.expression.hint") })}
-        </Field.Hint>
+        <Field.Hint />
       </Field.Root>
       <Box paddingTop={4}>
         <Button onClick={onSave}>

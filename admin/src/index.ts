@@ -3,12 +3,13 @@ import PLUGIN_ID from "./pluginId";
 import { Initializer } from "./components/Initializer";
 import { PluginIcon } from "./components/PluginIcon";
 import { prefixPluginTranslations } from "./utils/translations";
+import { StrapiApp } from "@strapi/strapi/admin";
 
 const name = pluginPkg.strapi.displayName;
 
 export default {
   bootstrap() {},
-  register(app) {
+  register(app: StrapiApp) {
     app.addMenuLink({
       to: `/plugins/${PLUGIN_ID}`,
       icon: PluginIcon,
@@ -23,7 +24,7 @@ export default {
     });
     app.registerPlugin({ id: PLUGIN_ID, initializer: Initializer, name });
   },
-  async registerTrads({ locales }) {
+  async registerTrads({ locales }: { locales: string[] }) {
     return Promise.all(
       locales.map(async (locale) => {
         try {

@@ -109,7 +109,7 @@
   "exports": {
     "./package.json": "./package.json",
     "./strapi-admin": {
-      "source": "./admin/src/index.js",
+      "source": "./admin/src/index.ts",
       "import": "./dist/admin/index.mjs",
       "require": "./dist/admin/index.js",
       "default": "./dist/admin/index.js"
