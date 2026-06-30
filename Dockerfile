@@ -1,7 +1,7 @@
 # docker build -t strapi-plugin-sso .
 # docker run -P -t strapi-plugin-sso
 FROM node:22-alpine
-RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev git
+RUN apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev git
 ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 
