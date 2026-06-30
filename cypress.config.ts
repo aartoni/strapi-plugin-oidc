@@ -7,6 +7,7 @@ export default defineConfig({
     "auth.strapi.local": "127.0.0.1",
   },
   e2e: {
+    allowCypressEnv: false,
     baseUrl: "https://cms.strapi.local",
     specPattern: "**/*.cy.{js,ts,jsx,tsx}",
     video: true,

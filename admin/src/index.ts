@@ -17,7 +17,7 @@ export default {
         id: `${PLUGIN_ID}.plugin.name`,
         defaultMessage: "Single Sign-On",
       },
-      Component: async () => import("./pages/App"),
+      Component: () => import("./pages/App"),
       permissions: [
         { action: "plugin::strapi-plugin-sso.read", subject: null },
       ],

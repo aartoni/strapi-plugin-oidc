@@ -11,25 +11,24 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-cloud": "5.48.1",
-    "@strapi/plugin-users-permissions": "5.48.1",
-    "@strapi/strapi": "5.48.1",
+    "@strapi/plugin-users-permissions": "5.49.0",
+    "@strapi/strapi": "5.49.0",
     "better-sqlite3": "11.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-router-dom": "^6.0.0",
+    "react-router-dom": "^6.30.0",
     "strapi-plugin-sso": "link:.yalc/strapi-plugin-sso",
-    "styled-components": "^6.0.0"
+    "styled-components": "^6.4.0"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "typescript": "^5"
+    "typescript": "^6.0.0"
   },
   "engines": {
-    "node": ">=22.0.0 <=22.x.x",
-    "npm": ">=6.0.0"
+    "node": ">=22.0.0 <=24.x.x",
+    "npm": ">=8.6.0"
   },
   "strapi": {
     "uuid": "d68aaf1c-6537-4c0a-8646-2d3343c51f0b"
