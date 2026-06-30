@@ -44,10 +44,9 @@ jobs:
           cache-dependency-path: |
             yarn.lock
             playground/yarn.lock
-      - run: npm install -g yalc
       - run: yarn install --frozen-lockfile
       - run: yarn build
-      - run: yalc publish --private
+      - run: yalc yalc publish --private
       - run: yarn playground:install
       - run: yarn playground:build
       - run: yarn test:jest
@@ -55,24 +54,25 @@ jobs:
   # Cypress e2e against the running playground.
   e2e:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: yarn
-          cache-dependency-path: |
-            yarn.lock
-            playground/yarn.lock
-      - run: npm install -g yalc
+          cache-dependency-path: yarn.lock
       - run: yarn install --frozen-lockfile
-      - run: yarn build
-      - run: yalc publish --private
-      - run: yarn playground:install
-      - run: yarn playground:build
-      - uses: cypress-io/github-action@v6
+      - name: Start e2e services
+        run: yarn e2e:services:up
+      - name: Run cypress
+        uses: cypress-io/github-action@v6
         with:
           install: false
-          start: yarn playground:start
-          wait-on: http://localhost:1337
-          wait-on-timeout: 120
+          command: yarn test:cypress
+      - name: Dump Docker logs
+        if: failure()
+        run: docker compose logs --no-color
+      - name: Stop e2e services
+        if: always()
+        run: yarn e2e:services:down

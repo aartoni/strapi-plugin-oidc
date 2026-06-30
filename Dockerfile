@@ -6,13 +6,13 @@ ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /opt/app
-COPY . .
-RUN yarn global add node-gyp yalc
 RUN yarn config set network-timeout 600000 -g
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+COPY . .
 ENV PATH=/opt/app/node_modules/.bin:$PATH
-RUN ["yarn", "install"]
 RUN ["yarn", "build"]
-RUN ["yalc", "publish", "--private"]
+RUN ["yarn", "yalc", "publish", "--private"]
 # TODO Make it so that no playground file is moved until here, so that an update to the playground doesn't require a full build
 RUN ["yarn", "playground:install"]
 RUN ["yarn", "playground:build"]
