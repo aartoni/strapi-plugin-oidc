@@ -9,7 +9,6 @@ RUN yarn config set network-timeout 600000 -g
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 COPY . .
-ENV PATH=/opt/app/node_modules/.bin:$PATH
 RUN yarn build
 RUN yarn yalc publish --private
 # TODO Make it so that no playground file is moved until here, so that an update to the playground doesn't require a full build
