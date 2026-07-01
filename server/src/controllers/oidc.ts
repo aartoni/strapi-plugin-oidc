@@ -2,7 +2,7 @@ import { Context } from "koa";
 import { getJson, postForm } from "../utils/http";
 import { randomUUID, randomBytes } from "node:crypto";
 import pkceChallenge from "pkce-challenge";
-import { Config } from "src/utils/config";
+import { Config } from "../utils/config";
 
 export const REQUIRED_OIDC_FIELDS: (keyof Config)[] = [
   "OIDC_AUTHORIZATION_ENDPOINT",

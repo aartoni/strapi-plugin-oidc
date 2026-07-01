@@ -4,9 +4,9 @@ import { SetOption } from "cookies";
 import generator from "generate-password";
 import { Context } from "koa";
 import { randomUUID } from "node:crypto";
-import { Config } from "src/utils/config";
-import { SsoErrorCode } from "src/utils/errors";
-import { AdminSessionsConfig, AdminUser } from "src/types/strapi";
+import { Config } from "../utils/config";
+import { SsoErrorCode } from "../utils/errors";
+import { AdminSessionsConfig, AdminUser } from "../types/strapi";
 
 export enum SsoError {
   sso_no_code = "No authorization code was returned by the provider.",
@@ -157,6 +157,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       ctx.cookies.set("strapi_admin_device", deviceId, {
         sameSite: "lax",
         path: "/admin",
+        // TODO Should we make this always secure?
         secure: process.env.NODE_ENV === "production",
         maxAge: 1000 * 60 * 60 * 24 * 365,
       });

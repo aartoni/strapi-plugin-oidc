@@ -1,3 +1,3 @@
-import { SsoError } from "src/services/oauth";
+import { SsoError } from "../services/oauth";
 
 export type SsoErrorCode = keyof typeof SsoError;
