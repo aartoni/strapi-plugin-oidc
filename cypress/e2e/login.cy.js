@@ -1,6 +1,9 @@
 /// <reference types="cypress" />
 
+import pluginPkg from "../../package.json";
+
 const CMS = "https://cms.strapi.local";
+const PLUGIN_ID = pluginPkg.name.replace(/^@strapi\/plugin-/i, "");
 
 describe("SSO plugin", () => {
   describe("OIDC sign-in", () => {
@@ -57,9 +60,31 @@ describe("SSO plugin", () => {
     });
   });
 
+  describe("plugin access for a non-admin (Editor)", () => {
+    beforeEach(() => {
+      cy.loginAs("jane", "password");
+      cy.visit(`${CMS}/admin`);
+    });
+
+    it("hides the SSO link from an Editor's sidebar", () => {
+      cy.findByRole("navigation").within(() => {
+        cy.get('a[href*="/content-manager"]').should("be.visible");
+        cy.get(`a[href*="/plugins/${PLUGIN_ID}"]`).should("not.exist");
+      });
+    });
+
+    it("blocks direct navigation to the plugin page", () => {
+      cy.visit(`${CMS}/admin/plugins/${PLUGIN_ID}`, {
+        failOnStatusCode: false,
+      });
+      cy.findByRole("heading", { name: /single sign on/i }).should("not.exist");
+      cy.contains(/you don't have the permissions/i).should("be.visible");
+    });
+  });
+
   describe("error rendering", () => {
     it("shows the error page when callback is missing the auth code", () => {
-      cy.visit(`${CMS}/api/strapi-plugin-sso/oidc/callback`, {
+      cy.visit(`${CMS}/api/${PLUGIN_ID}/oidc/callback`, {
         failOnStatusCode: false,
       });
       cy.contains("Authentication failed").should("be.visible");
@@ -71,11 +96,11 @@ describe("SSO plugin", () => {
     beforeEach(() => {
       cy.login();
 
-      cy.intercept("GET", "/api/strapi-plugin-sso/sso-roles", {
+      cy.intercept("GET", `/api/${PLUGIN_ID}/sso-roles`, {
         fixture: "sso-roles.json",
       }).as("getSSORoles");
 
-      cy.visit(`${CMS}/admin/plugins/strapi-plugin-sso`);
+      cy.visit(`${CMS}/admin/plugins/${PLUGIN_ID}`);
       cy.wait("@getSSORoles");
     });
 
