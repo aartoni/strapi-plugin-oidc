@@ -6,22 +6,22 @@ const AUTHELIA_STACK = {
   idp: "https://auth.strapi.local",
 };
 
-// Authenticates as the Authelia user (john.doe@example.org) through the full
-// OIDC redirect flow.
-Cypress.Commands.add("login", () => {
+// Generic OIDC login for any Authelia user. Uses the username as session key
+// so sessions for different users don't collide.
+Cypress.Commands.add("loginAs", (username, password) => {
   cy.session(
-    "oidc-john",
+    `oidc-${username}`,
     () => {
       // The OIDC endpoint 302s to Authelia, which would make Authelia the top
       // origin *before* cy.origin is called. Visiting from within cy.origin
       // lets Cypress handle the redirect inside that context instead.
       cy.origin(
         AUTHELIA_STACK.idp,
-        { args: { cms: AUTHELIA_STACK.cms } },
-        ({ cms }) => {
+        { args: { cms: AUTHELIA_STACK.cms, username, password } },
+        ({ cms, username, password }) => {
           cy.visit(`${cms}/api/strapi-plugin-sso/oidc`);
-          cy.get("#username-textfield").type("john");
-          cy.get("#password-textfield").type("password");
+          cy.get("#username-textfield").type(username);
+          cy.get("#password-textfield").type(password);
           cy.get("#sign-in-button").click();
         },
       );
@@ -43,3 +43,6 @@ Cypress.Commands.add("login", () => {
     },
   );
 });
+
+// Convenience wrapper — logs in as the default super-admin test user.
+Cypress.Commands.add("login", () => cy.loginAs("john", "password"));

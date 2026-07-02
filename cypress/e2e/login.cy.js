@@ -32,6 +32,31 @@ describe("SSO plugin", () => {
     });
   });
 
+  describe("role mapping by group", () => {
+    beforeEach(() => {
+      cy.loginAs("jane", "password");
+      cy.visit(`${CMS}/admin`);
+    });
+
+    it("assigns the Editor role to jane.editor@example.org via the editors group", () => {
+      cy.getCookie("jwtToken")
+        .should("exist")
+        .then((cookie) => {
+          cy.request({
+            url: "/admin/users/me",
+            headers: {
+              Authorization: `Bearer ${decodeURIComponent(cookie.value)}`,
+            },
+          }).then((res) => {
+            expect(res.body.data.email).to.eq("jane.editor@example.org");
+            expect(res.body.data.roles.map((r) => r.code)).to.include(
+              "strapi-editor",
+            );
+          });
+        });
+    });
+  });
+
   describe("error rendering", () => {
     it("shows the error page when callback is missing the auth code", () => {
       cy.visit(`${CMS}/api/strapi-plugin-sso/oidc/callback`, {

@@ -50,9 +50,13 @@ export default {
       .findOne({});
 
     if (!existingMapping) {
+      const editorRole = await strapi.db
+        .query("admin::role")
+        .findOne({ where: { code: "strapi-editor" } });
+
       await strapi.db.query("plugin::strapi-plugin-sso.roles").create({
         data: {
-          expression: `contains(groups[*], 'admins') && '${superAdminRole.name}'`,
+          expression: `contains(groups[*], 'admins') && '${superAdminRole.name}' || contains(groups[*], 'editors') && '${editorRole?.name ?? "Editor"}'`,
         },
       });
       strapi.log.info("[playground] seeded role attribute path expression");
