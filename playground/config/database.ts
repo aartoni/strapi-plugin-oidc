@@ -1,8 +1,7 @@
+import { Core } from "@strapi/strapi";
 import path from "path";
 
-export default ({ env }) => {
-  const client = env("DATABASE_CLIENT", "sqlite");
-
+export default ({ env }: Core.Config.Shared.ConfigParams) => {
   const connections = {
     mysql: {
       connection: {
@@ -66,6 +65,8 @@ export default ({ env }) => {
       useNullAsDefault: true,
     },
   };
+
+  const client = env("DATABASE_CLIENT", "sqlite") as keyof typeof connections;
 
   return {
     connection: {

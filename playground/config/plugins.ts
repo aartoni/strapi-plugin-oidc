@@ -1,4 +1,6 @@
-export default ({ env }) => ({
+import { Core } from "@strapi/strapi";
+
+export default ({ env }: Core.Config.Shared.ConfigParams) => ({
   "strapi-plugin-sso": {
     enabled: true,
     config: {

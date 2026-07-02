@@ -1,4 +1,6 @@
-export default ({ env }) => ({
+import { Core } from "@strapi/strapi";
+
+export default ({ env }: Core.Config.Shared.ConfigParams) => ({
   auth: {
     secret: env("ADMIN_JWT_SECRET"),
   },
