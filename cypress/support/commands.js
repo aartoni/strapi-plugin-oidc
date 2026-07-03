@@ -19,7 +19,7 @@ Cypress.Commands.add("loginAs", (username, password) => {
         AUTHELIA_STACK.idp,
         { args: { cms: AUTHELIA_STACK.cms, username, password } },
         ({ cms, username, password }) => {
-          cy.visit(`${cms}/api/strapi-plugin-sso/oidc`);
+          cy.visit(`${cms}/api/strapi-plugin-sso/sign-in`);
           cy.get("#username-textfield").type(username);
           cy.get("#password-textfield").type(password);
           cy.get("#sign-in-button").click();

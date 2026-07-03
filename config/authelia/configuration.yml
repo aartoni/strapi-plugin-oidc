@@ -13,7 +13,7 @@ identity_providers:
         client_name: 'Strapi'
         client_secret: '{{ secret "/run/secrets/oidc_strapi_digest" }}'
         redirect_uris:
-          - https://{{ mustEnv "CMS_DOMAIN" }}/api/strapi-plugin-sso/oidc/callback
+          - https://{{ mustEnv "CMS_DOMAIN" }}/api/strapi-plugin-sso/callback
         scopes:
           - 'email'
           - 'groups'

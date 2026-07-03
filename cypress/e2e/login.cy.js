@@ -84,7 +84,7 @@ describe("SSO plugin", () => {
 
   describe("error rendering", () => {
     it("shows the error page when callback is missing the auth code", () => {
-      cy.visit(`${CMS}/api/${PLUGIN_ID}/oidc/callback`, {
+      cy.visit(`${CMS}/api/${PLUGIN_ID}/callback`, {
         failOnStatusCode: false,
       });
       cy.contains("Authentication failed").should("be.visible");

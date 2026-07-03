@@ -6,7 +6,7 @@ services:
       - OIDC_AUTHORIZATION_ENDPOINT=https://${AUTH_DOMAIN}/api/oidc/authorization
       - OIDC_TOKEN_ENDPOINT=https://${AUTH_DOMAIN}/api/oidc/token
       - OIDC_USER_INFO_ENDPOINT=https://${AUTH_DOMAIN}/api/oidc/userinfo
-      - OIDC_REDIRECT_URI=https://${CMS_DOMAIN}/api/strapi-plugin-sso/oidc/callback
+      - OIDC_REDIRECT_URI=https://${CMS_DOMAIN}/api/strapi-plugin-sso/callback
       # TODO Should we load the client ID + secret from secrets instead?
       - OIDC_CLIENT_ID=onbU2exrz2I0RCJRrXsCQj49dgLFHLppCekGGdKmBaQ_7MWpAKcnylw6kO-7lUhsUtzmGJM8
       - OIDC_CLIENT_SECRET=yebsr4POK_hXenANvvo4DAHBGPIP_3a0

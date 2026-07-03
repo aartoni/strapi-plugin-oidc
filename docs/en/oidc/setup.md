@@ -12,7 +12,7 @@ Depending on your OIDC Provider the setup may vary.
 
 | Key                                      | required | default                                               |
 | ---------------------------------------- | -------- | ----------------------------------------------------- |
-| OIDC_REDIRECT_URI                        | -        | http://localhost:1337/strapi-plugin-sso/oidc/callback |
+| OIDC_REDIRECT_URI                        | -        | http://localhost:1337/api/strapi-plugin-sso/callback |
 | OIDC_CLIENT_ID                           | ✅       | -                                                     |
 | OIDC_CLIENT_SECRET                       | ✅       | -                                                     |
 | OIDC_SCOPES                              | -        | openid profile email                                  |
@@ -32,7 +32,7 @@ module.exports = ({ env }) => ({
     config: {
       // OpenID Connect
       OIDC_REDIRECT_URI:
-        "http://localhost:1337/strapi-plugin-sso/oidc/callback", // URI after successful login
+        "http://localhost:1337/api/strapi-plugin-sso/callback", // URI after successful login
       OIDC_CLIENT_ID: "[Client ID from OpenID Provider]",
       OIDC_CLIENT_SECRET: "[Client Secret from OpenID Provider]",
 
@@ -53,7 +53,7 @@ module.exports = ({ env }) => ({
 ## 3. Sign in with your OIDC account
 
 ```
-http://localhost:1337/strapi-plugin-sso/oidc
+http://localhost:1337/api/strapi-plugin-sso
 ```
 
 If you can see the authentication screen of your OIDC Provider and then log in to the administration screen, you are done!
