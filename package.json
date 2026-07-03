@@ -19,7 +19,7 @@
     "e2e:services:up": "sh scripts/isscert.dev.sh && docker compose up --build --wait",
     "e2e:services:down": "docker compose down -v --remove-orphans",
     "test:cypress:open": "cypress open",
-    "playground:install": "yarn playground:yalc-add-link && cd playground && yarn install --frozen-lockfile",
+    "playground:install": "yalc push && yarn playground:yalc-add-link && cd playground && yarn install --frozen-lockfile",
     "playground:yalc-add": "cd playground && yalc add strapi-plugin-sso",
     "playground:yalc-add-link": "cd playground && yalc add --link strapi-plugin-sso",
     "playground:build": "cd playground && yarn build",
