@@ -1,0 +1,25 @@
+import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "@strapi/admin/strapi-admin";
+
+/**
+ * Replaces Strapi's AuthPage for all /auth/:authType routes.
+ *
+ * Authenticated users are sent to / (same behavior as the native AuthPage).
+ * Everyone else is redirected to the OIDC sign-in endpoint.
+ */
+const OidcLoginPage = () => {
+  const { token } = useAuth("OidcLoginPage", (auth) => auth);
+
+  useEffect(() => {
+    if (!token) window.location.replace("/api/strapi-plugin-sso/sign-in");
+  }, [token]);
+
+  if (token) return <Navigate to="/" />;
+  // Render nothing while the effect fires the redirect
+  return null;
+};
+
+// Named export must match what @strapi/admin's router.mjs destructures:
+//   element: jsx(AuthPage.AuthPage, {})
+export { OidcLoginPage as AuthPage };

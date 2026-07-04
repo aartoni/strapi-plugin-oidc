@@ -3,6 +3,7 @@
 import pluginPkg from "../../package.json";
 
 const CMS = "https://cms.strapi.local";
+const IDP = "https://auth.strapi.local";
 const PLUGIN_ID = pluginPkg.name.replace(/^@strapi\/plugin-/i, "");
 
 describe("SSO plugin", () => {
@@ -79,6 +80,16 @@ describe("SSO plugin", () => {
       });
       cy.findByRole("heading", { name: /single sign on/i }).should("not.exist");
       cy.contains(/you don't have the permissions/i).should("be.visible");
+    });
+  });
+
+  describe("login page redirect", () => {
+    it("sends unauthenticated visitors to the OIDC provider", () => {
+      cy.origin(IDP, { args: { cms: CMS } }, ({ cms }) => {
+        cy.visit(`${cms}/admin/auth/login`);
+        cy.get("#username-textfield").should("exist");
+        cy.get("#password-textfield").should("exist");
+      });
     });
   });
 
