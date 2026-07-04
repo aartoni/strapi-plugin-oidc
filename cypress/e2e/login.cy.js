@@ -84,6 +84,13 @@ describe("SSO plugin", () => {
   });
 
   describe("login page redirect", () => {
+    it("sends authenticated users to the admin dashboard", () => {
+      cy.login();
+      cy.visit(`${CMS}/admin/auth/login`);
+      cy.url().should("include", "/admin");
+      cy.url().should("not.include", "/auth/");
+    });
+
     it("sends unauthenticated visitors to the OIDC provider", () => {
       cy.origin(IDP, { args: { cms: CMS } }, ({ cms }) => {
         cy.visit(`${cms}/admin/auth/login`);
