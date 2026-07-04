@@ -46,7 +46,7 @@ jobs:
             playground/yarn.lock
       - run: yarn install --frozen-lockfile
       - run: yarn build
-      - run: yalc yalc publish --private
+      - run: yarn yalc publish --private
       - run: yarn playground:install
       - run: yarn playground:build
       - run: yarn test:jest
