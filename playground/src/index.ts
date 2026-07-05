@@ -1,65 +1,36 @@
 /**
- * Playground app bootstrap — seeds two dev-only records on a fresh DB so
- * Cypress and the Docker stack don't need manual setup.
+ * Playground app bootstrap — seeds the role attribute path expression on a
+ * fresh DB so Cypress and the Docker stack don't need manual setup.
  *
- * Both seeds are idempotent; they are safe to call on every startup.
- * This file lives in the playground app — it is NOT part of the published plugin.
- *
- * TODO Would it make more sense to move these to the Docker / Cypress stack
- * actually?
+ * The seed is idempotent; it is safe to call on every startup.
  */
 
-import { Core } from "@strapi/strapi";
+import { Core, Data } from "@strapi/strapi";
+
+type Role = Data.ContentType<"admin::role">;
 
 export default {
   register() {},
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
-    const superAdminRole = await strapi.db
-      .query("admin::role")
-      .findOne({ where: { code: "strapi-super-admin" } });
-
-    if (!superAdminRole) {
-      strapi.log.warn(
-        "[playground] super-admin role not found — skipping seeds",
-      );
-      return;
-    }
-
-    // Native super-admin
-    // We seed this to avoid the infamous "Create your first admin" screen
-    const adminCount = await strapi.db.query("admin::user").count();
-    if (adminCount === 0) {
-      await strapi.service("admin::user").create({
-        firstname: "Fake",
-        lastname: "Admin",
-        email: "fake@example.com",
-        password: "password",
-        isActive: true,
-        blocked: false,
-        registrationToken: null,
-        roles: [superAdminRole.id],
-      });
-      strapi.log.info(
-        "[playground] seeded native super-admin (fake@example.com)",
-      );
-    }
-
-    // Seed the role attribute path expression
     const existingMapping = await strapi.db
       .query("plugin::strapi-plugin-sso.roles")
       .findOne({});
 
-    if (!existingMapping) {
-      const editorRole = await strapi.db
-        .query("admin::role")
-        .findOne({ where: { code: "strapi-editor" } });
+    if (existingMapping) return;
 
-      await strapi.db.query("plugin::strapi-plugin-sso.roles").create({
-        data: {
-          expression: `contains(groups[*], 'admins') && '${superAdminRole.name}' || contains(groups[*], 'editors') && '${editorRole?.name ?? "Editor"}'`,
-        },
-      });
-      strapi.log.info("[playground] seeded role attribute path expression");
-    }
+    const superAdminRole: Role = await strapi.db
+      .query("admin::role")
+      .findOne({ where: { code: "strapi-super-admin" } });
+
+    const editorRole: Role = await strapi.db
+      .query("admin::role")
+      .findOne({ where: { code: "strapi-editor" } });
+
+    await strapi.db.query("plugin::strapi-plugin-sso.roles").create({
+      data: {
+        expression: `contains(groups[*], 'admins') && '${superAdminRole.name}' || contains(groups[*], 'editors') && '${editorRole.name}'`,
+      },
+    });
+    strapi.log.info("[playground] seeded role attribute path expression");
   },
 };
