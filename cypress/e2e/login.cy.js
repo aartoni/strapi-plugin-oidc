@@ -100,6 +100,26 @@ describe("SSO plugin", () => {
     });
   });
 
+  describe("native auth endpoints", () => {
+    [
+      "/admin/login",
+      "/admin/register",
+      "/admin/register-admin",
+      "/admin/forgot-password",
+      "/admin/reset-password",
+    ].forEach((path) => {
+      it(`blocks POST ${path}`, () => {
+        cy.request({
+          method: "POST",
+          url: `${CMS}${path}`,
+          failOnStatusCode: false,
+        })
+          .its("status")
+          .should("eq", 403);
+      });
+    });
+  });
+
   describe("error rendering", () => {
     it("shows the error page when callback is missing the auth code", () => {
       cy.visit(`${CMS}/api/${PLUGIN_ID}/callback`, {
