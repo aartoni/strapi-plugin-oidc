@@ -1,5 +1,5 @@
 import path from "node:path";
-import { defineConfig, mergeConfig, type Plugin, type UserConfig } from "vite";
+import { mergeConfig, type Plugin, type UserConfig } from "vite";
 
 /**
  * Replaces @strapi/admin's AuthPage with OidcLoginPage at build time.
@@ -15,23 +15,19 @@ import { defineConfig, mergeConfig, type Plugin, type UserConfig } from "vite";
  *
  * Pinned to @strapi/admin ^5.48.0 — re-verify the module path on upgrade.
  */
-const oidcAuthPagePlugin = (): Plugin => ({
+const oidcAuthPagePlugin: Plugin<void> = {
   name: "oidc-auth-page",
   // Must run before Vite's node-resolve plugin; without enforce: 'pre',
-  // node-resolve returns the absolute path first and our hook is never called.
+  // node-resolve returns the absolute path first and the hook is never called.
   enforce: "pre",
   resolveId(id) {
     if (/\/pages\/Auth\/AuthPage(\.[mc]?js)?$/.test(id)) {
       return path.resolve(__dirname, "OidcLoginPage.tsx");
     }
-    return null;
   },
-});
+};
 
 export default (config: UserConfig) =>
-  mergeConfig(
-    config,
-    defineConfig({
-      plugins: [oidcAuthPagePlugin()],
-    }),
-  );
+  mergeConfig(config, {
+    plugins: [oidcAuthPagePlugin],
+  });
