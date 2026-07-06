@@ -1,104 +1,90 @@
-<div align="center">
- <img src="https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/strapi-plugin-sso.png?raw=true" width="180"/>
-</div>
+# strapi-plugin-oidc
 
-# Strapi plugin strapi-plugin-sso
+Single sign-on for Strapi 5! Log in to the administration screen using an OpenID Connect (OIDC) provider.
 
-This plugin can provide single sign-on.
+Optionally overwrites Strapi's default admin login page and endpoints.
 
-You will be able to log in to the administration screen using an OpenID Connect
-(OIDC) provider.
+## Installation
 
-Please read the [documents](#user-content-documentationenglish) for some precautions.
-
-**If possible, consider using the Gold Plan features.**
-
-## Version
-
-| NodeJS          | Strapi | strapi-plugin-sso |
-|-----------------|--------|-------------------|
-| 16.0.0 - 21.0.0 | v4     | 0.\*.\*           |
-| 18.0.0 - 24.0.0 | v5     | 1.\*.\*           |
-
-Please use version 1.0.7 or later when working with Strapi 5.24.1 or above.
-
-## Easy to install
-
-```shell
-yarn add strapi-plugin-sso
+```sh
+yarn add strapi-plugin-oidc
 ```
 
 or
 
-```shell
-npm i strapi-plugin-sso
+```sh
+npm i strapi-plugin-oidc
 ```
 
-## Requirements
+## Configuration
 
-- **strapi-plugin-sso**
-- An OpenID Connect (OIDC) provider
+Just put the following in your `config/plugins.ts`.
 
-## Example Configuration
-
-```javascript
-// config/plugins.js
-module.exports = ({env}) => ({
-  'strapi-plugin-sso': {
+```ts
+export default ({ env }) => ({
+  "strapi-plugin-oidc": {
     enabled: true,
     config: {
       // Either sets token to session storage if false or local storage if true
       REMEMBER_ME: false,
 
       // OpenID Connect
-      OIDC_REDIRECT_URI: 'http://localhost:1337/api/strapi-plugin-sso/callback', // URI after successful login
-      OIDC_CLIENT_ID: '[Client ID from OpenID Provider]',
-      OIDC_CLIENT_SECRET: '[Client Secret from OpenID Provider]',
+      OIDC_REDIRECT_URI: "https://your-strapi/api/strapi-plugin-oidc/callback",
+      OIDC_CLIENT_ID: "[Client ID from the provider]",
+      OIDC_CLIENT_SECRET: "[Client secret from the provider]",
+      OIDC_AUTHORIZATION_ENDPOINT: "[API Endpoint]",
+      OIDC_TOKEN_ENDPOINT: "[API Endpoint]",
+      OIDC_USER_INFO_ENDPOINT: "[API Endpoint]",
+      OIDC_SCOPES: "openid profile email groups",
 
-      OIDC_SCOPES: 'openid profile email', // https://oauth.net/2/scope/
-      // API Endpoints required for OIDC
-      OIDC_AUTHORIZATION_ENDPOINT: '[API Endpoint]',
-      OIDC_TOKEN_ENDPOINT: '[API Endpoint]',
-      OIDC_USER_INFO_ENDPOINT: '[API Endpoint]',
-      OIDC_GRANT_TYPE: 'authorization_code', // https://oauth.net/2/grant-types/
-      // customizable username arguments
-      OIDC_FAMILY_NAME_FIELD: 'family_name',
-      OIDC_GIVEN_NAME_FIELD: 'given_name',
+      // Optional grant type customization
+      OIDC_GRANT_TYPE: "authorization_code",
+
+      // Optional customization for username arguments
+      OIDC_FAMILY_NAME_FIELD: "family_name",
+      OIDC_GIVEN_NAME_FIELD: "given_name",
     }
   }
 })
 ```
 
-All OIDC endpoints and credentials above are required; `REMEMBER_ME` and `USE_WHITELIST` are optional.
+### Optional routing
 
-## Documentation(English)
+> Warning: this section is not complete yet.
 
-[OIDC Single Sign On Setup](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/en/oidc/setup.md)
+To overwrite Strapi's default admin login page, you'll have to add an explicit Vite configuration and import the provided plugin.
 
-## Documentation(Japanese)
+```ts
+import { oidcAuthPagePlugin } from 'strapi-plugin-oidc/vite';
+import { mergeConfig } from 'vite';
 
-[Description](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/README.md)
-
-## Demo
-
-![Demo](https://github.com/yasudacloud/strapi-plugin-sso/blob/main/docs/demo.gif?raw=true "DemoMovie")
-
-## Testing the plugin
-
-Install node modules in the plugin and the playground.
-
-```sh
-yarn install && yarn playground:install
+export default (config) =>
+  mergeConfig(config, { plugins: [oidcAuthPagePlugin()] });
 ```
 
-Build the plugin and the playground.
+However, this is not enough to guarantee that your Strapi users won't try to login via API. To address that concern, you should load the provided middleware in your `config/middlewares.ts`.
 
-```sh
-yarn build && yarn playground:build
+```ts
+// Default Strapi middleware stack, plus the native-auth blocker.
+export default [
+  "strapi::logger",
+  "strapi::errors",
+  "strapi::security",
+  "strapi::cors",
+  // ...
+  "plugin::strapi-plugin-oidc.block-native-auth",
+];
 ```
 
-Run the tests.
+## OIDC provider
 
-```sh
-yarn test:jest
-```
+See the [Docker compose file](compose.yml) for an example of how to set-up Authelia as an OIDC provider.
+
+Commercial providers might ship OIDC support, including:
+- [Google Identity Platform](https://docs.cloud.google.com/identity-platform/docs/web/oidc)
+- [Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-oidc-idp.html)
+- [Microsoft Entra](https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc)
+
+## Development
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
