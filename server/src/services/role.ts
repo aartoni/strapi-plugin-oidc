@@ -11,7 +11,7 @@ const roleService = ({ strapi }: { strapi: Core.Strapi }) => ({
     return await strapi.query("plugin::strapi-plugin-sso.roles").findOne({});
   },
   async setConfig({ expression }: RoleConfig) {
-    // Throws on invalid JMESPath syntax — caught by the controller.
+    // Throws on invalid JMESPath syntax, caught by the controller.
     compile(expression);
 
     const existing = await this.getConfig();

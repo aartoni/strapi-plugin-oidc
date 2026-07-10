@@ -44,5 +44,5 @@ Cypress.Commands.add("loginAs", (username, password) => {
   );
 });
 
-// Convenience wrapper — logs in as the default super-admin test user.
+// Convenience wrapper, logs in as the default super-admin test user.
 Cypress.Commands.add("login", () => cy.loginAs("john", "password"));

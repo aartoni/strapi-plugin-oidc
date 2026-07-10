@@ -1,5 +1,5 @@
 /**
- * Playground app bootstrap — seeds the role attribute path expression on a
+ * Playground app bootstrap, seeds the role attribute path expression on a
  * fresh DB so Cypress and the Docker stack don't need manual setup.
  *
  * The seed is idempotent; it is safe to call on every startup.
