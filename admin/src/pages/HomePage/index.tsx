@@ -18,14 +18,14 @@ const HomePage = () => {
   const { get, put } = useFetchClient();
 
   useEffect(() => {
-    get("/api/strapi-plugin-sso/sso-roles").then((response) => {
+    get("/strapi-plugin-sso/sso-roles").then((response) => {
       setExpression(response.data?.expression ?? "");
     });
   }, []);
 
   const onSave = async () => {
     try {
-      await put("/api/strapi-plugin-sso/sso-roles", { expression });
+      await put("/strapi-plugin-sso/sso-roles", { expression });
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (e) {

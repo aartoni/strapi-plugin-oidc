@@ -134,7 +134,7 @@ describe("SSO plugin", () => {
     beforeEach(() => {
       cy.login();
 
-      cy.intercept("GET", `/api/${PLUGIN_ID}/sso-roles`, {
+      cy.intercept("GET", `/${PLUGIN_ID}/sso-roles`, {
         fixture: "sso-roles.json",
       }).as("getSSORoles");
 
