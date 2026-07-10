@@ -9,7 +9,8 @@
     "kind": "plugin"
   },
   "scripts": {
-    "build": "strapi-plugin build",
+    "build": "strapi-plugin build && yarn build:vite",
+    "build:vite": "tsc --project vite/tsconfig.json",
     "watch": "strapi-plugin watch",
     "watch:link": "strapi-plugin watch:link",
     "verify": "strapi-plugin verify",
@@ -73,7 +74,8 @@
     "npm": ">=8.6.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "admin/src/OidcLoginPage.tsx"
   ],
   "license": "MIT",
   "devDependencies": {
@@ -120,6 +122,11 @@
       "import": "./dist/admin/index.mjs",
       "require": "./dist/admin/index.js",
       "default": "./dist/admin/index.js"
+    },
+    "./vite": {
+      "source": "./vite/index.ts",
+      "require": "./dist/vite/index.js",
+      "default": "./dist/vite/index.js"
     },
     "./strapi-server": {
       "types": "./dist/server/index.d.ts",

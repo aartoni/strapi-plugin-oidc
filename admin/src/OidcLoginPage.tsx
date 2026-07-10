@@ -16,8 +16,6 @@ const OidcLoginPage = () => {
   }, [token]);
 
   if (token) return <Navigate to="/" />;
-  // Render nothing while the effect fires the redirect
-  return null;
 };
 
 // Named export must match what @strapi/admin's router.mjs destructures:
