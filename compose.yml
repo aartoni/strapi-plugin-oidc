@@ -9,8 +9,7 @@ services:
       - OIDC_REDIRECT_URI=https://${CMS_DOMAIN}/api/oidc/callback
       - OIDC_CLIENT_ID_FILE=/run/secrets/oidc_strapi_id
       - OIDC_CLIENT_SECRET_FILE=/run/secrets/oidc_strapi_client_secret
-      # TODO Should we load them from env in Authelia as well? If so, maybe we should move them to .env
-      - OIDC_SCOPES=openid profile email groups
+      - OIDC_SCOPES
       # Trust the dev CA so Node's fetch can reach Authelia over self-signed TLS.
       - NODE_EXTRA_CA_CERTS=/run/certs/fullchain.pem
     expose:
@@ -63,6 +62,7 @@ services:
       - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/auth_session_secret
       - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/run/secrets/auth_storage_key
       - DOMAIN
+      - OIDC_SCOPES
       - ORGANIZATION_NAME=Strapi OIDC
       - X_AUTHELIA_CONFIG_FILTERS=template
     expose:
