@@ -79,13 +79,13 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     const eventHub = strapi.eventHub;
     eventHub.emit("admin.auth.success", {
       user: safeUser,
-      provider: "strapi-plugin-oidc",
+      provider: "oidc",
     });
   },
   // Sign In Success
   renderSignUpSuccess(jwtToken: string, nonce: string) {
     // get REMEMBER_ME from config
-    const config: Config = strapi.config.get("plugin::strapi-plugin-oidc");
+    const config: Config = strapi.config.get("plugin::oidc");
     const REMEMBER_ME = config["REMEMBER_ME"];
     const isRememberMe = !!REMEMBER_ME;
 
@@ -163,7 +163,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       });
     }
 
-    const config: Config = strapi.config.get("plugin::strapi-plugin-oidc");
+    const config: Config = strapi.config.get("plugin::oidc");
     const REMEMBER_ME = config["REMEMBER_ME"];
     const rememberMe = !!REMEMBER_ME;
 

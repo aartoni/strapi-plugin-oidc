@@ -11,5 +11,5 @@ export default [
   "strapi::body",
   "strapi::favicon",
   "strapi::public",
-  "plugin::strapi-plugin-oidc.block-native-auth",
+  "plugin::oidc.block-native-auth",
 ];

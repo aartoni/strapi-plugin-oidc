@@ -4,16 +4,12 @@ import { RoleConfig, RoleService } from "src/services/role";
 
 export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async find(ctx: Context) {
-    const roleService = strapi
-      .plugin("strapi-plugin-oidc")
-      .service("role") as RoleService;
+    const roleService = strapi.plugin("oidc").service("role") as RoleService;
     ctx.send((await roleService.getConfig()) ?? {});
   },
   async update(ctx: Context) {
     try {
-      const roleService = strapi
-        .plugin("strapi-plugin-oidc")
-        .service("role") as RoleService;
+      const roleService = strapi.plugin("oidc").service("role") as RoleService;
       await roleService.setConfig(ctx.request.body as RoleConfig);
       ctx.send({}, 204);
     } catch (e) {

@@ -18,14 +18,14 @@ const HomePage = () => {
   const { get, put } = useFetchClient();
 
   useEffect(() => {
-    get("/strapi-plugin-oidc/sso-roles").then((response) => {
+    get("/oidc/sso-roles").then((response) => {
       setExpression(response.data?.expression ?? "");
     });
   }, []);
 
   const onSave = async () => {
     try {
-      await put("/strapi-plugin-oidc/sso-roles", { expression });
+      await put("/oidc/sso-roles", { expression });
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (e) {
@@ -37,9 +37,7 @@ const HomePage = () => {
 
   return (
     <Page.Protect
-      permissions={[
-        { action: "plugin::strapi-plugin-oidc.read", subject: null },
-      ]}
+      permissions={[{ action: "plugin::oidc.read", subject: null }]}
     >
       <Layouts.Header
         title="Single Sign On"

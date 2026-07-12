@@ -4,7 +4,7 @@ import pluginPkg from "../../package.json";
 
 const CMS = "https://cms.strapi.local";
 const IDP = "https://auth.strapi.local";
-const PLUGIN_ID = pluginPkg.name.replace(/^@strapi\/plugin-/i, "");
+const PLUGIN_ID = pluginPkg.strapi.name;
 
 describe("SSO plugin", () => {
   describe("OIDC sign-in", () => {

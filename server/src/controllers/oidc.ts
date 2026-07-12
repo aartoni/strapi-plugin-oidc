@@ -18,7 +18,7 @@ export const REQUIRED_OIDC_FIELDS: (keyof Config)[] = [
 ];
 
 const configValidation = () => {
-  const config = strapi.config.get<Config>("plugin::strapi-plugin-oidc");
+  const config = strapi.config.get<Config>("plugin::oidc");
   const missing = REQUIRED_OIDC_FIELDS.filter((key) => !config?.[key]);
   if (missing.length > 0) {
     throw new Error(`These are required: ${missing.join(", ")}.`);
@@ -62,8 +62,8 @@ const oidcSignIn = async (ctx: Context) => {
 const oidcSignInCallback = async (ctx: Context) => {
   const config = configValidation();
   const userService = strapi.service("admin::user");
-  const oauthService = strapi.plugin("strapi-plugin-oidc").service("oauth");
-  const roleService = strapi.plugin("strapi-plugin-oidc").service("role");
+  const oauthService = strapi.plugin("oidc").service("oauth");
+  const roleService = strapi.plugin("oidc").service("role");
 
   if (!ctx.query.code) {
     ctx.body = oauthService.renderSignUpError("sso_no_code");

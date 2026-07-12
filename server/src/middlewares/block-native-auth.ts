@@ -5,7 +5,7 @@ import type { Context, Next } from "koa";
  * cannot be used to authenticate even by hitting the API directly.
  *
  * Endpoints left working: /admin/init, /admin/renew-token, /admin/logout,
- * and everything under /api/strapi-plugin-oidc/**.
+ * and everything under /api/oidc/**.
  */
 const BLOCKED_PATHS = new Set([
   "/admin/login",

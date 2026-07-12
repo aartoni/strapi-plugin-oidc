@@ -4,7 +4,7 @@ export default {
   default: {
     REMEMBER_ME: false,
 
-    OIDC_REDIRECT_URI: "http://localhost:1337/api/strapi-plugin-oidc/callback",
+    OIDC_REDIRECT_URI: "http://localhost:1337/api/oidc/callback",
     OIDC_CLIENT_ID: "",
     OIDC_CLIENT_SECRET: "",
     OIDC_SCOPES: "openid profile email",

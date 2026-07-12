@@ -4,7 +4,7 @@
   "description": "Plug-in for single sign-on with Strapi!",
   "strapi": {
     "displayName": "Single Sign On",
-    "name": "strapi-plugin-oidc",
+    "name": "oidc",
     "description": "Version 5 enables single sign-on",
     "kind": "plugin"
   },

@@ -22,14 +22,14 @@ Just put the following in your `config/plugins.ts`.
 
 ```ts
 export default ({ env }) => ({
-  "strapi-plugin-oidc": {
+  "oidc": {
     enabled: true,
     config: {
       // Either sets token to session storage if false or local storage if true
       REMEMBER_ME: false,
 
       // OpenID Connect
-      OIDC_REDIRECT_URI: "https://your-strapi/api/strapi-plugin-oidc/callback",
+      OIDC_REDIRECT_URI: "https://your-strapi/api/oidc/callback",
       OIDC_CLIENT_ID: "[Client ID from the provider]",
       OIDC_CLIENT_SECRET: "[Client secret from the provider]",
       OIDC_AUTHORIZATION_ENDPOINT: "[API Endpoint]",
@@ -72,7 +72,7 @@ export default [
   "strapi::security",
   "strapi::cors",
   // ...
-  "plugin::strapi-plugin-oidc.block-native-auth",
+  "plugin::oidc.block-native-auth",
 ];
 ```
 

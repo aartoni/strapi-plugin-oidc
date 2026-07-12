@@ -8,7 +8,7 @@ export type RoleConfig = {
 
 const roleService = ({ strapi }: { strapi: Core.Strapi }) => ({
   async getConfig(): Promise<RoleConfig | null> {
-    return await strapi.query("plugin::strapi-plugin-oidc.roles").findOne({});
+    return await strapi.query("plugin::oidc.roles").findOne({});
   },
   async setConfig({ expression }: RoleConfig) {
     // Throws on invalid JMESPath syntax, caught by the controller.
@@ -17,11 +17,11 @@ const roleService = ({ strapi }: { strapi: Core.Strapi }) => ({
     const existing = await this.getConfig();
     if (existing) {
       return await strapi
-        .query("plugin::strapi-plugin-oidc.roles")
+        .query("plugin::oidc.roles")
         .update({ where: { id: existing.id }, data: { expression } });
     }
     return await strapi
-      .query("plugin::strapi-plugin-oidc.roles")
+      .query("plugin::oidc.roles")
       .create({ data: { expression } });
   },
   async resolveRole(userInfo: JSONValue) {

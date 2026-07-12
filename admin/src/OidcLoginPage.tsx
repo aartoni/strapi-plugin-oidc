@@ -12,7 +12,7 @@ const OidcLoginPage = () => {
   const { token } = useAuth("OidcLoginPage", (auth) => auth);
 
   useEffect(() => {
-    if (!token) window.location.replace("/api/strapi-plugin-oidc/sign-in");
+    if (!token) window.location.replace("/api/oidc/sign-in");
   }, [token]);
 
   if (token) return <Navigate to="/" />;
