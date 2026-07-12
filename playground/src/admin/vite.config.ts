@@ -1,4 +1,4 @@
-import { oidcAuthPagePlugin } from "strapi-plugin-sso/vite";
+import { oidcAuthPagePlugin } from "strapi-plugin-oidc/vite";
 import { mergeConfig, type UserConfig } from "vite";
 
 export default (config: UserConfig) =>

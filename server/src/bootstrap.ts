@@ -6,7 +6,7 @@ export default async ({ strapi }: { strapi: Core.Strapi }) => {
       section: "plugins",
       displayName: "Read",
       uid: "read",
-      pluginName: "strapi-plugin-sso",
+      pluginName: "strapi-plugin-oidc",
     },
   ];
   await strapi.admin.services.permission.actionProvider.registerMany(actions);

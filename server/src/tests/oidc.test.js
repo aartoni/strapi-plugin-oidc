@@ -21,7 +21,7 @@ afterAll(async () => {
 describe("OIDC sign in", () => {
   it("should redirect with 302 and set session values", async () => {
     const res = await request(strapi.server.httpServer).get(
-      "/api/strapi-plugin-sso/sign-in",
+      "/api/strapi-plugin-oidc/sign-in",
     );
 
     expect(res.status).toBe(302);
@@ -45,7 +45,7 @@ describe("OIDC sign in", () => {
 
     // Start the authentication flow (keeps the session cookie)
     const authStart = await agent
-      .get("/api/strapi-plugin-sso/sign-in")
+      .get("/api/strapi-plugin-oidc/sign-in")
       .expect(302);
     const redirectUrl = new URL(authStart.headers.location);
     const state = redirectUrl.searchParams.get("state");
@@ -66,7 +66,7 @@ describe("OIDC sign in", () => {
 
     // Hit the callback
     const res = await agent.get(
-      `/api/strapi-plugin-sso/callback?code=FAKE_CODE&state=${state}`,
+      `/api/strapi-plugin-oidc/callback?code=FAKE_CODE&state=${state}`,
     );
 
     // Sanity checks

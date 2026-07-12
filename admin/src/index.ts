@@ -19,7 +19,7 @@ export default {
       },
       Component: () => import("./pages/App"),
       permissions: [
-        { action: "plugin::strapi-plugin-sso.read", subject: null },
+        { action: "plugin::strapi-plugin-oidc.read", subject: null },
       ],
     });
     app.registerPlugin({ id: PLUGIN_ID, initializer: Initializer, name });

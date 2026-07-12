@@ -19,7 +19,7 @@ const componentPath = join(__dirname, "../../admin/src/OidcLoginPage.tsx");
  * Pinned to `@strapi/admin` ^5.48.0, re-verify on upgrade.
  */
 export const oidcAuthPagePlugin: Plugin = {
-  name: "strapi-plugin-sso:oidc-auth-page",
+  name: "strapi-plugin-oidc:oidc-auth-page",
   // Must run before Vite's node-resolve plugin; without enforce: 'pre',
   // node-resolve returns the absolute path first and our hook is never called.
   enforce: "pre",

@@ -17,7 +17,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.30.0",
-    "strapi-plugin-sso": "link:.yalc/strapi-plugin-sso",
+    "strapi-plugin-oidc": "link:.yalc/strapi-plugin-oidc",
     "styled-components": "^6.4.0"
   },
   "devDependencies": {

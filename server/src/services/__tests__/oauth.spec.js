@@ -17,7 +17,7 @@ const mockStrapi = {
   config: {
     admin: { url: "/admin" },
     get: (key) => {
-      if (key === "plugin::strapi-plugin-sso") return { REMEMBER_ME: false };
+      if (key === "plugin::strapi-plugin-oidc") return { REMEMBER_ME: false };
       return {};
     },
   },

@@ -1,7 +1,7 @@
 import { Core } from "@strapi/strapi";
 
 export default ({ env }: Core.Config.Shared.ConfigParams) => ({
-  "strapi-plugin-sso": {
+  "strapi-plugin-oidc": {
     enabled: true,
     config: {
       REMEMBER_ME: false,
