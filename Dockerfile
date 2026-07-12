@@ -11,7 +11,6 @@ RUN yarn install --frozen-lockfile
 COPY . .
 RUN yarn build
 RUN yarn yalc publish --private
-# TODO Make it so that no playground file is moved until here, so that an update to the playground doesn't require a full build
 RUN yarn playground:install
 RUN yarn playground:build
 EXPOSE 1337
