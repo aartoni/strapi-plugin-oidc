@@ -157,8 +157,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       ctx.cookies.set("strapi_admin_device", deviceId, {
         sameSite: "lax",
         path: "/admin",
-        // TODO Should we make this always secure?
-        secure: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV !== "development",
         maxAge: 1000 * 60 * 60 * 24 * 365,
       });
     }
