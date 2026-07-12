@@ -26,23 +26,23 @@ export default ({ env }) => ({
     enabled: true,
     config: {
       // Either sets token to session storage if false or local storage if true
-      REMEMBER_ME: false,
+      rememberMe: false,
 
       // OpenID Connect
-      OIDC_REDIRECT_URI: "https://your-strapi/api/oidc/callback",
-      OIDC_CLIENT_ID: "[Client ID from the provider]",
-      OIDC_CLIENT_SECRET: "[Client secret from the provider]",
-      OIDC_AUTHORIZATION_ENDPOINT: "[API Endpoint]",
-      OIDC_TOKEN_ENDPOINT: "[API Endpoint]",
-      OIDC_USER_INFO_ENDPOINT: "[API Endpoint]",
-      OIDC_SCOPES: "openid profile email groups",
+      redirectUri: "https://your-strapi/api/oidc/callback",
+      clientId: "[Client ID from the provider]",
+      clientSecret: "[Client secret from the provider]",
+      authorizationEndpoint: "[API Endpoint]",
+      tokenEndpoint: "[API Endpoint]",
+      userInfoEndpoint: "[API Endpoint]",
+      scopes: "openid profile email groups",
 
       // Optional grant type customization
-      OIDC_GRANT_TYPE: "authorization_code",
+      grantType: "authorization_code",
 
       // Optional customization for username arguments
-      OIDC_FAMILY_NAME_FIELD: "family_name",
-      OIDC_GIVEN_NAME_FIELD: "given_name",
+      familyNameField: "family_name",
+      givenNameField: "given_name",
     }
   }
 })

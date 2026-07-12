@@ -84,10 +84,10 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   },
   // Sign In Success
   renderSignUpSuccess(jwtToken: string, nonce: string) {
-    // get REMEMBER_ME from config
+    // get rememberMe from config
     const config: Config = strapi.config.get("plugin::oidc");
-    const REMEMBER_ME = config["REMEMBER_ME"];
-    const isRememberMe = !!REMEMBER_ME;
+    const rememberMe = !!config.rememberMe;
+    const isRememberMe = rememberMe;
 
     return `
 <!doctype html>
@@ -157,14 +157,13 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       ctx.cookies.set("strapi_admin_device", deviceId, {
         sameSite: "lax",
         path: "/admin",
-        secure: process.env.NODE_ENV !== "development",
+        secure: !["development", "test"].includes(process.env.NODE_ENV ?? ""),
         maxAge: 1000 * 60 * 60 * 24 * 365,
       });
     }
 
     const config: Config = strapi.config.get("plugin::oidc");
-    const REMEMBER_ME = config["REMEMBER_ME"];
-    const rememberMe = !!REMEMBER_ME;
+    const rememberMe = !!config.rememberMe;
 
     const { token: refreshToken } = await sessionManager(
       "admin",

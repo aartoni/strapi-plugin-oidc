@@ -5,16 +5,16 @@ import pkceChallenge from "pkce-challenge";
 import { Config } from "../utils/config";
 
 export const REQUIRED_OIDC_FIELDS: (keyof Config)[] = [
-  "OIDC_AUTHORIZATION_ENDPOINT",
-  "OIDC_TOKEN_ENDPOINT",
-  "OIDC_USER_INFO_ENDPOINT",
-  "OIDC_CLIENT_ID",
-  "OIDC_CLIENT_SECRET",
-  "OIDC_REDIRECT_URI",
-  "OIDC_SCOPES",
-  "OIDC_GRANT_TYPE",
-  "OIDC_FAMILY_NAME_FIELD",
-  "OIDC_GIVEN_NAME_FIELD",
+  "authorizationEndpoint",
+  "tokenEndpoint",
+  "userInfoEndpoint",
+  "clientId",
+  "clientSecret",
+  "redirectUri",
+  "scopes",
+  "grantType",
+  "familyNameField",
+  "givenNameField",
 ];
 
 const configValidation = () => {
@@ -28,12 +28,8 @@ const configValidation = () => {
 
 const oidcSignIn = async (ctx: Context) => {
   let state = ctx.query.state as string;
-  const {
-    OIDC_CLIENT_ID,
-    OIDC_REDIRECT_URI,
-    OIDC_SCOPES,
-    OIDC_AUTHORIZATION_ENDPOINT,
-  } = configValidation();
+  const { clientId, redirectUri, scopes, authorizationEndpoint } =
+    configValidation();
 
   // Generate code verifier and code challenge
   const { code_verifier: codeVerifier, code_challenge: codeChallenge } =
@@ -49,14 +45,14 @@ const oidcSignIn = async (ctx: Context) => {
 
   const params = new URLSearchParams();
   params.append("response_type", "code");
-  params.append("client_id", OIDC_CLIENT_ID);
-  params.append("redirect_uri", OIDC_REDIRECT_URI);
-  params.append("scope", OIDC_SCOPES);
+  params.append("client_id", clientId);
+  params.append("redirect_uri", redirectUri);
+  params.append("scope", scopes);
   params.append("code_challenge", codeChallenge);
   params.append("code_challenge_method", "S256");
   params.append("state", state);
 
-  ctx.redirect(`${OIDC_AUTHORIZATION_ENDPOINT}?${params.toString()}`);
+  ctx.redirect(`${authorizationEndpoint}?${params.toString()}`);
 };
 
 const oidcSignInCallback = async (ctx: Context) => {
@@ -76,24 +72,23 @@ const oidcSignInCallback = async (ctx: Context) => {
 
   const params = new URLSearchParams();
   params.append("code", ctx.query.code as string);
-  params.append("client_id", config["OIDC_CLIENT_ID"]);
-  params.append("client_secret", config["OIDC_CLIENT_SECRET"]);
-  params.append("redirect_uri", config["OIDC_REDIRECT_URI"]);
-  params.append("grant_type", config["OIDC_GRANT_TYPE"]);
+  params.append("client_id", config.clientId);
+  params.append("client_secret", config.clientSecret);
+  params.append("redirect_uri", config.redirectUri);
+  params.append("grant_type", config.grantType);
 
   // Include the code verifier from the session
   params.append("code_verifier", ctx.session.codeVerifier);
 
   try {
     const response = await postForm<OidcTokenResponse>(
-      config["OIDC_TOKEN_ENDPOINT"],
+      config.tokenEndpoint,
       params,
     );
 
-    const userResponse = await getJson<OidcUserInfo>(
-      config["OIDC_USER_INFO_ENDPOINT"],
-      { Authorization: `Bearer ${response.access_token}` },
-    );
+    const userResponse = await getJson<OidcUserInfo>(config.userInfoEndpoint, {
+      Authorization: `Bearer ${response.access_token}`,
+    });
 
     const email = userResponse.email;
 
@@ -116,8 +111,8 @@ const oidcSignInCallback = async (ctx: Context) => {
       const defaultLocale = oauthService.localeFindByHeader(ctx);
       activateUser = await oauthService.createUser(
         email,
-        userResponse[config["OIDC_FAMILY_NAME_FIELD"]],
-        userResponse[config["OIDC_GIVEN_NAME_FIELD"]],
+        userResponse[config.familyNameField],
+        userResponse[config.givenNameField],
         defaultLocale,
         roles,
       );

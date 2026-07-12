@@ -1,19 +1,19 @@
-import { Config } from "src/utils/config";
+import { Config } from "../utils/config";
 
 export default {
   default: {
-    REMEMBER_ME: false,
+    rememberMe: false,
 
-    OIDC_REDIRECT_URI: "http://localhost:1337/api/oidc/callback",
-    OIDC_CLIENT_ID: "",
-    OIDC_CLIENT_SECRET: "",
-    OIDC_SCOPES: "openid profile email groups",
-    OIDC_AUTHORIZATION_ENDPOINT: "",
-    OIDC_TOKEN_ENDPOINT: "",
-    OIDC_USER_INFO_ENDPOINT: "",
-    OIDC_GRANT_TYPE: "authorization_code",
-    OIDC_FAMILY_NAME_FIELD: "family_name",
-    OIDC_GIVEN_NAME_FIELD: "given_name",
+    redirectUri: "http://localhost:1337/api/oidc/callback",
+    clientId: "",
+    clientSecret: "",
+    scopes: "openid profile email groups",
+    authorizationEndpoint: "",
+    tokenEndpoint: "",
+    userInfoEndpoint: "",
+    grantType: "authorization_code",
+    familyNameField: "family_name",
+    givenNameField: "given_name",
   } as Config,
   validator() {},
 };

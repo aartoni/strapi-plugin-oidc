@@ -17,7 +17,7 @@ const mockStrapi = {
   config: {
     admin: { url: "/admin" },
     get: (key) => {
-      if (key === "plugin::oidc") return { REMEMBER_ME: false };
+      if (key === "plugin::oidc") return { rememberMe: false };
       return {};
     },
   },
