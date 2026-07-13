@@ -1,4 +1,4 @@
-# @aartoni/strapi-plugin-oidc
+# strapi-plugin-oidc
 
 Single sign-on for Strapi 5! Log in to the administration screen using an OpenID Connect (OIDC) provider.
 
