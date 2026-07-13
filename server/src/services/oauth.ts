@@ -1,7 +1,7 @@
 import { Core, UID } from "@strapi/strapi";
 import strapiUtils from "@strapi/utils";
 import { SetOption } from "cookies";
-import generator from "generate-password";
+import { randomBytes } from "node:crypto";
 import { Context } from "koa";
 import { randomUUID } from "node:crypto";
 import { Config } from "../utils/config";
@@ -44,14 +44,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       userInfo: {
         firstname: resolvedFirstName,
         lastname: lastname ?? "",
-        password: generator.generate({
-          length: 43, // 256 bits (https://en.wikipedia.org/wiki/Password_strength#Random_passwords)
-          numbers: true,
-          lowercase: true,
-          uppercase: true,
-          exclude: '()+_-=}{[]|:;"/?.><,`~',
-          strict: true,
-        }),
+        password: randomBytes(32).toString("hex"),
       },
     });
   },
