@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Plugin builds + lints across its full supported Node range (engines: 20–24).
+  # Plugin builds + lints across its full supported Node range (engines: 22–24).
   lint-build:
     runs-on: ubuntu-latest
     strategy:
