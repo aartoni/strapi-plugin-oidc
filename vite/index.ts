@@ -16,7 +16,7 @@ const componentPath = join(__dirname, "../../admin/src/OidcLoginPage.tsx");
  * the `import { AuthPage } from './pages/Auth/AuthPage.mjs'` inside
  * `@strapi/admin`'s router.mjs.
  *
- * Pinned to `@strapi/admin` ^5.48.0, re-verify on upgrade.
+ * Pinned to `@strapi/admin` ^5.50.1, re-verify on upgrade.
  */
 export const oidcAuthPagePlugin: Plugin = {
   name: "oidc:oidc-auth-page",
