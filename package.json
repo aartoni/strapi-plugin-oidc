@@ -1,6 +1,6 @@
 {
   "name": "@aartoni/strapi-plugin-oidc",
-  "version": "0.0.1",
+  "version": "1.0.10",
   "description": "Replace the Strapi 5 admin login with your OIDC provider",
   "strapi": {
     "displayName": "Single Sign On",
@@ -17,7 +17,7 @@
     "lint": "NODE_OPTIONS=--experimental-strip-types eslint --flag unstable_native_nodejs_ts_config",
     "test:jest": "ENV_PATH=./playground/.env  jest --verbose --runInBand --forceExit --detectOpenHandles",
     "test:cypress": "NODE_EXTRA_CA_CERTS=data/common/certs/cacert.pem cypress run",
-    "e2e:services:up": "sh scripts/isscert.dev.sh && docker compose up --build --wait",
+    "e2e:services:up": "sh scripts/isscert.dev.sh && docker compose up --build --wait --force-recreate",
     "e2e:services:down": "docker compose down -v --remove-orphans",
     "test:cypress:open": "cypress open",
     "playground:install": "yalc push && yarn playground:yalc-add-link && cd playground && yarn install --frozen-lockfile",
