@@ -50,8 +50,6 @@ export default ({ env }) => ({
 
 ### Optional routing
 
-> Warning: this section is not complete yet.
-
 To overwrite Strapi's default admin login page, you'll have to add an explicit Vite configuration and import the provided plugin.
 
 ```ts
