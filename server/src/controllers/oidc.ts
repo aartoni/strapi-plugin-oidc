@@ -43,6 +43,13 @@ const oidcSignIn = async (ctx: Context) => {
   }
   ctx.session.oidcState = state;
 
+  // nonce: binds the ID token to this session to prevent replay.
+  // OPTIONAL for the code flow, but if sent it MUST be checked against
+  // the id_token's nonce claim (verified in the callback).
+  // OIDC Core 1.0 §3.1.2.1 https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest
+  const oidcNonce = randomBytes(32).toString("base64url");
+  ctx.session.oidcNonce = oidcNonce;
+
   const params = new URLSearchParams();
   params.append("response_type", "code");
   params.append("client_id", clientId);
@@ -51,6 +58,7 @@ const oidcSignIn = async (ctx: Context) => {
   params.append("code_challenge", codeChallenge);
   params.append("code_challenge_method", "S256");
   params.append("state", state);
+  params.append("nonce", oidcNonce);
 
   ctx.redirect(`${authorizationEndpoint}?${params.toString()}`);
 };
