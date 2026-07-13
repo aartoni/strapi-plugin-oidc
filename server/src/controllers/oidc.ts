@@ -61,11 +61,17 @@ const oidcSignInCallback = async (ctx: Context) => {
   const oauthService = strapi.plugin("oidc").service("oauth");
   const roleService = strapi.plugin("oidc").service("role");
 
+  // Read and clear one-time session values up front so they can't be reused
+  const oidcState = ctx.session.oidcState;
+  const codeVerifier = ctx.session.codeVerifier;
+  delete ctx.session.oidcState;
+  delete ctx.session.codeVerifier;
+
   if (!ctx.query.code) {
     ctx.body = oauthService.renderSignUpError("sso_no_code");
     return;
   }
-  if (!ctx.query.state || ctx.query.state !== ctx.session.oidcState) {
+  if (!ctx.query.state || ctx.query.state !== oidcState) {
     ctx.body = oauthService.renderSignUpError("sso_invalid_state");
     return;
   }
@@ -78,7 +84,7 @@ const oidcSignInCallback = async (ctx: Context) => {
   params.append("grant_type", config.grantType);
 
   // Include the code verifier from the session
-  params.append("code_verifier", ctx.session.codeVerifier);
+  params.append("code_verifier", codeVerifier);
 
   try {
     const response = await postForm<OidcTokenResponse>(
