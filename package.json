@@ -1,11 +1,11 @@
 {
   "name": "@aartoni/strapi-plugin-oidc",
   "version": "0.0.1",
-  "description": "Plug-in for single sign-on with Strapi!",
+  "description": "Replace the Strapi 5 admin login with your OIDC provider",
   "strapi": {
     "displayName": "Single Sign On",
     "name": "oidc",
-    "description": "Version 5 enables single sign-on",
+    "description": "Single Sign-On via OpenID Connect",
     "kind": "plugin"
   },
   "scripts": {
