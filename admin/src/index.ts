@@ -11,7 +11,7 @@ export default {
   bootstrap() {},
   register(app: StrapiApp) {
     app.addMenuLink({
-      to: `/plugins/${PLUGIN_ID}`,
+      to: `plugins/${PLUGIN_ID}`,
       icon: PluginIcon,
       intlLabel: {
         id: `${PLUGIN_ID}.plugin.name`,
