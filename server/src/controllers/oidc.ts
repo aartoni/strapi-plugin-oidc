@@ -8,6 +8,8 @@ export const REQUIRED_OIDC_FIELDS: (keyof Config)[] = [
   "authorizationEndpoint",
   "tokenEndpoint",
   "userInfoEndpoint",
+  "issuer",
+  "jwksUri",
   "clientId",
   "clientSecret",
   "redirectUri",

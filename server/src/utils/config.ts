@@ -2,6 +2,8 @@ export type Config = {
   authorizationEndpoint: string;
   tokenEndpoint: string;
   userInfoEndpoint: string;
+  issuer: string;
+  jwksUri: string;
   clientId: string;
   clientSecret: string;
   redirectUri: string;

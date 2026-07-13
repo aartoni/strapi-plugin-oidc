@@ -12,6 +12,8 @@ export default ({ env }: Core.Config.Shared.ConfigParams) => ({
     config: {
       rememberMe: false,
       redirectUri: env("OIDC_REDIRECT_URI"),
+      issuer: env("OIDC_ISSUER"),
+      jwksUri: env("OIDC_JWKS_URI"),
       clientId: fromFile(env("OIDC_CLIENT_ID_FILE")) ?? env("OIDC_CLIENT_ID"),
       clientSecret:
         fromFile(env("OIDC_CLIENT_SECRET_FILE")) ?? env("OIDC_CLIENT_SECRET"),
