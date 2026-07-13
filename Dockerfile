@@ -1,6 +1,6 @@
 # docker build -t strapi-plugin-sso .
 # docker run -P -t strapi-plugin-sso
-FROM node:22-alpine
+FROM node:24-alpine
 ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 

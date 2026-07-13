@@ -27,14 +27,13 @@ jobs:
       - run: yarn lint
       - run: yarn build
 
-  # Jest unit + integration. The integration suite boots the playground, which
-  # only supports Node <= 22, so the matrix stops there.
+  # Jest unit + integration.
   test:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        node-version: [22]
+        node-version: [24]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -59,7 +58,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: yarn
           cache-dependency-path: yarn.lock
       - run: yarn install --frozen-lockfile
