@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@aartoni/strapi-plugin-oidc@link:.yalc/@aartoni/strapi-plugin-oidc":
+  version "0.0.0"
+  uid ""
+
 "@ai-sdk/gateway@1.0.29":
   version "1.0.29"
   resolved "https://registry.yarnpkg.com/@ai-sdk/gateway/-/gateway-1.0.29.tgz#b7e902c2d7139e2ca2a94cb6076febe517088fa0"
@@ -2616,37 +2620,6 @@
     lodash "4.17.23"
     react-remove-scroll "2.5.10"
 
-"@strapi/design-system@^2.2.0":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@strapi/design-system/-/design-system-2.2.2.tgz#fdb11a29cfc66cb05354d198611331a13e7ea7ca"
-  integrity sha512-RhIKAlW0JDKs33EmB5gmuSey46Wa2Idul6iG/nucQU2qgtaQp5SNzbbAc7+vWXHBXMvGjYgqGtCaU0DN65iZeQ==
-  dependencies:
-    "@codemirror/lang-json" "6.0.1"
-    "@floating-ui/react-dom" "2.1.0"
-    "@internationalized/date" "3.5.4"
-    "@internationalized/number" "3.5.3"
-    "@radix-ui/react-accordion" "1.1.2"
-    "@radix-ui/react-alert-dialog" "1.0.5"
-    "@radix-ui/react-avatar" "1.0.4"
-    "@radix-ui/react-checkbox" "1.0.4"
-    "@radix-ui/react-dialog" "1.0.5"
-    "@radix-ui/react-dismissable-layer" "1.0.5"
-    "@radix-ui/react-dropdown-menu" "2.0.6"
-    "@radix-ui/react-focus-guards" "1.0.1"
-    "@radix-ui/react-focus-scope" "1.0.4"
-    "@radix-ui/react-popover" "1.0.7"
-    "@radix-ui/react-progress" "1.0.3"
-    "@radix-ui/react-radio-group" "1.1.3"
-    "@radix-ui/react-scroll-area" "1.0.5"
-    "@radix-ui/react-switch" "1.0.3"
-    "@radix-ui/react-tabs" "1.0.4"
-    "@radix-ui/react-tooltip" "1.0.7"
-    "@radix-ui/react-use-callback-ref" "1.0.1"
-    "@strapi/ui-primitives" "2.2.2"
-    "@uiw/react-codemirror" "4.22.2"
-    lodash "4.18.1"
-    react-remove-scroll "2.5.10"
-
 "@strapi/email@5.49.0":
   version "5.49.0"
   resolved "https://registry.yarnpkg.com/@strapi/email/-/email-5.49.0.tgz#7ce38f979813d861d48461675c019d98ac75ff30"
@@ -2699,11 +2672,6 @@
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@strapi/icons/-/icons-2.2.0.tgz#fe574fb26c991665a9bfc900c49afdf23a479add"
   integrity sha512-wVItrWIDYtvGpv1S5Lg580b5PXH2iw6dgcFnri5vVz4qZDP6ZOTpLmkwZybkfZcpIzq1KkjKyA1JZ6NLBE59cQ==
-
-"@strapi/icons@^2.2.0":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@strapi/icons/-/icons-2.2.2.tgz#9d398a45b791f81c8b50539036dbd5c4e467ab22"
-  integrity sha512-cR0lQrHerR4/zTvHd9Agjh//iFAs8rBOH6Gv21/uoGszuZEaV4u70YfzT9UujY5myyerMZeXukaWq3mApbF1EA==
 
 "@strapi/logger@5.49.0":
   version "5.49.0"
@@ -2909,32 +2877,6 @@
     "@radix-ui/react-focus-guards" "1.0.1"
     "@radix-ui/react-focus-scope" "1.0.4"
     "@radix-ui/react-id" "1.0.1"
-    "@radix-ui/react-popper" "1.1.3"
-    "@radix-ui/react-portal" "1.0.4"
-    "@radix-ui/react-primitive" "1.0.3"
-    "@radix-ui/react-slot" "1.0.2"
-    "@radix-ui/react-use-controllable-state" "1.0.1"
-    "@radix-ui/react-use-layout-effect" "1.0.1"
-    "@radix-ui/react-use-previous" "1.0.1"
-    "@radix-ui/react-visually-hidden" "1.0.3"
-    "@tanstack/react-virtual" "^3.10.8"
-    aria-hidden "1.2.4"
-    react-remove-scroll "2.5.10"
-
-"@strapi/ui-primitives@2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@strapi/ui-primitives/-/ui-primitives-2.2.2.tgz#67f746f4e91200a705329cfb28aa0a88fb738450"
-  integrity sha512-yT0cGGedM2hUZvNcPwUTdAOC29vqM4NYYxLRtW6UD6jG5Td4fk6tEW+e1fjT6Z14/hdd5CY3MsBem0uBxx4ABg==
-  dependencies:
-    "@radix-ui/number" "1.0.1"
-    "@radix-ui/primitive" "1.0.1"
-    "@radix-ui/react-collection" "1.0.3"
-    "@radix-ui/react-compose-refs" "1.0.1"
-    "@radix-ui/react-context" "1.0.1"
-    "@radix-ui/react-direction" "1.0.1"
-    "@radix-ui/react-dismissable-layer" "1.0.5"
-    "@radix-ui/react-focus-guards" "1.0.1"
-    "@radix-ui/react-focus-scope" "1.0.4"
     "@radix-ui/react-popper" "1.1.3"
     "@radix-ui/react-portal" "1.0.4"
     "@radix-ui/react-primitive" "1.0.3"
@@ -4600,11 +4542,6 @@ commondir@^1.0.1:
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
   integrity sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==
 
-component-emitter@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.1.tgz#ef1d5796f7d93f135ee6fb684340b26403c97d17"
-  integrity sha512-T0+barUSQRTUQASh8bx02dl+DhF54GtIDY13Y3m9oWTklKbb3Wv974meRpeZ3lp1JpLVECWWNHC4vaG2XHXouQ==
-
 compressible@^2.0.18:
   version "2.0.18"
   resolved "https://registry.yarnpkg.com/compressible/-/compressible-2.0.18.tgz#af53cca6b070d4c3c0750fbd77286a6d7cc46fba"
@@ -4698,11 +4635,6 @@ cookie@^0.7.1, cookie@^0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.7.2.tgz#556369c472a2ba910f2979891b526b3436237ed7"
   integrity sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==
-
-cookiejar@^2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.1.4.tgz#ee669c1fea2cf42dc31585469d193fef0d65771b"
-  integrity sha512-LDx6oHrK+PhzLKJU9j5S7/Y3jM/mUHvD/DeI1WQmJn652iPC5Y4TBzC9l+5OMOXlyTTA+SmVUPm0HQUwpD5Jqw==
 
 cookies@~0.9.0:
   version "0.9.1"
@@ -4862,7 +4794,7 @@ date-fns@2.30.0, date-fns@^2.30.0:
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-debug@4, debug@4.4.3, debug@^4, debug@^4.0.0, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4, debug@^4.3.7, debug@^4.4.0, debug@^4.4.3:
+debug@4, debug@4.4.3, debug@^4, debug@^4.0.0, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4, debug@^4.4.0, debug@^4.4.3:
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.4.3.tgz#c6ae432d9bd9662582fce08709b038c58e9e3d6a"
   integrity sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==
@@ -5114,11 +5046,6 @@ dotenv@16.6.1:
   version "16.6.1"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.6.1.tgz#773f0e69527a8315c7285d5ee73c4459d20a8020"
   integrity sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==
-
-dotenv@^17.4.0:
-  version "17.4.2"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-17.4.2.tgz#c07e54a746e11eba021dd9e1047ced5afdc1c034"
-  integrity sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==
 
 dunder-proto@^1.0.1:
   version "1.0.1"
@@ -5524,7 +5451,7 @@ fast-json-stable-stringify@^2.0.0:
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz#874bf69c6f404c2b5d99c481341399fd55892633"
   integrity sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
 
-fast-safe-stringify@2.1.1, fast-safe-stringify@^2.1.1:
+fast-safe-stringify@2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.1.1.tgz#c406a83b6e70d9e35ce3b30a81141df30aeba884"
   integrity sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==
@@ -5735,15 +5662,6 @@ formidable@^2.0.1:
     dezalgo "^1.0.4"
     once "^1.4.0"
     qs "^6.11.0"
-
-formidable@^3.5.4:
-  version "3.5.4"
-  resolved "https://registry.yarnpkg.com/formidable/-/formidable-3.5.4.tgz#ac9a593b951e829b3298f21aa9a2243932f32ed9"
-  integrity sha512-YikH+7CUTOtP44ZTnUhR7Ic2UASBPOqmaRkRKxRbywPTe5VxF7RRCck4af9wutiZ/QKM5nME9Bie2fFaPz5Gug==
-  dependencies:
-    "@paralleldrive/cuid2" "^2.2.2"
-    dezalgo "^1.0.4"
-    once "^1.4.0"
 
 formik@2.4.5:
   version "2.4.5"
@@ -7764,11 +7682,6 @@ mime-types@^3.0.0, mime-types@^3.0.2:
   dependencies:
     mime-db "^1.54.0"
 
-mime@2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/mime/-/mime-2.6.0.tgz#a2a682a95cd4d0cb1d6257e28f83da7e35800367"
-  integrity sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg==
-
 mimic-fn@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
@@ -8681,7 +8594,7 @@ qs@6.15.2:
   dependencies:
     side-channel "^1.1.0"
 
-qs@^6.10.3, qs@^6.11.0, qs@^6.14.0, qs@^6.14.1, qs@^6.15.2, qs@^6.5.2, qs@^6.9.6:
+qs@^6.10.3, qs@^6.11.0, qs@^6.14.0, qs@^6.15.2, qs@^6.5.2, qs@^6.9.6:
   version "6.15.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.15.3.tgz#76852132a58ed5c7c0ef67e4441b9bb5d6061b3b"
   integrity sha512-O9gl3zCl5h5blw1KGUzQKhA5oUXSl8rwUIM5o0S3nCXMliSvy5Dzx7/DJcI+SwgICv+IneSZwhBh1oSyEHA71A==
@@ -8888,7 +8801,7 @@ react-remove-scroll@2.5.5:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
-react-router-dom@^6.30.0, react-router-dom@^6.30.3:
+react-router-dom@^6.30.0:
   version "6.30.4"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.30.4.tgz#f7167bf3da6c7d9132130ea985dd06def25e84d5"
   integrity sha512-q4HvNl+mmDdkS0g+MqiBZNteQJCuimWoOyHMy4T/RQLAn9Z29+E91QXRaxOujeMl2HTzRSS0KFPd7lxX3PjV0Q==
@@ -9712,10 +9625,6 @@ statuses@^2.0.1, statuses@^2.0.2, statuses@~2.0.2:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-2.0.2.tgz#8f75eecef765b5e1cfcdc080da59409ed424e382"
   integrity sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==
 
-"strapi-plugin-oidc@link:.yalc/strapi-plugin-oidc":
-  version "0.0.0"
-  uid ""
-
 stream-chain@2.2.5, stream-chain@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/stream-chain/-/stream-chain-2.2.5.tgz#b30967e8f14ee033c5b9a19bbe8a2cba90ba0d09"
@@ -9841,30 +9750,6 @@ stylis@4.3.6:
   version "4.3.6"
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.3.6.tgz#7c7b97191cb4f195f03ecab7d52f7902ed378320"
   integrity sha512-yQ3rwFWRfwNUY7H5vpU0wfdkNSnvnJinhF9830Swlaxl03zsOjCfmX0ugac+3LtK0lYSgwL/KXc8oYL3mG4YFQ==
-
-superagent@^10.3.0:
-  version "10.3.0"
-  resolved "https://registry.yarnpkg.com/superagent/-/superagent-10.3.0.tgz#ff1e39e7976b63f8084291d65f5bfbbbbd156989"
-  integrity sha512-B+4Ik7ROgVKrQsXTV0Jwp2u+PXYLSlqtDAhYnkkD+zn3yg8s/zjA2MeGayPoY/KICrbitwneDHrjSotxKL+0XQ==
-  dependencies:
-    component-emitter "^1.3.1"
-    cookiejar "^2.1.4"
-    debug "^4.3.7"
-    fast-safe-stringify "^2.1.1"
-    form-data "^4.0.5"
-    formidable "^3.5.4"
-    methods "^1.1.2"
-    mime "2.6.0"
-    qs "^6.14.1"
-
-supertest@^7.2.0:
-  version "7.2.2"
-  resolved "https://registry.yarnpkg.com/supertest/-/supertest-7.2.2.tgz#dac3ee25a2aa59942a7f641e50c838a7c8819204"
-  integrity sha512-oK8WG9diS3DlhdUkcFn4tkNIiIbBx9lI2ClF8K+b2/m8Eyv47LSawxUzZQSNKUrVb2KsqeTDCcjAAVPYaSLVTA==
-  dependencies:
-    cookie-signature "^1.2.2"
-    methods "^1.1.2"
-    superagent "^10.3.0"
 
 supports-color@^5.5.0:
   version "5.5.0"

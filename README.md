@@ -1,4 +1,4 @@
-# strapi-plugin-oidc
+# @aartoni/strapi-plugin-oidc
 
 Single sign-on for Strapi 5! Log in to the administration screen using an OpenID Connect (OIDC) provider.
 
@@ -7,13 +7,13 @@ Optionally overwrites Strapi's default admin login page and endpoints.
 ## Installation
 
 ```sh
-yarn add strapi-plugin-oidc
+yarn add @aartoni/strapi-plugin-oidc
 ```
 
 or
 
 ```sh
-npm i strapi-plugin-oidc
+npm i @aartoni/strapi-plugin-oidc
 ```
 
 ## Configuration
@@ -55,7 +55,7 @@ export default ({ env }) => ({
 To overwrite Strapi's default admin login page, you'll have to add an explicit Vite configuration and import the provided plugin.
 
 ```ts
-import { oidcAuthPagePlugin } from 'strapi-plugin-oidc/vite';
+import { oidcAuthPagePlugin } from '@aartoni/strapi-plugin-oidc/vite';
 import { mergeConfig } from 'vite';
 
 export default (config) =>

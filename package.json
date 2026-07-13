@@ -1,5 +1,5 @@
 {
-  "name": "strapi-plugin-oidc",
+  "name": "@aartoni/strapi-plugin-oidc",
   "version": "0.0.1",
   "description": "Plug-in for single sign-on with Strapi!",
   "strapi": {
@@ -21,8 +21,8 @@
     "e2e:services:down": "docker compose down -v --remove-orphans",
     "test:cypress:open": "cypress open",
     "playground:install": "yalc push && yarn playground:yalc-add-link && cd playground && yarn install --frozen-lockfile",
-    "playground:yalc-add": "cd playground && yalc add strapi-plugin-oidc",
-    "playground:yalc-add-link": "cd playground && yalc add --link strapi-plugin-oidc",
+    "playground:yalc-add": "cd playground && yalc add @aartoni/strapi-plugin-oidc",
+    "playground:yalc-add-link": "cd playground && yalc add --link @aartoni/strapi-plugin-oidc",
     "playground:build": "cd playground && yarn build",
     "playground:develop": "cd playground && yarn develop",
     "playground:start": "cd playground && yarn start"
@@ -36,22 +36,20 @@
     "OpenID Connect"
   ],
   "peerDependencies": {
+    "@strapi/design-system": "^2.2.0",
+    "@strapi/icons": "^2.2.0",
     "@strapi/strapi": "^5.49.0",
-    "react-intl": "^6.6.0"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-intl": "^6.6.0",
+    "react-router-dom": "^6.30.3",
+    "styled-components": "^6.4.0"
   },
   "dependencies": {
     "@jmespath-community/jmespath": "^1.3.0",
-    "@strapi/design-system": "^2.2.0",
-    "@strapi/icons": "^2.2.0",
     "@strapi/utils": "^5.49.0",
-    "dotenv": "^17.4.0",
     "generate-password": "^1.7.1",
-    "pkce-challenge": "^6.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.30.3",
-    "styled-components": "^6.4.0",
-    "supertest": "^7.2.0"
+    "pkce-challenge": "^6.0.0"
   },
   "author": {
     "name": "aartoni",
@@ -69,6 +67,9 @@
       "name": "aartoni"
     }
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=22.0.0 <=24.x.x",
     "npm": ">=8.6.0"
@@ -83,6 +84,8 @@
     "@babel/preset-env": "^7.29.0",
     "@babel/preset-typescript": "^7.29.0",
     "@eslint/js": "^10.0.1",
+    "@strapi/design-system": "^2.2.0",
+    "@strapi/icons": "^2.2.0",
     "@strapi/sdk-plugin": "^6.1.0",
     "@strapi/strapi": "^5.49.0",
     "@strapi/typescript-utils": "^5.49.0",
@@ -93,6 +96,7 @@
     "accepts": "^1.3.8",
     "cypress": "^15.18.0",
     "cypress-terminal-report": "^7.3.0",
+    "dotenv": "^17.4.0",
     "eslint": "^10.6.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-cypress": "^6.4.1",
@@ -101,7 +105,12 @@
     "jest": "^30.4.0",
     "nock": "^14.0.5",
     "prettier": "^3.9.4",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-intl": "^6.6.0",
+    "react-router-dom": "^6.30.3",
+    "styled-components": "^6.4.0",
+    "supertest": "^7.2.0",
     "typescript": "^6.0.0",
     "typescript-eslint": "^8.62.0",
     "yalc": "^1.0.0-pre.53"
