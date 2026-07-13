@@ -1,5 +1,4 @@
-import { Core, UID } from "@strapi/strapi";
-import strapiUtils from "@strapi/utils";
+import { Core } from "@strapi/strapi";
 import { SetOption } from "cookies";
 import { randomBytes } from "node:crypto";
 import { Context } from "koa";
@@ -56,11 +55,10 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     if (!eventHub) return;
 
     const schema = strapi.getModel("admin::user");
-    const sanitizedEntity =
-      await strapiUtils.sanitize.sanitizers.defaultSanitizeOutput(
-        { schema, getModel: (uid) => strapi.getModel(uid as UID.Schema) },
-        user,
-      );
+    const sanitizedEntity = await strapi.contentAPI.sanitize.output(
+      user,
+      schema,
+    );
 
     eventHub.emit("entry.create", {
       model: schema.modelName,
