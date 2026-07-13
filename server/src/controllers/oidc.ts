@@ -137,6 +137,13 @@ const oidcSignInCallback = async (ctx: Context) => {
       Authorization: `Bearer ${response.access_token}`,
     });
 
+    // OIDC Core §5.3.2: the userinfo `sub` MUST exactly match the verified
+    // id_token `sub`, otherwise the response isn't bound to this login.
+    if (!payload.sub || userResponse.sub !== payload.sub) {
+      ctx.body = oauthService.renderSignUpError("sso_failed");
+      return;
+    }
+
     const email = userResponse.email;
 
     const dbUser = await userService.findOneByEmail(email);
