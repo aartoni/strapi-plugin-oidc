@@ -1,22 +1,22 @@
 users:
   jane:
     disabled: false
-    displayname: 'Jane Editor'
-    given_name: 'Jane'
-    family_name: 'Editor'
+    displayname: "Jane Editor"
+    given_name: "Jane"
+    family_name: "Editor"
     # The password is "password"
-    password: '$argon2id$v=19$m=65536,t=3,p=2$BpLnfgDsc2WD8F2q$o/vzA4myCqZZ36bUGsDY//8mKUYNZZaR0t4MFFSs+iM'
-    email: 'jane.editor@example.org'
+    password: "$argon2id$v=19$m=65536,t=3,p=2$BpLnfgDsc2WD8F2q$o/vzA4myCqZZ36bUGsDY//8mKUYNZZaR0t4MFFSs+iM"
+    email: "jane.editor@example.org"
     groups:
-      - 'editors'
+      - "editors"
   john:
     disabled: false
-    displayname: 'John Doe'
-    given_name: 'John'
-    family_name: 'Doe'
+    displayname: "John Doe"
+    given_name: "John"
+    family_name: "Doe"
     # The password is "password"
-    password: '$argon2id$v=19$m=65536,t=3,p=2$BpLnfgDsc2WD8F2q$o/vzA4myCqZZ36bUGsDY//8mKUYNZZaR0t4MFFSs+iM'
-    email: 'john.doe@example.org'
+    password: "$argon2id$v=19$m=65536,t=3,p=2$BpLnfgDsc2WD8F2q$o/vzA4myCqZZ36bUGsDY//8mKUYNZZaR0t4MFFSs+iM"
+    email: "john.doe@example.org"
     groups:
-      - 'admins'
-      - 'editors'
+      - "admins"
+      - "editors"
