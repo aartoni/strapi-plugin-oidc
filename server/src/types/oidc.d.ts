@@ -2,7 +2,8 @@ type OidcTokenResponse = {
   access_token: string;
   token_type?: string;
   expires_in?: number;
-  id_token?: string;
+  // Available since the "openid" scope is required (see: `configValidation`)
+  id_token: string;
 };
 
 type OidcUserInfo = {

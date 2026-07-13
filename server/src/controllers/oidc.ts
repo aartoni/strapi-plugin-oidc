@@ -25,6 +25,12 @@ const configValidation = () => {
   if (missing.length > 0) {
     throw new Error(`These are required: ${missing.join(", ")}.`);
   }
+
+  const scopes = config.scopes.split(/\s+/);
+  if (!scopes.includes("openid")) {
+    throw new Error("The 'openid' scope is required.");
+  }
+
   return config;
 };
 
