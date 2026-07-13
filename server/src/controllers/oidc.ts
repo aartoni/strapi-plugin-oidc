@@ -3,6 +3,7 @@ import { getJson, postForm } from "../utils/http";
 import { randomUUID, randomBytes } from "node:crypto";
 import pkceChallenge from "pkce-challenge";
 import { Config } from "../utils/config";
+import { createRemoteJWKSet, jwtVerify } from "jose";
 
 export const REQUIRED_OIDC_FIELDS: (keyof Config)[] = [
   "authorizationEndpoint",
@@ -32,6 +33,17 @@ const configValidation = () => {
   }
 
   return config;
+};
+
+let remoteJwkSet: ReturnType<typeof createRemoteJWKSet> | undefined;
+let cachedJwksUri: string | undefined;
+
+const getJwkSet = (jwksUri: string) => {
+  if (!remoteJwkSet || cachedJwksUri !== jwksUri) {
+    remoteJwkSet = createRemoteJWKSet(new URL(jwksUri));
+    cachedJwksUri = jwksUri;
+  }
+  return remoteJwkSet;
 };
 
 const oidcSignIn = async (ctx: Context) => {
@@ -80,8 +92,10 @@ const oidcSignInCallback = async (ctx: Context) => {
   // Read and clear one-time session values up front so they can't be reused
   const oidcState = ctx.session.oidcState;
   const codeVerifier = ctx.session.codeVerifier;
+  const oidcNonce = ctx.session.oidcNonce;
   delete ctx.session.oidcState;
   delete ctx.session.codeVerifier;
+  delete ctx.session.oidcNonce;
 
   if (!ctx.query.code) {
     ctx.body = oauthService.renderSignUpError("sso_no_code");
@@ -107,6 +121,17 @@ const oidcSignInCallback = async (ctx: Context) => {
       config.tokenEndpoint,
       params,
     );
+
+    const { payload } = await jwtVerify(
+      response.id_token,
+      getJwkSet(config.jwksUri),
+      { issuer: config.issuer, audience: config.clientId },
+    );
+
+    if (!oidcNonce || payload.nonce !== oidcNonce) {
+      ctx.body = oauthService.renderSignUpError("sso_invalid_state");
+      return;
+    }
 
     const userResponse = await getJson<OidcUserInfo>(config.userInfoEndpoint, {
       Authorization: `Bearer ${response.access_token}`,

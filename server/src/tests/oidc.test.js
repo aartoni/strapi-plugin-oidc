@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll } from "@jest/globals";
+import { describe, it, expect, beforeAll, afterAll, jest } from "@jest/globals";
 import dotenv from "dotenv";
 import process from "node:process";
 import request from "supertest";
@@ -6,6 +6,22 @@ import nock from "nock";
 import { setupStrapi, stopStrapi } from "../../../playground/tests/helpers";
 
 dotenv.config({ path: "playground/.env" });
+
+// Mocked "verified" id_token payload. Carries the claims the callback may
+// re-check after jwtVerify returns.
+const mockPayload = {
+  sub: "test-user",
+  nonce: "placeholder",
+  iss: "https://auth.example.com",
+  aud: process.env.OIDC_CLIENT_ID,
+  iat: Math.floor(Date.now() / 1000),
+  exp: Math.floor(Date.now() / 1000) + 3600,
+};
+
+jest.mock("jose", () => ({
+  jwtVerify: () => Promise.resolve({ payload: mockPayload }),
+  createRemoteJWKSet: () => () => {},
+}));
 
 let strapi;
 
@@ -43,10 +59,15 @@ describe("OIDC sign in", () => {
   it("logs the user in and returns success HTML", async () => {
     const agent = request.agent(strapi.server.httpServer);
 
-    // Start the authentication flow (keeps the session cookie)
+    // Start the flow (keeps the session cookie)
     const authStart = await agent.get("/api/oidc/sign-in").expect(302);
     const redirectUrl = new URL(authStart.headers.location);
     const state = redirectUrl.searchParams.get("state");
+    const nonce = redirectUrl.searchParams.get("nonce");
+
+    // The verified id_token nonce must match the one bound to the session
+    expect(nonce).toBeTruthy();
+    mockPayload.nonce = nonce;
 
     // Mock token and user-info endpoints
     nock(process.env.OIDC_TOKEN_ENDPOINT)
@@ -56,6 +77,7 @@ describe("OIDC sign in", () => {
     nock(process.env.OIDC_USER_INFO_ENDPOINT)
       .get(/.*/)
       .reply(200, {
+        sub: "test-user", // must equal the id_token sub
         email: "jane.doe@example.com",
         [process.env.OIDC_FAMILY_NAME_FIELD]: "Doe",
         [process.env.OIDC_GIVEN_NAME_FIELD]: "Jane",
@@ -72,7 +94,7 @@ describe("OIDC sign in", () => {
     expect(res.type).toBe("text/html");
     expect(res.text).toMatch(/<script nonce=/);
 
-    // Content matches
+    // Inline script nonce matches the CSP header nonce
     const scriptMatch = res.text.match(
       /<script nonce="([^"]+)">([\s\S]*?)<\/script>/,
     );
@@ -81,12 +103,20 @@ describe("OIDC sign in", () => {
     const nonceHeader =
       res.headers["content-security-policy"].match(/nonce-([^']+)/)[1];
     expect(nonceAttr).toBe(nonceHeader);
-    const jwtMatch = res.text.match(
+
+    // A well-formed JWT is handed to the admin panel
+    const jwtMatch = scriptText.match(
       /localStorage\.setItem\('jwtToken', '"([^"]+)"'\)/,
     );
     expect(jwtMatch).not.toBeNull();
     const token = jwtMatch[1];
     expect(token.split(".")).toHaveLength(3);
-    expect(scriptText).toContain("isLoggedIn");
+
+    // The issued token authenticates as the mapped user
+    const me = await agent
+      .get("/admin/users/me")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200);
+    expect(me.body.data.email).toBe("jane.doe@example.com");
   });
 });
