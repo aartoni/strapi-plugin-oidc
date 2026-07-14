@@ -84,6 +84,8 @@ export default [
 ];
 ```
 
+Add after the default stack, placing it earlier can block admin panel routes.
+
 ## OIDC provider
 
 See the [Docker compose file](compose.yml) for an example of how to set-up Authelia as an OIDC provider.
