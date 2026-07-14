@@ -53,7 +53,6 @@ Or [manually](#full-options), with discovery disabled.
 | `tokenEndpoint` | only if `discovery: false` | – | Provider token endpoint |
 | `userInfoEndpoint` | only if `discovery: false` | – | Provider userinfo endpoint |
 | `jwksUri` | only if `discovery: false` | – | Provider JWKS URI |
-| `grantType` | no | `"authorization_code"` | OAuth grant type |
 | `familyNameField` | no | `"family_name"` | Userinfo claim for last name |
 | `givenNameField` | no | `"given_name"` | Userinfo claim for first name |
 | `rememberMe` | no | `false` | Store JWT in localStorage (`true`) or cookie (`false`) |

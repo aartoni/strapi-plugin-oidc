@@ -9,7 +9,6 @@ export default {
     discovery: true,
     rememberMe: false,
     scopes: "openid profile email groups",
-    grantType: "authorization_code",
     familyNameField: "family_name",
     givenNameField: "given_name",
   } as Config,

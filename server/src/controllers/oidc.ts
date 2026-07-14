@@ -81,7 +81,7 @@ const oidcSignInCallback = async (ctx: Context) => {
   params.append("client_id", config.clientId);
   params.append("client_secret", config.clientSecret);
   params.append("redirect_uri", config.redirectUri);
-  params.append("grant_type", config.grantType);
+  params.append("grant_type", "authorization_code");
 
   // Include the code verifier from the session
   params.append("code_verifier", codeVerifier);

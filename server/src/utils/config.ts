@@ -11,7 +11,6 @@ export type Config = {
   clientSecret: string;
   redirectUri: string;
   scopes: string;
-  grantType: string;
   familyNameField: string;
   givenNameField: string;
 };
