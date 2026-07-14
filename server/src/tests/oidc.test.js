@@ -42,7 +42,7 @@ describe("OIDC sign in", () => {
 
     expect(res.status).toBe(302);
     expect(res.headers["location"]).toMatch(
-      /^https:\/\/auth.example.com\/authorize/,
+      /^https:\/\/auth\.example\.com\/authorize/,
     );
     const url = new URL(res.headers["location"]);
     expect(url.searchParams.get("response_type")).toBe("code");
@@ -69,7 +69,7 @@ describe("OIDC sign in", () => {
     expect(nonce).toBeTruthy();
     mockPayload.nonce = nonce;
 
-    // Mock token and user-info endpoints
+    // Mock token and userinfo endpoints
     nock(process.env.OIDC_TOKEN_ENDPOINT)
       .post(/.*/)
       .reply(200, { access_token: "ACCESS", id_token: "IDTOKEN" });
