@@ -86,6 +86,10 @@ export default [
 
 Add after the default stack, placing it earlier can block admin panel routes.
 
+## Role mapping
+
+Admin roles can be mapped from OIDC claims using [JMESPath](https://jmespath.org/) expressions. You can edit the expression from this plugin's page in the admin sidebar, but no user can log in until one is set, so bootstrap an initial expression in `src/index.ts` (or equivalent) before first startup. See `playground/src/index.ts` for a working example.
+
 ## OIDC provider
 
 See the [Docker compose file](compose.yml) for an example of how to set-up Authelia as an OIDC provider.
