@@ -11,16 +11,17 @@ export default ({ env }: Core.Config.Shared.ConfigParams) => ({
     enabled: true,
     config: {
       rememberMe: false,
-      redirectUri: env("OIDC_REDIRECT_URI"),
+      discovery: env.bool("OIDC_DISCOVERY", true),
       issuer: env("OIDC_ISSUER"),
-      jwksUri: env("OIDC_JWKS_URI"),
+      redirectUri: env("OIDC_REDIRECT_URI"),
       clientId: fromFile(env("OIDC_CLIENT_ID_FILE")) ?? env("OIDC_CLIENT_ID"),
       clientSecret:
         fromFile(env("OIDC_CLIENT_SECRET_FILE")) ?? env("OIDC_CLIENT_SECRET"),
+      scopes: env("OIDC_SCOPES"),
       authorizationEndpoint: env("OIDC_AUTHORIZATION_ENDPOINT"),
       tokenEndpoint: env("OIDC_TOKEN_ENDPOINT"),
       userInfoEndpoint: env("OIDC_USER_INFO_ENDPOINT"),
-      scopes: env("OIDC_SCOPES"),
+      jwksUri: env("OIDC_JWKS_URI"),
     },
   },
 });

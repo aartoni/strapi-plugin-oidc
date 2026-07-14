@@ -1,7 +1,7 @@
 import { Core, createStrapi } from "@strapi/strapi";
 import fs, { PathLike } from "fs";
 
-let instance: Core.Strapi;
+let instance: Core.Strapi | null = null;
 
 /**
  * Sets strapi up for further testing
@@ -24,19 +24,17 @@ async function setupStrapi() {
  * Closes strapi after testing
  */
 async function stopStrapi() {
-  if (instance) {
-    instance.server.httpServer.close();
-    await instance.db.connection.destroy();
-    instance.destroy();
-    const tmpDbFile: PathLike = strapi.config.get(
-      "database.connection.connection.filename",
-    );
-
-    if (fs.existsSync(tmpDbFile)) {
-      fs.unlinkSync(tmpDbFile);
-    }
+  if (!instance) return;
+  instance.server.httpServer.close();
+  await instance.db.connection.destroy();
+  instance.destroy();
+  const tmpDbFile: PathLike = instance.config.get(
+    "database.connection.connection.filename",
+  );
+  if (fs.existsSync(tmpDbFile)) {
+    fs.unlinkSync(tmpDbFile);
   }
-  return instance;
+  instance = null;
 }
 
 export { setupStrapi, stopStrapi };

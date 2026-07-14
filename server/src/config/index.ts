@@ -1,7 +1,12 @@
-import { Config, REQUIRED_OIDC_FIELDS } from "../utils/config";
+import {
+  Config,
+  ALWAYS_REQUIRED_FIELDS,
+  DISCOVERABLE_FIELDS,
+} from "../utils/config";
 
 export default {
   default: {
+    discovery: true,
     rememberMe: false,
     scopes: "openid profile email groups",
     grantType: "authorization_code",
@@ -9,7 +14,10 @@ export default {
     givenNameField: "given_name",
   } as Config,
   validator(config: Config) {
-    const missing = REQUIRED_OIDC_FIELDS.filter((key) => !config[key]);
+    const required = config.discovery
+      ? ALWAYS_REQUIRED_FIELDS
+      : [...ALWAYS_REQUIRED_FIELDS, ...DISCOVERABLE_FIELDS];
+    const missing = required.filter((key) => !config[key]);
     if (missing.length > 0) {
       throw new Error(`These are required: ${missing.join(", ")}.`);
     }

@@ -3,11 +3,7 @@ services:
     build: .
     container_name: cms
     environment:
-      - OIDC_AUTHORIZATION_ENDPOINT=https://${AUTH_DOMAIN}/api/oidc/authorization
-      - OIDC_TOKEN_ENDPOINT=https://${AUTH_DOMAIN}/api/oidc/token
       - OIDC_ISSUER=https://${AUTH_DOMAIN}
-      - OIDC_JWKS_URI=https://${AUTH_DOMAIN}/jwks.json
-      - OIDC_USER_INFO_ENDPOINT=https://${AUTH_DOMAIN}/api/oidc/userinfo
       - OIDC_REDIRECT_URI=https://${CMS_DOMAIN}/api/oidc/callback
       - OIDC_CLIENT_ID_FILE=/run/secrets/oidc_strapi_id
       - OIDC_CLIENT_SECRET_FILE=/run/secrets/oidc_strapi_client_secret
