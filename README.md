@@ -1,4 +1,6 @@
 # strapi-plugin-oidc
+[![npm version](https://img.shields.io/npm/v/@aartoni/strapi-plugin-oidc.svg)](https://www.npmjs.com/package/@aartoni/strapi-plugin-oidc)
+[![license](https://img.shields.io/npm/l/@aartoni/strapi-plugin-oidc.svg)](./LICENSE)
 
 Single sign-on for Strapi 5! Log in to the administration screen using an OpenID Connect (OIDC) provider.
 
