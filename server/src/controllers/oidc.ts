@@ -5,36 +5,6 @@ import pkceChallenge from "pkce-challenge";
 import { Config } from "../utils/config";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 
-export const REQUIRED_OIDC_FIELDS: (keyof Config)[] = [
-  "authorizationEndpoint",
-  "tokenEndpoint",
-  "userInfoEndpoint",
-  "issuer",
-  "jwksUri",
-  "clientId",
-  "clientSecret",
-  "redirectUri",
-  "scopes",
-  "grantType",
-  "familyNameField",
-  "givenNameField",
-];
-
-const configValidation = () => {
-  const config = strapi.config.get<Config>("plugin::oidc");
-  const missing = REQUIRED_OIDC_FIELDS.filter((key) => !config?.[key]);
-  if (missing.length > 0) {
-    throw new Error(`These are required: ${missing.join(", ")}.`);
-  }
-
-  const scopes = config.scopes.split(/\s+/);
-  if (!scopes.includes("openid")) {
-    throw new Error("The 'openid' scope is required.");
-  }
-
-  return config;
-};
-
 let remoteJwkSet: ReturnType<typeof createRemoteJWKSet> | undefined;
 let cachedJwksUri: string | undefined;
 
@@ -49,7 +19,7 @@ const getJwkSet = (jwksUri: string) => {
 const oidcSignIn = async (ctx: Context) => {
   let state = ctx.query.state as string;
   const { clientId, redirectUri, scopes, authorizationEndpoint } =
-    configValidation();
+    strapi.config.get<Config>("plugin::oidc");
 
   // Generate code verifier and code challenge
   const { code_verifier: codeVerifier, code_challenge: codeChallenge } =
@@ -84,7 +54,7 @@ const oidcSignIn = async (ctx: Context) => {
 };
 
 const oidcSignInCallback = async (ctx: Context) => {
-  const config = configValidation();
+  const config = strapi.config.get<Config>("plugin::oidc");
   const userService = strapi.service("admin::user");
   const oauthService = strapi.plugin("oidc").service("oauth");
   const roleService = strapi.plugin("oidc").service("role");
