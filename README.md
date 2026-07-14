@@ -55,7 +55,7 @@ Or [manually](#full-options), with discovery disabled.
 | `jwksUri` | only if `discovery: false` | – | Provider JWKS URI |
 | `familyNameField` | no | `"family_name"` | Userinfo claim for last name |
 | `givenNameField` | no | `"given_name"` | Userinfo claim for first name |
-| `rememberMe` | no | `false` | Store JWT in localStorage (`true`) or cookie (`false`) |
+| `rememberMe` | no | `true` | Store JWT in localStorage (`true`) or cookie (`false`) |
 
 ### Optional routing
 

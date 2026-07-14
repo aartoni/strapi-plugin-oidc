@@ -21,18 +21,15 @@ describe("SSO plugin", () => {
         .should("eq", "true");
 
       // Confirm the session belongs to the OIDC-provisioned user
-      cy.getCookie("jwtToken")
-        .should("exist")
-        .then((cookie) => {
-          cy.request({
+      cy.jwtToken().then((token) =>
+        cy
+          .request({
             url: "/admin/users/me",
-            headers: {
-              Authorization: `Bearer ${decodeURIComponent(cookie.value)}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           })
-            .its("body.data.email")
-            .should("eq", "john.doe@example.org");
-        });
+          .its("body.data.email")
+          .should("eq", "john.doe@example.org"),
+      );
     });
   });
 
@@ -43,21 +40,19 @@ describe("SSO plugin", () => {
     });
 
     it("assigns the Editor role to jane.editor@example.org via the editors group", () => {
-      cy.getCookie("jwtToken")
-        .should("exist")
-        .then((cookie) => {
-          cy.request({
+      cy.jwtToken().then((token) =>
+        cy
+          .request({
             url: "/admin/users/me",
-            headers: {
-              Authorization: `Bearer ${decodeURIComponent(cookie.value)}`,
-            },
-          }).then((res) => {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((res) => {
             expect(res.body.data.email).to.eq("jane.editor@example.org");
             expect(res.body.data.roles.map((r) => r.code)).to.include(
               "strapi-editor",
             );
-          });
-        });
+          }),
+      );
     });
   });
 

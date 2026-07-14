@@ -10,7 +10,7 @@ export default ({ env }: Core.Config.Shared.ConfigParams) => ({
   oidc: {
     enabled: true,
     config: {
-      rememberMe: false,
+      rememberMe: true,
       discovery: env.bool("OIDC_DISCOVERY", true),
       issuer: env("OIDC_ISSUER"),
       redirectUri: env("OIDC_REDIRECT_URI"),

@@ -7,7 +7,7 @@ import {
 export default {
   default: {
     discovery: true,
-    rememberMe: false,
+    rememberMe: true,
     scopes: "openid profile email groups",
     familyNameField: "family_name",
     givenNameField: "given_name",

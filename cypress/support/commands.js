@@ -46,3 +46,12 @@ Cypress.Commands.add("loginAs", (username, password) => {
 
 // Convenience wrapper, logs in as the default super-admin test user.
 Cypress.Commands.add("login", () => cy.loginAs("john", "password"));
+
+Cypress.Commands.add("jwtToken", () =>
+  cy
+    .window()
+    .its("localStorage")
+    .invoke("getItem", "jwtToken")
+    .should("exist")
+    .then(JSON.parse),
+);
