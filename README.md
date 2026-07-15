@@ -37,22 +37,22 @@ export default ({ env }) => ({
 });
 ```
 
-Or [manually](#full-options), with discovery disabled.
-
 ### Full options
+
+Discoverable options are only required when `discovery` is `false`.
 
 | Key | Required | Default | Description |
 |---|---|---|---|
 | `issuer` | yes | – | Provider issuer URL (used for discovery and id_token validation) |
-| `discovery` | no | `true` | Enable OIDC Discovery (`/.well-known/openid-configuration`) |
+| `discovery` | no | `true` | Enable OIDC Discovery |
 | `clientId` | yes | – | OIDC client ID |
 | `clientSecret` | yes | – | OIDC client secret |
 | `redirectUri` | yes | – | Callback URL after login |
 | `scopes` | no | `"openid profile email groups"` | Space-separated OIDC scopes |
-| `authorizationEndpoint` | only if `discovery: false` | – | Provider authorization endpoint |
-| `tokenEndpoint` | only if `discovery: false` | – | Provider token endpoint |
-| `userInfoEndpoint` | only if `discovery: false` | – | Provider userinfo endpoint |
-| `jwksUri` | only if `discovery: false` | – | Provider JWKS URI |
+| `authorizationEndpoint` | discoverable | – | Provider authorization endpoint |
+| `tokenEndpoint` | discoverable | – | Provider token endpoint |
+| `userInfoEndpoint` | discoverable | – | Provider userinfo endpoint |
+| `jwksUri` | discoverable | – | Provider JWKS URI |
 | `familyNameField` | no | `"family_name"` | Userinfo claim for last name |
 | `givenNameField` | no | `"given_name"` | Userinfo claim for first name |
 | `rememberMe` | no | `true` | Store JWT in localStorage (`true`) or cookie (`false`) |
