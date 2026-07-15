@@ -9,8 +9,7 @@
     "kind": "plugin"
   },
   "scripts": {
-    "build": "strapi-plugin build && yarn build:vite",
-    "build:vite": "tsc --project vite/tsconfig.json",
+    "build": "strapi-plugin build",
     "watch": "strapi-plugin watch",
     "watch:link": "strapi-plugin watch:link",
     "verify": "strapi-plugin verify",
