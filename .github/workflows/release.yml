@@ -5,7 +5,7 @@ on:
     tags: ["v*"]
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
@@ -20,3 +20,6 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn build
       - run: npm publish
+      - run: gh release create "${{ github.ref_name }}" --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
