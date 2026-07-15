@@ -1,5 +1,16 @@
 const base = {
   testEnvironment: "node",
+  transform: {
+    "^.+\\.[jt]sx?$": [
+      "babel-jest",
+      {
+        presets: [
+          ["@babel/preset-env", { targets: { node: "current" } }],
+          "@babel/preset-typescript",
+        ],
+      },
+    ],
+  },
   transformIgnorePatterns: ["/node_modules/(?!jose/)"],
   moduleNameMapper: { "^jose$": "<rootDir>/server/src/tests/jose.mock.js" },
 };
