@@ -100,4 +100,4 @@ Commercial providers might ship OIDC support, including:
 
 ## Development
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md).
