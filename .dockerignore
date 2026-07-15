@@ -1,18 +1,23 @@
 # Plugin
 .dockerignore
+.env
 .github
 .gitignore
-.npmignore
 .nvmrc
+.prettierrc
+config
 compose.yml
 cypress
-cypress.config.js
+cypress.config.ts
+data
 dist
 Dockerfile
-docs
-eslint.config.mjs
+eslint.config.mts
+jest.config.js
 LICENSE
 node_modules
+README.md
+scripts
 
 # Playground
 playground/.strapi
