@@ -9,7 +9,6 @@ export default defineConfig({
   e2e: {
     allowCypressEnv: false,
     baseUrl: "https://cms.strapi.local",
-    specPattern: "**/*.cy.{js,ts,jsx,tsx}",
     video: true,
     defaultCommandTimeout: 10000,
     requestTimeout: 10000,
